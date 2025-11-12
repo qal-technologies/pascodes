@@ -1,0 +1,23 @@
+{
+  "name": "PasCodes",
+  "short_name": "PasCodes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A192F",
+  "theme_color": "#00FFFF",
+
+  "description": "PasCodes - All About Coding ",
+
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
