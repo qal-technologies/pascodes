@@ -1,16 +1,17 @@
 "use client";
 
 import * as React from "react";
-import { Flex, Box, Text, Image } from "@chakra-ui/react";
+import { Flex, Box, Text, Image, Link, type Color } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { BiTrendingUp } from "react-icons/bi";
+import { BiDollarCircle, BiTrendingUp } from "react-icons/bi";
 import {
   LuLayoutDashboard,
   LuMousePointerClick,
   LuSparkles,
 } from "react-icons/lu";
+import { FaTools } from "react-icons/fa";
 
-const MotionText = motion(Text);
+const MotionText = motion.create(Text);
 
 export default function Banner() {
   const services = [
@@ -62,6 +63,7 @@ export default function Banner() {
       overflow="visible"
       gap={"10%"}
       userSelect="none"
+      className="transition-all"
     >
       <Box
         width="60vw"
@@ -133,7 +135,7 @@ export default function Banner() {
           textShadow={`0px 0px 4px ${mainService.color}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8 }}
         >
           {mainService.name}
         </MotionText>
@@ -172,10 +174,23 @@ export default function Banner() {
             );
           })}
         </Flex>
+
+        <Flex
+          wrap="wrap"
+          gap={"15px"}
+          align="center"
+          justify={{ base: "center", lg: "flex-start" }}
+          marginTop={{base: 18, lg: 15}}
+        >
+          {["build", "price"].map((btn) => {
+            return <ActionBtn key={btn} type={btn} />;
+          })}
+        </Flex>
       </Box>
 
       <Box className="z-upper">
         <Image
+          id="pricing"
           _hover={{
             transform: "translateY(-20px) translateX(-20px)",
           }}
@@ -189,3 +204,83 @@ export default function Banner() {
     </Flex>
   );
 }
+
+function ActionBtn({ type }: { type: "build" | "price" | string }) {
+  const isBuild = type === "build";
+  const linkHref = isBuild ? "/build" : "#pricing";
+  const width = isBuild ? "50%" : "40%";
+  const maxWidth = isBuild ? "300px" : "180px";
+  const genColor = isBuild ? "brandGreen.500" : "blue.700";
+  const gdtColor = isBuild ? "brandGreen.900" : "blue.700";
+  const btnTxt = isBuild ? "Start Building" : "Pricing";
+
+  return (
+    <Link
+      asChild
+      href={linkHref}
+      _hover={{ textDecoration: "none" }}
+      outline="none"
+      target="_parent"
+      width={width}
+      minW="max-content"
+      maxWidth={maxWidth}
+      borderRadius="20px"
+      background={genColor}
+      display="flex"
+      gap="45px"
+      color={isBuild ? "brandGreen.900" : "white"}
+      backdropBlur={"md"}
+      backdropFilter={"blur(20px)"}
+      border={"2px solid  transparent"}
+      padding={3.5}
+      paddingInline={5}
+      position="relative"
+      overflow="hidden"
+      className="moveUp"
+    >
+      <Box
+        _hover={{
+          background: "transparent",
+          borderColor: isBuild ? genColor : "blue.200",
+          color: isBuild ? "brandGreen.500" : "blue.200",
+          marginInlineStart: isBuild ? "30px" : "0px",
+          marginInlineEnd: isBuild ? "0px" : "30px",
+          scale: "105%",
+          boxShadow: "0px 0px 12px ",
+          boxShadowColor: genColor,
+        }}
+      >
+        <Box
+          position={"absolute"}
+          background={isBuild ? "brandGreen.800" : "blue.800"}
+          width={"70px"}
+          height={"70px"}
+          transform={"rotate(45deg)"}
+          left={-5}
+          zIndex={-9}
+        />
+
+        <Box
+          position={"absolute"}
+          background={isBuild ? "brandGreen.900/20" : "blue.100/20"}
+          width={"70px"}
+          height={"70px"}
+          transform={"rotate(45deg)"}
+          left={-2.5}
+          zIndex={-99}
+        />
+
+        {isBuild ?
+          <FaTools color="white" size="20px" />
+        : <BiDollarCircle color="white" size="20px" />}
+        <Text
+          fontWeight="bolder"
+          fontFamily="PoppinsSemi"
+          letterSpacing="0.2px"
+        >
+          {btnTxt}
+        </Text>
+      </Box>
+    </Link>
+  );
+};

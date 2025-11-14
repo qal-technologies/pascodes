@@ -9,17 +9,18 @@ import {
   For,
   Stack,
 } from "@chakra-ui/react";
-import { useColorMode } from "@chakra-ui/system";
-import { LuMoon, LuSun, LuMenu, LuCircleOff } from "react-icons/lu";
-import {} from 'react-icons/ai'
+// import { useColorMode } from "@chakra-ui/system";
+import { LuMoon, LuSun, LuMenu, LuCircleOff, LuX } from "react-icons/lu";
+import {} from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
 import HeaderButton from "../buttons/HeaderButton";
 import { usePathname } from "next/navigation";
 import { useScreen } from "@/hooks/useScreenSize";
+import SocialButton from "../buttons/SocialsButton";
 
 export default function Navbar() {
-  const { colorMode, toggleColorMode } = useColorMode();
+  // const { colorMode, toggleColorMode } = useColorMode();
   const pathname = usePathname();
   const [open, isOpen] = useState(false);
 
@@ -27,7 +28,11 @@ export default function Navbar() {
   const size = useScreen();
 
   useEffect(() => {
-    if (size.width > 1024) isOpen(false);
+    const timeout = setTimeout(() => {
+      if (size.width > 1024) isOpen(false);
+    }, 50);
+
+    return () => clearTimeout(timeout);
   }, [size.width]);
 
   const toggleMenu = () => {
@@ -42,9 +47,19 @@ export default function Navbar() {
     { title: "contact", link: "/contact" },
   ];
 
+  const socials = [
+    { name: "github", link: "https://www.github.com/pasqal-dev" },
+    { name: "youtube", link: "https://www.youtube.com/@pasCodes" },
+    {
+      name: "linkedin",
+      link: "https://www.linkedin.com/in/paschal-ngaoka-693859280",
+    },
+    { name: "email", link: "pascodes.dev@gmail.com", type: "email" },
+  ];
+
   return (
     <Box
-      bg={`${isScrolled || open ? "brandBlack.900/80" : "brandBlack.900/0"}`}
+      bg={`${isScrolled || open ? "brandBlack.900/70" : "brandBlack.900/0"}`}
       color="white"
       p={4.5}
       minW={"100%"}
@@ -56,12 +71,12 @@ export default function Navbar() {
       borderColor={"brandGreen.500/10"}
       boxShadow={isScrolled || open ? "0px 2px 12px rgba(6, 6, 6, 1)" : "none"}
       top={"0"}
-      left={'0'}
+      left={"0"}
       overflow={"hidden"}
       placeSelf={"center"}
       zIndex={"999999"}
-      backdropFilter={`${isScrolled || open ? "blur(10px) brightness(40%)" : ""}`}
-      className={`transition-transform duration-300 ${isScrolled ? "mt-6" : "translate-y-0"} ${open ? "max-h-full" : "h-24" } `}
+      backdropFilter={`${isScrolled || open ? "blur(20px) brightness(50%)" : ""}`}
+      className={`transition-transform duration-300 ${isScrolled ? "mt-6" : "translate-y-0"} ${open ? "max-h-full" : "h-24"} `}
     >
       <Flex align="center" justify="space-between" className="upper">
         <Link href="/" passHref>
@@ -94,7 +109,7 @@ export default function Navbar() {
 
         <Stack hideFrom={"lg"}>
           <Flex gap={"8px"} align={"center"}>
-            <IconButton
+            {/* <IconButton
               aria-label="Toggle Theme"
               onClick={toggleColorMode}
               color={"brandGreen.500"}
@@ -114,7 +129,7 @@ export default function Navbar() {
               {colorMode === "light" ?
                 <LuMoon />
               : <LuSun />}
-            </IconButton>
+            </IconButton> */}
 
             <IconButton
               aria-label="Toggle Menu"
@@ -131,11 +146,15 @@ export default function Navbar() {
               }}
               _active={{
                 transform: "rotate(45deg) scale(80%)",
+                border: open ? "2px solid red" : "2px solid transparent",
+                borderColor: open ? "red" : "brandGreen.500",
+                boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px",
+                boxShadowColor: open ? "red" : "brandGreen.500",
               }}
             >
               {open ?
-                <LuCircleOff color="red" />
-              : <LuMenu fontSize={30}/>}
+                <LuX color="red" className="animate-pulse duration-100" />
+              : <LuMenu fontSize={30} />}
             </IconButton>
           </Flex>
         </Stack>
@@ -179,6 +198,32 @@ export default function Navbar() {
               />
             )}
           </For>
+        </Flex>
+
+        <Flex
+          gap={4}
+          align="center"
+          justify="space-evenly"
+          marginTop={3}
+          paddingTop={7}
+          paddingBottom={2}
+          borderTop={"1px solid "}
+          borderColor='brandGreen.500/50'
+        >
+          {socials.map((link) => {
+            return (
+              <SocialButton
+                href={link.link}
+                themeColor={"brandGreen.500"}
+                glowColor={"brandGreen.500"}
+                socialsName={link.name}
+                type={link.type || "default"}
+                glow
+                key={link.name}
+                size="md"
+              />
+            );
+          })}
         </Flex>
       </Stack>
     </Box>
