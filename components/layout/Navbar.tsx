@@ -11,16 +11,24 @@ import {
 } from "@chakra-ui/react";
 import { useColorMode } from "@chakra-ui/system";
 import { LuMoon, LuSun, LuMenu, LuCircleOff } from "react-icons/lu";
-import { useState } from "react";
+import {} from 'react-icons/ai'
+import { useEffect, useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
 import HeaderButton from "../buttons/HeaderButton";
 import { usePathname } from "next/navigation";
+import { useScreen } from "@/hooks/useScreenSize";
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const pathname = usePathname();
   const [open, isOpen] = useState(false);
+
   const isScrolled = useScroll();
+  const size = useScreen();
+
+  useEffect(() => {
+    if (size.width > 1024) isOpen(false);
+  }, [size.width]);
 
   const toggleMenu = () => {
     isOpen(!open);
@@ -36,23 +44,24 @@ export default function Navbar() {
 
   return (
     <Box
-      bg={`${isScrolled ? "brandBlack.900/90" : "brandBlack.900/0"}`}
+      bg={`${isScrolled || open ? "brandBlack.900/90" : "brandBlack.900/0"}`}
       color="white"
       p={4.5}
-      w={"99%"}
+      minW={"100%"}
       paddingInline={{ lgDown: 6, lgTo2xl: 8, "2xl": 8 }}
-      position={"sticky"}
-      borderRadius={{ lgDown: 20, lgTo2xl: 30, "2xl": 30 }}
+      position={"fixed"}
       marginBottom={10}
-      border={`${isScrolled ? "5px solid brandGreen.500" : "transparent"}`}
-      top={"20px"}
-      lgDown={{ top: "6px" }}
+      paddingTop={isScrolled ? 8 : 10}
+      borderBottom={`${isScrolled || open ? "0.5px solid green" : "none"}`}
+      borderColor={"brandGreen.500/10"}
+      boxShadow={isScrolled || open ? "0px 2px 12px rgba(6, 6, 6, 1)" : "none"}
+      top={"0"}
+      left={'0'}
       overflow={"hidden"}
       placeSelf={"center"}
       zIndex={"999999"}
-      backdropBlur={"lg"}
-      backdropFilter={`blur(5px) ${isScrolled ? "brightness(80%)" : ""}`}
-      className={`transition-transform duration-300 ${isScrolled ? "translate-y-2 border-2" : "translate-y-0"} ${open ? "max-h-full" : "h-20"} `}
+      backdropFilter={`${isScrolled || open ? "blur(12px) brightness(80%)" : ""}`}
+      className={`transition-transform duration-300 ${isScrolled ? "mt-6" : "translate-y-0"} ${open ? "max-h-full" : "h-24" } `}
     >
       <Flex align="center" justify="space-between" className="upper">
         <Link href="/" passHref>
@@ -75,7 +84,7 @@ export default function Navbar() {
             </Box>
             <Text
               fontSize="xl"
-              fontFamily={"PoppinsMed"}
+              fontFamily={"PoppinsLight"}
               color={"brandGreen.500"}
             >
               pascodes_
@@ -93,8 +102,13 @@ export default function Navbar() {
               borderRadius={60}
               size={"lg"}
               _hover={{
-                border: "2px solid brandGreen.500",
+                border: "1px solid red",
                 borderColor: "brandGreen.500",
+                boxShadow: "0px 0px 12px",
+                boxShadowColor: "brandGreen.500",
+              }}
+              _active={{
+                transform: "rotate(360deg)",
               }}
             >
               {colorMode === "light" ?
@@ -115,17 +129,20 @@ export default function Navbar() {
                 boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px",
                 boxShadowColor: open ? "red" : "brandGreen.500",
               }}
+              _active={{
+                transform: "rotate(45deg) scale(80%)",
+              }}
             >
               {open ?
                 <LuCircleOff color="red" />
-              : <LuMenu fontSize={30} />}
+              : <LuMenu fontSize={30}/>}
             </IconButton>
           </Flex>
         </Stack>
 
         <Stack hideBelow={"lg"}>
           <Flex
-            align={'center'}
+            align={"center"}
             direction={"row"}
             justify="space-between"
             gap={4}
@@ -146,10 +163,10 @@ export default function Navbar() {
 
       <Stack hideFrom={"lg"}>
         <Flex
-          align={'flex-start'}
-          direction={"column"}
-          justify="space-between"
-          gap={4}
+          align={{ mdDown: "flex-start", mdTo2xl: "center" }}
+          direction={{ mdDown: "column", mdTo2xl: "row" }}
+          justify={{ mdDown: "space-between", mdToXl: "space-around" }}
+          gap={2}
           marginTop={"20px"}
         >
           <For each={routes}>

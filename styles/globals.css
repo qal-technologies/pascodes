@@ -20,6 +20,37 @@
   src: url(/fonts/Poppins-ExtraBold.ttf);
 }
 
+@font-face {
+  font-family: Satisfy;
+  src: url(/fonts/Satisfy.ttf);
+}
+
+@font-face {
+  font-family: SixtyFour;
+  src: url(/fonts/SixtyFour.ttf);
+}
+
+@font-face {
+  font-family: SirinStencil;
+  src: url(/fonts/SirinStencil.ttf);
+}
+
+
+@font-face {
+  font-family: MomoTrust;
+  src: url(/fonts/MomoTrust.ttf);
+}
+
+@font-face {
+  font-family: OutfitMed;
+  src: url(/fonts/Outfit-Medium.ttf);
+}
+
+@font-face {
+  font-family: OutfitSemi;
+  src: url(/fonts/Outfit-SemiBold.ttf);
+}
+
 :root {
   --sec-primary: #00FFFF;
   --sec-primaryTrans: #00ffff7c;
@@ -77,6 +108,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  width: 100vw !important;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* A dropdown animation that falls slowly from the top of the window.  */

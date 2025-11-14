@@ -140,7 +140,6 @@ export default function RootLayout({
       </head>
       <body
         className={`antialiased`}
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>{children}</Provider>
       </body>

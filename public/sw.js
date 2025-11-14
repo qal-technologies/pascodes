@@ -9,7 +9,6 @@ const PRECACHE_URLS = [
     "/offline.html",
     "/styles/globals.css",
     "/images/logo.png",
-    "/images/og-image.png"
 ];
 
 // Install - pre-cache core files

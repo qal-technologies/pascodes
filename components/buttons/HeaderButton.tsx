@@ -19,7 +19,6 @@ const HeaderButton = ({ title, link, titleCase, active }: ButtonProps) => {
       <Box
         as="div"
         colorPalette={"brandGreen"}
-        css={{ "--color": "brandGreen.500" }}
         width={"max-content"}
         padding={"6px"}
         paddingInline={active ? "30px" : "12px"}
@@ -33,7 +32,7 @@ const HeaderButton = ({ title, link, titleCase, active }: ButtonProps) => {
           borderColor: "colorPalette.500",
           paddingInline: "30px",
           marginInlineStart: "10px",
-            backdropFilter: "blur(40px)",
+          backdropFilter: "blur(40px)",
         }}
         className={`${active ? "shadow-md shadow-cyan-800" : ""} hover:shadow-md hover:shadow-cyan-800`}
       >

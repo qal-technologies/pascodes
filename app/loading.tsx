@@ -22,16 +22,6 @@ export default function Loading() {
       <Box as={"div"} className="spinner" />
 
       <Box marginTop={"90px"} className="dropdown">
-        <Heading
-          fontSize={20}
-          marginBottom={-0}
-          fontWeight={"bolder"}
-          fontFamily={"PoppinsBold"}
-          letterSpacing={2}
-          color={"brandGreen.500"}
-        >
-          Loading...
-        </Heading>
         <Text fontSize={12} letterSpacing={3}>
           Please wait, while we process
         </Text>
