@@ -6,6 +6,7 @@ import "@/styles/not-found.css";
 export default function NotFound() {
   return (
     <Flex
+      className="nfound-bg"
       direction="column"
       align="center"
       minH={"100vh"}
@@ -44,7 +45,7 @@ export default function NotFound() {
             textAlign={"center"}
             borderRadius={20}
             cursor={"pointer"}
-            _hover={{ paddingInline: 5, opacity:.8}}
+            _hover={{ paddingInline: 5, opacity: 0.8 }}
           >
             Go Back Home
           </Box>

@@ -1,10 +1,10 @@
-import { Flex, Text, Heading, Image, Box } from "@chakra-ui/react";
+import { Flex, Text, Image, Box } from "@chakra-ui/react";
 import "@/styles/loading.css";
-import Link from "next/link";
 
 export default function Loading() {
   return (
     <Flex
+      className="loading-bg"
       direction="column"
       align="center"
       minH={"100vh"}

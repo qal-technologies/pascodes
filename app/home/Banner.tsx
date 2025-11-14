@@ -15,12 +15,12 @@ const MotionText = motion(Text);
 export default function Banner() {
   const services = [
     { name: "Web Apps", font: "MomoTrust", color: "green" },
-    { name: "Softwares", font: "sanserif", color: "cyan" },
+    { name: "Softwares", font: "Times New Roman", color: "cyan" },
     { name: "Mobile Apps", font: "SirinStencil", color: "red" },
     { name: "UI Designs", font: "SixtyFour", color: "tomato" },
-    { name: "UX Experience", font: "Satisfy", color: "yellow" },
+    { name: "UX Designs", font: "Satisfy", color: "yellow" },
     { name: "Data Modeling", font: "PoppinsBold", color: "blue" },
-    { name: "Coding Courses", font: "OutfitMed", color: "purple" },
+    { name: "Coding Courses", font: "mono", color: "purple" },
   ];
   const wwa = [
     { name: "Modern", color: "brandNavy.900/40", icon: <BiTrendingUp /> },
@@ -36,7 +36,7 @@ export default function Banner() {
     },
     {
       name: "Efficient",
-      color: "brandGreen.400/20",
+      color: "brandNavy.400/20",
       icon: <LuSparkles />,
     },
   ];
@@ -101,15 +101,19 @@ export default function Banner() {
         flexDirection="column"
         textAlign={{ base: "center", lg: "left" }}
         paddingBottom={10}
+        paddingBlock={{ base: "5rem", lg: "none" }}
         className="z-upper"
       >
-        <Text fontSize={{ lgDown: 40, lg: 50 }} fontFamily={"PoppinsSemi"}>
+        <Text
+          fontSize={{ lgDown: "2.8rem", lg: "3rem" }}
+          fontFamily={"PoppinsSemi"}
+        >
           Building{" "}
-          <span style={{ fontSize: 35, fontFamily: "cursive" }}>the</span>
+          <span style={{ fontSize: "1.9rem", fontFamily: "cursive" }}>the</span>
         </Text>
 
         <Text
-          fontSize={{ base: 50, lg: 60 }}
+          fontSize={{ base: "3rem", lg: "3.4rem" }}
           fontFamily={"PoppinsBold"}
           color={"brandGreen.500"}
           marginBlock={-3}
@@ -120,7 +124,7 @@ export default function Banner() {
 
         <MotionText
           key={mainService.name}
-          fontSize={{ base: 60, lg: 65 }}
+          fontSize={{ base: "3.5rem", lg: "4.2rem" }}
           fontFamily={mainService.font}
           fontWeight={"bolder"}
           lineHeight={1}
@@ -139,7 +143,7 @@ export default function Banner() {
           gap={4}
           marginTop={8}
           width={"100%"}
-          paddingBlock={2}
+          paddingBlock={4}
           justifyContent={{ base: "center", lg: "flex-start" }}
         >
           {wwa.map((tag) => {
@@ -157,7 +161,10 @@ export default function Banner() {
                 className="moveUpNfadeIn"
                 key={tag.name}
                 letterSpacing="0.5px"
-                backdropFilter={"blur(10px)"}
+                backdropFilter={"blur(20px)"}
+                bgGradient={"to-br"}
+                gradientFrom={tag.color}
+                gradientTo={"black/50"}
               >
                 {tag.icon}
                 {tag.name}
@@ -171,7 +178,6 @@ export default function Banner() {
         <Image
           _hover={{
             transform: "translateY(-20px) translateX(-20px)",
-            cursor: "pointer",
           }}
           src="/images/logo.png"
           alt="Pascode Image"

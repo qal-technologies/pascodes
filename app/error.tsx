@@ -8,6 +8,7 @@ import "@/styles/error.css";
 export default function Error() {
   return (
     <Flex
+      className="error-bg"
       direction="column"
       align="center"
       minH={"100vh"}
