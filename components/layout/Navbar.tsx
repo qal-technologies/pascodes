@@ -44,7 +44,7 @@ export default function Navbar() {
 
   return (
     <Box
-      bg={`${isScrolled || open ? "brandBlack.900/90" : "brandBlack.900/0"}`}
+      bg={`${isScrolled || open ? "brandBlack.900/80" : "brandBlack.900/0"}`}
       color="white"
       p={4.5}
       minW={"100%"}
@@ -60,7 +60,7 @@ export default function Navbar() {
       overflow={"hidden"}
       placeSelf={"center"}
       zIndex={"999999"}
-      backdropFilter={`${isScrolled || open ? "blur(12px) brightness(80%)" : ""}`}
+      backdropFilter={`${isScrolled || open ? "blur(10px) brightness(40%)" : ""}`}
       className={`transition-transform duration-300 ${isScrolled ? "mt-6" : "translate-y-0"} ${open ? "max-h-full" : "h-24" } `}
     >
       <Flex align="center" justify="space-between" className="upper">

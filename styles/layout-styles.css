@@ -7,7 +7,7 @@
     display: flex;
     background: black;
     background-attachment: fixed !important;
-    background: radial-gradient(#000000 80%, #000d10, rgb(0, 152, 73, .4));
+    background: radial-gradient(#000000 80%, #000d10, rgba(58, 238, 187, .4));
     font-size: 16px !important;
     background-size: 20px 100%;
     animation: moveBg infinite 10s ease-in-out alternate !important;
