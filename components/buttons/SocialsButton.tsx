@@ -22,8 +22,10 @@ import type { ElementType } from "react";
 import { AiOutlineX } from "react-icons/ai";
 
 type ChakraColor = SystemStyleObject["color"];
+type ChakraFontSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 interface SocialsProps {
   socialsName:
+    | string
     | "facebook"
     | "github"
     | "whatsapp"
@@ -39,7 +41,7 @@ interface SocialsProps {
     status: boolean;
     titleName?: string;
   };
-  type?: "email" | "default" | "mobile" | "whatsApp";
+  type?: "email" | "default" | "mobile" | "whatsApp" | string;
   themeColor: ChakraColor;
   glow?: boolean;
   bgColor?: ChakraColor;
@@ -108,18 +110,17 @@ export default function SocialButton({
 
   const finalBorderColor = themeColor;
 
-  const shadowColor =
-    glow ?
-      glowColor ? glowColor
-      : isBorderBtn ? finalBorderColor
-      : finalBackground || finalTextColor
-    : "none";
-  const glowShadow = glow ? `0px 0px 12px ${shadowColor}` : "none";
+const shadowColor =
+  glow ?
+    glowColor ||
+    (isBorderBtn ? finalBorderColor : finalBackground || finalTextColor)
+  : "transparent";
+
+const glowShadow = `0px 0px 12px ${shadowColor}`;
 
   //
   // SIZE LOGIC
   //
-  type ChakraFontSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
   const sizeMap: Record<
     "sm" | "md" | "lg",
     { px: number; py: number; font: ChakraFontSize; icon: number }
@@ -128,7 +129,6 @@ export default function SocialButton({
     md: { px: 5, py: 3, font: "md", icon: 16 },
     lg: { px: 6, py: 3.5, font: "lg", icon: 20 },
   };
-
 
   const currentSize = sizeMap[size];
 
@@ -168,7 +168,8 @@ export default function SocialButton({
         filter={glow ? `drop-shadow(${glowShadow})` : "none"}
         _hover={{
           cursor: "pointer",
-              filter: glow ? `drop-shadow(${glowShadow})` : "none",
+          filter: glow ? `drop-shadow(${glowShadow})` : "none",
+          boxShadow: glow ? glowShadow : "none",
           transform: "scale(1.05)",
           ...(isBorderBtn ?
             {
