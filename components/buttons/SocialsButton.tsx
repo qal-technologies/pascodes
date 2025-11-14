@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 "use client";
 import {
   Flex,
@@ -120,11 +119,16 @@ export default function SocialButton({
   //
   // SIZE LOGIC
   //
-  const sizeMap = {
+  type ChakraFontSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+  const sizeMap: Record<
+    "sm" | "md" | "lg",
+    { px: number; py: number; font: ChakraFontSize; icon: number }
+  > = {
     sm: { px: 4, py: 2, font: "sm", icon: 14 },
     md: { px: 5, py: 3, font: "md", icon: 16 },
     lg: { px: 6, py: 3.5, font: "lg", icon: 20 },
   };
+
 
   const currentSize = sizeMap[size];
 
