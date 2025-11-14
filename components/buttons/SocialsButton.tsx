@@ -1,15 +1,28 @@
 /* eslint-disable prefer-const */
 "use client";
-import { Flex, Text, Icon, Link, type ColorProps } from "@chakra-ui/react";
 import {
-  LuFacebook,
-  LuGlobe,
-} from "react-icons/lu";
+  Flex,
+  Text,
+  Icon,
+  Link,
+  type SystemStyleObject,
+} from "@chakra-ui/react";
+import { LuFacebook, LuGlobe } from "react-icons/lu";
 
-import { FaWhatsapp, FaPinterest, FaGithub, FaYoutube, FaLinkedinIn, FaInstagram, FaPhone, FaEnvelope  } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaPinterest,
+  FaGithub,
+  FaYoutube,
+  FaLinkedinIn,
+  FaInstagram,
+  FaPhone,
+  FaEnvelope,
+} from "react-icons/fa";
 import type { ElementType } from "react";
 import { AiOutlineX } from "react-icons/ai";
 
+type ChakraColor = SystemStyleObject["color"];
 interface SocialsProps {
   socialsName:
     | "facebook"
@@ -28,14 +41,14 @@ interface SocialsProps {
     titleName?: string;
   };
   type?: "email" | "default" | "mobile" | "whatsApp";
-  themeColor: ColorProps["color"];
+  themeColor: ChakraColor;
   glow?: boolean;
-  bgColor?: ColorProps["color"];
+  bgColor?: ChakraColor;
   allCaps?: boolean;
   href: string;
   appearance?: "border" | "solid";
-  glowColor?: ColorProps["color"];
-  textColor?: ColorProps["color"];
+  glowColor?: ChakraColor;
+  textColor?: ChakraColor;
   borderRadius?: number;
   size?: "sm" | "md" | "lg";
 }
@@ -148,11 +161,10 @@ export default function SocialButton({
         color={finalTextColor}
         width="max-content"
         transition="0.25s ease"
-        filter={`dropShadow(${glowShadow})`}
+        filter={glow ? `drop-shadow(${glowShadow})` : "none"}
         _hover={{
-          boxShadow: glowShadow,
-          boxShadowColor: shadowColor,
           cursor: "pointer",
+              filter: glow ? `drop-shadow(${glowShadow})` : "none",
           transform: "scale(1.05)",
           ...(isBorderBtn ?
             {
