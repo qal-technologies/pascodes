@@ -84,7 +84,7 @@ self.addEventListener("fetch", (event) => {
                     const networkRes = await fetch(request);
                     if (networkRes && networkRes.ok) cache.put(request, networkRes.clone());
                     return networkRes;
-                } catch (err) {
+                } catch {
                     return caches.match("/offline.html");
                 }
             })
