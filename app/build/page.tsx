@@ -23,6 +23,7 @@ import { convertCurrency } from "@/lib/currency-converter";
 import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
+import { BiEnvelope } from "react-icons/bi";
 
 interface buildProps {
   title: string;
@@ -70,6 +71,10 @@ export default function BuildPage() {
     [key: string]: number;
   } | null>(null);
   const [verb, setVerb] = useState("building");
+  const [fmtUSDestimate, setUSDestimate] = useState<string | null>(null);
+  const [convertedEstimate, setConvertedEstimate] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     document.title = "Build with AI | PasCodes";
@@ -94,11 +99,28 @@ export default function BuildPage() {
     const { price, priceBreakdown, verb } = estimatePrice(build);
     setPriceBreakdown(priceBreakdown);
     setVerb(verb);
+
+    //format usdd
+    const usdFormatter = new Intl.NumberFormat("en-US", {
+      currency: "USD",
+      style: "currency",
+    });
+    setUSDestimate(usdFormatter.format(price));
+
     const { convertedPrice, currency } = await convertCurrency(price);
     setConvertedPrice(convertedPrice);
     setCurrency(currency);
+    //for user:
+    const convertedFormatter = new Intl.NumberFormat("en-US", {
+      currency: currency,
+      style: "currency",
+    });
+    setConvertedEstimate(convertedFormatter.format(convertedPrice));
+
     setIsLoading(false);
     if (price) setEstimate(price);
+
+    window.document.querySelector("#estimate")?.scrollIntoView();
   };
 
   const handleFinishBuild = async () => {
@@ -145,8 +167,19 @@ export default function BuildPage() {
     build.pages >= 4;
 
   return (
-    <Box minH="100vh" p={4} pt={10}>
-      <Flex justify="space-between" align="center" mb={10}>
+    <Box minH="100vh" p={4}>
+      <Flex
+        justify="space-between"
+        align="center"
+        mb={10}
+        position="sticky"
+        top="0"
+        backdropFilter={"blur(20px)"}
+        background="black"
+        zIndex="99"
+        paddingBottom={4}
+        paddingTop={10}
+      >
         <IconBtn
           icon={<FaArrowLeft />}
           onClick={() => router.back()}
@@ -175,6 +208,7 @@ export default function BuildPage() {
                 overflow={"hidden"}
                 border="1px solid"
                 color="brandGreen.500"
+                zIndex={"modall"}
               >
                 <Menu.ItemGroup marginBottom={2}>
                   <Menu.ItemGroupLabel mb={1} fontSize={18}>
@@ -209,7 +243,7 @@ export default function BuildPage() {
                     background: "brandGreen.500/20",
                   }}
                 >
-                  Email Developer
+                  <BiEnvelope /> Email Developer
                 </Menu.Item>
               </Menu.Content>
             </Menu.Positioner>
@@ -410,9 +444,11 @@ export default function BuildPage() {
                 borderTopColor: "brandGreen.500",
                 paddingTop: "20px",
               }}
+              id="estimate"
             >
               <Text fontSize="2xl" fontWeight="bold">
-                Your Estimate: ${estimate} ({convertedPrice} {currency})
+                Your Estimate: {fmtUSDestimate} (
+                {convertedEstimate && convertedEstimate})
               </Text>
               <Text
                 mt={2}
@@ -445,7 +481,11 @@ export default function BuildPage() {
                       >
                         {key.toUpperCase()}
                       </span>
-                      : ${value}
+                      :{" "}
+                      {new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      }).format(value)}
                     </Text>
                   ))}
               </Box>
@@ -457,11 +497,12 @@ export default function BuildPage() {
                 colorPalette={"green"}
                 fontFamily="PoppinsMed"
                 disabled={!buttonCheck}
+                placeSelf="center"
                 _disabled={{
                   background: "grey",
                 }}
                 padding={6}
-                paddingInline={14}
+                paddingInline={12}
                 onClick={handleFinishBuild}
               >
                 Finish Build
