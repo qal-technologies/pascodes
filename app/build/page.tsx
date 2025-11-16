@@ -24,6 +24,7 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
 import { BiEnvelope } from "react-icons/bi";
+import { useScroll } from "@/hooks/useScroll";
 
 interface buildProps {
   title: string;
@@ -166,17 +167,19 @@ export default function BuildPage() {
     build.projectType &&
     build.pages >= 4;
 
+  const isScrolled = useScroll();
   return (
-    <Box minH="100vh" p={4}>
+    <Box minH="100vh">
       <Flex
         justify="space-between"
         align="center"
-        mb={10}
+        mb={8}
         position="sticky"
         top="0"
-        backdropFilter={"blur(20px)"}
-        background="black"
+        backdropFilter={isScrolled ? "blur(20px) brightness(40%)" : ""}
+        background="transparent"
         zIndex="99"
+        p={4}
         paddingBottom={4}
         paddingTop={10}
       >
@@ -251,7 +254,9 @@ export default function BuildPage() {
         </Menu.Root>
       </Flex>
 
-      <Flex direction={{ base: "column", lg: "row" }} gap={8}>
+      <Flex direction={{ base: "column", lg: "row" }} gap={8}
+        p={4}
+      >
         <Box
           flex={1}
           maxWidth={"700px"}
