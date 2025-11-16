@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -25,8 +24,14 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
 
+interface buildProps{
+  title: string;
+  projectType: string;
+  pages: number;
+  description: string;
+}
 const useUnfinishedBuild = () => {
-  const [build, setBuild] = useState(() => {
+  const [build, setBuild] = useState<buildProps>(() => {
     if (typeof window !== "undefined") {
       const savedBuild = localStorage.getItem("unfinishedBuild");
       if (savedBuild) {
@@ -76,11 +81,11 @@ export default function BuildPage() {
     >
   ) => {
     const { name, value } = e.target;
-    setBuild((prev: any) => ({ ...prev, [name]: value }));
+    setBuild((prev: buildProps) => ({ ...prev, [name]: value }));
   };
 
   const handleSliderChange = (value: number) => {
-    setBuild((prev: any) => ({ ...prev, pages: value }));
+    setBuild((prev: buildProps) => ({ ...prev, pages: value }));
   };
 
   const handleCheckEstimate = async () => {
@@ -277,6 +282,8 @@ export default function BuildPage() {
                 colorScheme={"brandGreen"}
                 colorPalette={"brandGreen"}
                 cursor="pointer"
+                title='Select Project Type'
+                aria-label="Select Project Type"
               >
                 <option value="e-commerce">E-commerce Website</option>
                 <option value="portfolio">Portfolio Website</option>
@@ -351,11 +358,15 @@ export default function BuildPage() {
               Check Estimate
             </Button>
             {estimate && (
-              <Button ml={4} colorScheme="green"  borderRadius={12}
-              colorPalette={"green"}
-              padding={5}
+              <Button
+                ml={4}
+                colorScheme="green"
+                borderRadius={12}
+                colorPalette={"green"}
+                padding={5}
                 paddingInline={10}
-                onClick={handleFinishBuild}>
+                onClick={handleFinishBuild}
+              >
                 Finish Build
               </Button>
             )}
@@ -373,11 +384,12 @@ export default function BuildPage() {
               <Text mt={2}>{build.description}</Text>
               <Box mt={4}>
                 <Text fontWeight="bold">Price Breakdown:</Text>
-                {Object.entries(priceBreakdown).map(([key, value]) => (
-                  <Text key={key}>
-                    {key}: ${value}
-                  </Text>
-                ))}
+                {priceBreakdown &&
+                  Object.entries(priceBreakdown).map(([key, value]) => (
+                    <Text key={key}>
+                      {key}: ${value}
+                    </Text>
+                  ))}
               </Box>
             </Box>
           : <Image src="/images/logo.png" alt="Passcode Image" />}
