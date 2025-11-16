@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Flex, Box, Text, Image, Link, type Color } from "@chakra-ui/react";
+import { Flex, Box, Text, Image, Link, useDisclosure } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { BiDollarCircle, BiTrendingUp } from "react-icons/bi";
 import {
@@ -10,19 +10,24 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 import { FaTools } from "react-icons/fa";
+import UnfinishedBuildModal from "@/components/layout/UnfinishedBuildModal";
+import { useRouter } from "next/navigation";
 
 const MotionText = motion.create(Text);
 
 export default function Banner() {
-  const services = [
-    { name: "Web Apps", font: "MomoTrust", color: "green" },
-    { name: "Softwares", font: "Times New Roman", color: "cyan" },
-    { name: "Mobile Apps", font: "SirinStencil", color: "red" },
-    { name: "UI Designs", font: "SixtyFour", color: "tomato" },
-    { name: "UX Designs", font: "Satisfy", color: "yellow" },
-    { name: "Data Modeling", font: "PoppinsBold", color: "blue" },
-    { name: "Coding Courses", font: "mono", color: "purple" },
-  ];
+  const services = React.useMemo(
+    () => [
+      { name: "Web Apps", font: "MomoTrust", color: "green" },
+      { name: "Softwares", font: "Times New Roman", color: "cyan" },
+      { name: "Mobile Apps", font: "SirinStencil", color: "red" },
+      { name: "UI Designs", font: "SixtyFour", color: "tomato" },
+      { name: "UX Designs", font: "Satisfy", color: "yellow" },
+      { name: "Data Modeling", font: "PoppinsBold", color: "blue" },
+      { name: "Coding Courses", font: "mono", color: "purple" },
+    ],
+    []
+  );
   const wwa = [
     { name: "Modern", color: "brandNavy.900/40", icon: <BiTrendingUp /> },
     {
@@ -49,7 +54,7 @@ export default function Banner() {
       setService(services[random]);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [services]);
 
   return (
     <Flex
@@ -107,15 +112,15 @@ export default function Banner() {
         className="z-upper"
       >
         <Text
-          fontSize={{ lgDown: "2.8rem", lg: "3rem" }}
+          fontSize={{ base: "2rem", lg: "3rem" }}
           fontFamily={"PoppinsSemi"}
         >
           Building{" "}
-          <span style={{ fontSize: "1.9rem", fontFamily: "cursive" }}>the</span>
+          <span style={{ fontSize: "1.5rem", fontFamily: "cursive" }}>the</span>
         </Text>
 
         <Text
-          fontSize={{ base: "3rem", lg: "3.4rem" }}
+          fontSize={{ base: "2.5rem", lg: "3.4rem" }}
           fontFamily={"PoppinsBold"}
           color={"brandGreen.500"}
           marginBlock={-3}
@@ -126,18 +131,36 @@ export default function Banner() {
 
         <MotionText
           key={mainService.name}
-          fontSize={{ base: "3.5rem", lg: "4.2rem" }}
+          fontSize={{ base: "3rem", lg: "4.2rem" }}
           fontFamily={mainService.font}
           fontWeight={"bolder"}
           lineHeight={1}
           marginTop={2.5}
           letterSpacing={"2px"}
           textShadow={`0px 0px 4px ${mainService.color}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: -20 }}
+          transition={{
+            duration: 0.5,
+            type: "spring",
+            stiffness: 100,
+            damping: 10,
+          }}
         >
-          {mainService.name}
+          {mainService.name.split("").map((char, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 0.2,
+                delay: index * 0.05,
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
         </MotionText>
 
         <Flex
@@ -176,7 +199,7 @@ export default function Banner() {
         </Flex>
 
         <Flex
-          wrap="wrap"
+          direction={{ base: "column-reverse", lg: "row" }}
           gap={"15px"}
           align="center"
           justify={{ base: "center", lg: "flex-start" }}
@@ -188,7 +211,7 @@ export default function Banner() {
         </Flex>
       </Box>
 
-      <Box className="z-upper">
+      <Box className="z-upper" display={{ base: "none", lg: "block" }}>
         <Image
           id="pricing"
           _hover={{
@@ -211,16 +234,39 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
   const width = isBuild ? "50%" : "40%";
   const maxWidth = isBuild ? "300px" : "180px";
   const genColor = isBuild ? "brandGreen.500" : "blue.700";
-  const gdtColor = isBuild ? "brandGreen.900" : "blue.700";
   const btnTxt = isBuild ? "Start Building" : "Pricing";
+  const { open, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+
+  const handleBuildClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const savedBuild = localStorage.getItem("unfinishedBuild");
+    if (savedBuild) {
+      const build = JSON.parse(savedBuild);
+      if (build.title || build.description) {
+        onOpen();
+        return;
+      }
+    }
+    router.push(linkHref);
+  };
+
+  const handlePricingClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const pricingElement = document.getElementById("pricing");
+    if (pricingElement) {
+      pricingElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
+    <>
     <Link
-      asChild
       href={linkHref}
+      onClick={isBuild ? handleBuildClick : handlePricingClick}
       _hover={{ textDecoration: "none" }}
       outline="none"
-      target="_parent"
+      target={isBuild ? "_parent" : "_self"}
       width={width}
       minW="max-content"
       maxWidth={maxWidth}
@@ -237,6 +283,7 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
       position="relative"
       overflow="hidden"
       className="moveUp"
+      as="a"
     >
       <Box
         _hover={{
@@ -282,5 +329,7 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
         </Text>
       </Box>
     </Link>
+    <UnfinishedBuildModal open={open} onClose={onClose} />
+    </>
   );
 };

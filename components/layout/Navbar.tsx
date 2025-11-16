@@ -10,7 +10,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 // import { useColorMode } from "@chakra-ui/system";
-import { LuMoon, LuSun, LuMenu, LuCircleOff, LuX } from "react-icons/lu";
+import { LuMenu, LuX } from "react-icons/lu";
 import {} from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useScroll } from "@/hooks/useScroll";
