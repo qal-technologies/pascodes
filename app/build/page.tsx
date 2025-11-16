@@ -82,6 +82,7 @@ export default function BuildPage() {
   ) => {
     const { name, value } = e.target;
     setBuild((prev: buildProps) => ({ ...prev, [name]: value }));
+    if (estimate !== null) setEstimate(null);
   };
 
   const handleSliderChange = (value: number) => {
@@ -91,13 +92,13 @@ export default function BuildPage() {
   const handleCheckEstimate = async () => {
     setIsLoading(true);
     const { price, priceBreakdown, verb } = estimatePrice(build);
-    if (price) setEstimate(price);
     setPriceBreakdown(priceBreakdown);
     setVerb(verb);
     const { convertedPrice, currency } = await convertCurrency(price);
     setConvertedPrice(convertedPrice);
     setCurrency(currency);
     setIsLoading(false);
+    if (price) setEstimate(price);
   };
 
   const handleFinishBuild = async () => {
@@ -119,7 +120,7 @@ export default function BuildPage() {
         Price: $${estimate}
         ID: ${buildId}
       `;
-      const whatsappUrl = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      const whatsappUrl = `https://wa.me/2349016561308?text=${encodeURIComponent(
         message
       )}`;
       window.location.href = whatsappUrl;
@@ -150,6 +151,7 @@ export default function BuildPage() {
           icon={<FaArrowLeft />}
           onClick={() => router.back()}
           ariaLabel="Go Back"
+          size="sm"
         />
 
         <Text
@@ -163,7 +165,7 @@ export default function BuildPage() {
 
         <Menu.Root>
           <Menu.Trigger>
-            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" />
+            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>
@@ -242,7 +244,7 @@ export default function BuildPage() {
                 (max 50)
               </span>
             </Field.Label>
-            <Flex align="center">
+            <Flex align="center" wrap="wrap" gap="10px">
               <Input
                 name="title"
                 value={build.title}
@@ -266,16 +268,15 @@ export default function BuildPage() {
               {build.projectType && (
                 <Tag.Root
                   ml={2}
-                  padding={2.5}
-                  paddingInline={4.5}
+                  padding={1.5}
+                  paddingInline={3.5}
                   borderRadius={16}
                   color="brandGreen.500"
                   variant={"subtle"}
                   border="1px solid "
                   borderColor={"brandGreen.500"}
-                  fontSize={14}
                 >
-                  <Tag.Label>
+                  <Tag.Label fontSize={12}>
                     {build.projectType[0].toUpperCase() +
                       build.projectType.slice(1)}
                   </Tag.Label>
@@ -304,7 +305,6 @@ export default function BuildPage() {
                 title="Select Project Type"
                 aria-label="Select Project Type"
               >
-                <NativeSelect.Indicator />
                 <option value="e-commerce">E-commerce Website</option>
                 <option value="portfolio">Portfolio Website</option>
                 <option value="business">Business Website</option>
@@ -358,6 +358,7 @@ export default function BuildPage() {
               border={"1px solid green"}
               borderRadius="15px"
               borderColor="brandGreen.500/20"
+              width="100%"
               minHeight={"80px"}
               maxWidth="500px"
               height="auto"
@@ -366,11 +367,12 @@ export default function BuildPage() {
               padding="10px"
               placeholder="Describe your project"
               _focus={{
+                height: `${build.description.trim().length / 2}px`,
                 borderColor: "brandGreen.500",
               }}
             />
           </Field.Root>
-          <Flex>
+          <Flex wrap="wrap" gap="10px">
             <Button
               onClick={handleCheckEstimate}
               loading={isLoading}
@@ -391,9 +393,65 @@ export default function BuildPage() {
             >
               Check Estimate
             </Button>
-            {estimate && (
+          </Flex>
+        </Box>
+        <Box
+          flex={1}
+          borderLeft={{ base: "none", lg: "1px solid grey" }}
+          borderColor={"brandGreen.500"}
+          lg={{
+            paddingInlineStart: "20px",
+          }}
+        >
+          {estimate ?
+            <Box
+              base={{
+                borderTop: "1px solid grey",
+                borderTopColor: "brandGreen.500",
+                paddingTop: "20px",
+              }}
+            >
+              <Text fontSize="2xl" fontWeight="bold">
+                Your Estimate: ${estimate} ({convertedPrice} {currency})
+              </Text>
+              <Text
+                mt={2}
+                maxLines={2}
+                textOverflow={"ellipsis"}
+                maxHeight={"50px"}
+                whiteSpace={"collapse"}
+                overflow={"hidden"}
+              >
+                {build.description}
+              </Text>
+              <Text mt={6}>
+                You&apos;re {verb} a {build.projectType} with these features:
+              </Text>
+              <Box mt={2}>
+                <Text
+                  fontWeight="bold"
+                  fontSize={21}
+                  marginBottom={1}
+                  fontFamily={"PoppinsMed"}
+                  letterSpacing={"0.6px"}
+                >
+                  Price Breakdown:
+                </Text>
+                {priceBreakdown &&
+                  Object.entries(priceBreakdown).map(([key, value]) => (
+                    <Text key={key}>
+                      <span
+                        style={{ letterSpacing: "0.5px", fontWeight: "bold" }}
+                      >
+                        {key.toUpperCase()}
+                      </span>
+                      : ${value}
+                    </Text>
+                  ))}
+              </Box>
+
               <Button
-                ml={4}
+                mt={6}
                 colorScheme="green"
                 borderRadius={20}
                 colorPalette={"green"}
@@ -408,42 +466,14 @@ export default function BuildPage() {
               >
                 Finish Build
               </Button>
-            )}
-          </Flex>
-        </Box>
-        <Box
-          flex={1}
-          borderLeft={{ base: "none", lg: "1px solid grey" }}
-          borderColor={"brandGreen.500"}
-          lg={{
-          paddingInlineStart:'20px'
-        }}
-        >
-          {estimate ?
-            <Box>
-              <Text fontSize="2xl" fontWeight="bold">
-                Your Estimate: ${estimate} ({convertedPrice} {currency})
-              </Text>
-              <Text mt={4}>
-                You&apos;re {verb} a {build.projectType} with these features:
-              </Text>
-              <Text mt={2}>{build.description}</Text>
-              <Box mt={4}>
-                <Text fontWeight="bold" fontSize={20} marginBlock={2}>Price Breakdown:</Text>
-                {priceBreakdown &&
-                  Object.entries(priceBreakdown).map(([key, value]) => (
-                    <Text key={key}>
-                      <span style={{letterSpacing:'0.5px'}}>{key.toUpperCase()}</span>: ${value}
-                    </Text>
-                  ))}
-              </Box>
             </Box>
           : <Image
               display={{ base: "none", lg: "block" }}
               src="/images/logo.png"
               alt="Passcode Image"
-              maxWidth="300px"
-              maxHeight="300px"
+              maxWidth="500px"
+              placeSelf="center"
+              maxHeight="500px"
             />
           }
         </Box>

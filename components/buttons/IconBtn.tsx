@@ -18,6 +18,7 @@ interface iconBtnProps {
   bRadius?: number | string;
   mb?: number | string;
   mt?: number | string;
+  size?:'md'|'sm'|'lg'
 }
 
 export default function IconBtn({
@@ -33,6 +34,7 @@ export default function IconBtn({
   bRadius,
   mb,
   mt,
+  size ='md'
 }: iconBtnProps) {
   const router = useRouter();
   const link = withLink ? withLink : null;
@@ -44,6 +46,13 @@ export default function IconBtn({
       onClick();
     }
   };
+
+  const sizes = {
+    "sm": '10px',
+    "md": '15px',
+    "lg":'20px',
+  }
+
   return (
     <MotionBox
       aria-label={ariaLabel}
@@ -53,7 +62,7 @@ export default function IconBtn({
       background="brandGreen.500/90"
       backdropBlur={'md'}
       borderRadius={rounded ? "50%" : bRadius}
-      padding="15px"
+      padding={sizes[size || 'md']}
       color="black"
       display="grid"
       placeContent="center"
