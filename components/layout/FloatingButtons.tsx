@@ -48,8 +48,8 @@ export default function FloatingButtons() {
           icon={<FaTools />}
           animate
           rounded
-          onClick={handleScrollToTop}
-          ariaLabel="Scroll to Top"
+          onClick={()=> router.push('/build')}
+          ariaLabel="Continue Build"
           scheme={"brandGreen"}
           mb="10px"
         >

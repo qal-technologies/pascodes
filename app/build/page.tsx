@@ -24,7 +24,7 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
 
-interface buildProps{
+interface buildProps {
   title: string;
   projectType: string;
   pages: number;
@@ -91,7 +91,7 @@ export default function BuildPage() {
   const handleCheckEstimate = async () => {
     setIsLoading(true);
     const { price, priceBreakdown, verb } = estimatePrice(build);
-    setEstimate(price);
+    if (price) setEstimate(price);
     setPriceBreakdown(priceBreakdown);
     setVerb(verb);
     const { convertedPrice, currency } = await convertCurrency(price);
@@ -137,6 +137,11 @@ export default function BuildPage() {
     { title: "Blog", link: "/blog" },
     { title: "contact", link: "/contact" },
   ];
+
+  const buttonCheck =
+    build.description.trim().length > 1 &&
+    build.projectType &&
+    build.pages >= 4;
 
   return (
     <Box minH="100vh" p={4} pt={10}>
@@ -211,7 +216,13 @@ export default function BuildPage() {
       </Flex>
 
       <Flex direction={{ base: "column", lg: "row" }} gap={8}>
-        <Box flex={1}>
+        <Box
+          flex={1}
+          maxWidth={"700px"}
+          lg={{
+            paddingInlineStart: "20px",
+          }}
+        >
           <Field.Root mb={8}>
             <Field.Label
               fontFamily={"PoppinsSemi"}
@@ -241,20 +252,28 @@ export default function BuildPage() {
                 maxWidth="300px"
                 maxLength={50}
                 fontSize={25}
+                borderRadius="0"
                 placeholder="Enter project title "
                 _placeholder={{
                   fontSize: "20px",
+                }}
+                _focus={{
+                  borderBottom: "1px solid ",
+                  borderColor: "brandGreen.500",
+                  paddingBottom: "5px",
                 }}
               />
               {build.projectType && (
                 <Tag.Root
                   ml={2}
-                  padding={3}
-                  paddingInline={5}
+                  padding={2.5}
+                  paddingInline={4.5}
                   borderRadius={16}
-                  colorScheme={"brandGreen"}
-                  colorPalette={"brandGreen"}
+                  color="brandGreen.500"
                   variant={"subtle"}
+                  border="1px solid "
+                  borderColor={"brandGreen.500"}
+                  fontSize={14}
                 >
                   <Tag.Label>
                     {build.projectType[0].toUpperCase() +
@@ -264,7 +283,7 @@ export default function BuildPage() {
               )}
             </Flex>
           </Field.Root>
-          <Field.Root mb={4} opacity={build.projectType ? 0.5 : 1}>
+          <Field.Root mb={4}>
             <Field.Label
               fontFamily={"PoppinsSemi"}
               color="brandGreen.500"
@@ -273,7 +292,7 @@ export default function BuildPage() {
             >
               Project Type
             </Field.Label>
-            <NativeSelect.Root>
+            <NativeSelect.Root opacity={build.projectType ? 0.6 : 1}>
               <NativeSelect.Field
                 name="projectType"
                 value={build.projectType}
@@ -282,9 +301,10 @@ export default function BuildPage() {
                 colorScheme={"brandGreen"}
                 colorPalette={"brandGreen"}
                 cursor="pointer"
-                title='Select Project Type'
+                title="Select Project Type"
                 aria-label="Select Project Type"
               >
+                <NativeSelect.Indicator />
                 <option value="e-commerce">E-commerce Website</option>
                 <option value="portfolio">Portfolio Website</option>
                 <option value="business">Business Website</option>
@@ -303,7 +323,8 @@ export default function BuildPage() {
               fontWeight={"bold"}
               fontSize={20}
             >
-              Number of Pages: {build.pages > 4 && `4 - ${build.pages}pages`}
+              Number of Pages:{" "}
+              {build.pages > 4 ? `4 - ${build.pages}pages` : "(4)"}
             </Field.Label>
 
             <Slider.Root
@@ -336,24 +357,37 @@ export default function BuildPage() {
               resize={"none"}
               border={"1px solid green"}
               borderRadius="15px"
-              borderColor="brandGreen.500"
+              borderColor="brandGreen.500/20"
               minHeight={"80px"}
+              maxWidth="500px"
               height="auto"
               scrollbar={"hidden"}
               maxHeight="300px"
+              padding="10px"
               placeholder="Describe your project"
+              _focus={{
+                borderColor: "brandGreen.500",
+              }}
             />
           </Field.Root>
           <Flex>
             <Button
               onClick={handleCheckEstimate}
               loading={isLoading}
-              borderRadius={12}
+              loadingText="Estimating..."
+              borderRadius={18}
               colorScheme={"brandGreen"}
               colorPalette={"brandGreen"}
-              padding={5}
-              paddingInline={10}
-              loadingText="Estimating..."
+              padding={6}
+              paddingInline={8}
+              background={"brandGreen.500"}
+              color="brandGreen.900"
+              fontWeight={"bold"}
+              fontFamily="PoppinsMed"
+              disabled={!buttonCheck}
+              _disabled={{
+                background: "grey",
+              }}
             >
               Check Estimate
             </Button>
@@ -361,10 +395,15 @@ export default function BuildPage() {
               <Button
                 ml={4}
                 colorScheme="green"
-                borderRadius={12}
+                borderRadius={20}
                 colorPalette={"green"}
-                padding={5}
-                paddingInline={10}
+                fontFamily="PoppinsMed"
+                disabled={!buttonCheck}
+                _disabled={{
+                  background: "grey",
+                }}
+                padding={6}
+                paddingInline={14}
                 onClick={handleFinishBuild}
               >
                 Finish Build
@@ -372,7 +411,14 @@ export default function BuildPage() {
             )}
           </Flex>
         </Box>
-        <Box flex={1} display={{ base: "none", lg: "block" }}>
+        <Box
+          flex={1}
+          borderLeft={{ base: "none", lg: "1px solid grey" }}
+          borderColor={"brandGreen.500"}
+          lg={{
+          paddingInlineStart:'20px'
+        }}
+        >
           {estimate ?
             <Box>
               <Text fontSize="2xl" fontWeight="bold">
@@ -383,16 +429,23 @@ export default function BuildPage() {
               </Text>
               <Text mt={2}>{build.description}</Text>
               <Box mt={4}>
-                <Text fontWeight="bold">Price Breakdown:</Text>
+                <Text fontWeight="bold" fontSize={20} marginBlock={2}>Price Breakdown:</Text>
                 {priceBreakdown &&
                   Object.entries(priceBreakdown).map(([key, value]) => (
                     <Text key={key}>
-                      {key}: ${value}
+                      <span style={{letterSpacing:'0.5px'}}>{key.toUpperCase()}</span>: ${value}
                     </Text>
                   ))}
               </Box>
             </Box>
-          : <Image src="/images/logo.png" alt="Passcode Image" />}
+          : <Image
+              display={{ base: "none", lg: "block" }}
+              src="/images/logo.png"
+              alt="Passcode Image"
+              maxWidth="300px"
+              maxHeight="300px"
+            />
+          }
         </Box>
       </Flex>
     </Box>
