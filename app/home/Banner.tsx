@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Flex, Box, Text, Image, Link, useDisclosure } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  Text,
+  Image,
+  Link,
+  useDisclosure,
+  Span,
+} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { BiDollarCircle, BiTrendingUp } from "react-icons/bi";
 import {
@@ -14,6 +22,7 @@ import UnfinishedBuildModal from "@/components/layout/UnfinishedBuildModal";
 import { useRouter } from "next/navigation";
 
 const MotionText = motion.create(Text);
+const MotionSpan = motion.create(Span);
 
 export default function Banner() {
   const services = React.useMemo(
@@ -112,15 +121,15 @@ export default function Banner() {
         className="z-upper"
       >
         <Text
-          fontSize={{ base: "2rem", lg: "3rem" }}
+          fontSize={{ base: "2.5rem", lg: "3rem" }}
           fontFamily={"PoppinsSemi"}
         >
           Building{" "}
-          <span style={{ fontSize: "1.5rem", fontFamily: "cursive" }}>the</span>
+          <span style={{ fontSize: "1.6rem", fontFamily: "cursive" }}>the</span>
         </Text>
 
         <Text
-          fontSize={{ base: "2.5rem", lg: "3.4rem" }}
+          fontSize={{ base: "3rem", lg: "3.4rem" }}
           fontFamily={"PoppinsBold"}
           color={"brandGreen.500"}
           marginBlock={-3}
@@ -131,10 +140,6 @@ export default function Banner() {
 
         <MotionText
           key={mainService.name}
-          fontSize={{ base: "3rem", lg: "4.2rem" }}
-          fontFamily={mainService.font}
-          fontWeight={"bolder"}
-          lineHeight={1}
           marginTop={2.5}
           letterSpacing={"2px"}
           textShadow={`0px 0px 4px ${mainService.color}`}
@@ -149,8 +154,12 @@ export default function Banner() {
           }}
         >
           {mainService.name.split("").map((char, index) => (
-            <motion.span
+            <MotionSpan
               key={index}
+              fontSize={{ base: "3.5rem", lg: "4.5rem" }}
+              fontFamily={mainService.font}
+              fontWeight={"bolder"}
+              lineHeight={1}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
@@ -159,7 +168,7 @@ export default function Banner() {
               }}
             >
               {char}
-            </motion.span>
+            </MotionSpan>
           ))}
         </MotionText>
 
@@ -203,7 +212,7 @@ export default function Banner() {
           gap={"15px"}
           align="center"
           justify={{ base: "center", lg: "flex-start" }}
-          marginTop={{base: 18, lg: 15}}
+          marginTop={{ base: 18, lg: 15 }}
         >
           {["build", "price"].map((btn) => {
             return <ActionBtn key={btn} type={btn} />;
@@ -232,7 +241,7 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
   const isBuild = type === "build";
   const linkHref = isBuild ? "/build" : "#pricing";
   const width = isBuild ? "50%" : "40%";
-  const maxWidth = isBuild ? "300px" : "180px";
+  const maxWidth = isBuild ? "300px" : "200px";
   const genColor = isBuild ? "brandGreen.500" : "blue.700";
   const btnTxt = isBuild ? "Start Building" : "Pricing";
   const { open, onOpen, onClose } = useDisclosure();
@@ -261,40 +270,37 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
 
   return (
     <>
-    <Link
-      href={linkHref}
-      onClick={isBuild ? handleBuildClick : handlePricingClick}
-      _hover={{ textDecoration: "none" }}
-      outline="none"
-      target={isBuild ? "_parent" : "_self"}
-      width={width}
-      minW="max-content"
-      maxWidth={maxWidth}
-      borderRadius="20px"
-      background={genColor}
-      display="flex"
-      gap="45px"
-      color={isBuild ? "brandGreen.900" : "white"}
-      backdropBlur={"md"}
-      backdropFilter={"blur(20px)"}
-      border={"2px solid  transparent"}
-      padding={3.5}
-      paddingInline={5}
-      position="relative"
-      overflow="hidden"
-      className="moveUp"
-      as="a"
-    >
-      <Box
+      <Link
+        href={linkHref}
+        onClick={isBuild ? handleBuildClick : handlePricingClick}
+        outline="none"
+        target={isBuild ? "_parent" : "_self"}
+        width={width}
+        minW="max-content"
+        maxWidth={maxWidth}
+        borderRadius="20px"
+        background={genColor}
+        display="flex"
+        alignItems="center"
+        gap="45px"
+        color={isBuild ? "brandGreen.900" : "white"}
+        backdropBlur={"md"}
+        backdropFilter={"blur(20px)"}
+        border={"2px solid  transparent"}
+        padding={4}
+        paddingInline={5}
+        position="relative"
+        overflow="hidden"
+        className="moveUp"
+        as="a"
         _hover={{
-          background: "transparent",
-          borderColor: isBuild ? genColor : "blue.200",
-          color: isBuild ? "brandGreen.500" : "blue.200",
+          background: isBuild ? "brandGreen.100" : 'blue.100',
+          color: isBuild ? "brandGreen.900" : "blue.900",
+          borderColor: isBuild ? "brandGreen.900" : "blue.700",
           marginInlineStart: isBuild ? "30px" : "0px",
           marginInlineEnd: isBuild ? "0px" : "30px",
           scale: "105%",
-          boxShadow: "0px 0px 12px ",
-          boxShadowColor: genColor,
+          position: "relative",
         }}
       >
         <Box
@@ -327,9 +333,8 @@ function ActionBtn({ type }: { type: "build" | "price" | string }) {
         >
           {btnTxt}
         </Text>
-      </Box>
-    </Link>
-    <UnfinishedBuildModal open={open} onClose={onClose} />
+      </Link>
+      <UnfinishedBuildModal open={open} onClose={onClose} />
     </>
   );
-};
+}

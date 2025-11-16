@@ -1,10 +1,15 @@
 "use client";
 
-import { Box, IconButton, Tag } from "@chakra-ui/react";
+import { Box, Tag } from "@chakra-ui/react";
 import { FaArrowUp, FaTools } from "react-icons/fa";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFloatingButtons } from "@/hooks/useFloatingButtons";
+import { useScroll } from "@/hooks/useScroll";
+import { motion } from "framer-motion";
+import IconBtn from "../buttons/IconBtn";
+
+const MotionBox = motion.create(Box);
 
 export default function FloatingButtons() {
   const [unfinishedBuilds] = useState(() => {
@@ -23,6 +28,8 @@ export default function FloatingButtons() {
     }
     return 0;
   });
+
+  const isScrolled = useScroll();
   const router = useRouter();
   const showButtons = useFloatingButtons();
 
@@ -35,32 +42,49 @@ export default function FloatingButtons() {
   }
 
   return (
-    <Box position="fixed" bottom={4} right={4} zIndex="tooltip">
+    <Box position="fixed" bottom={6} right={4} zIndex="tooltip">
       {unfinishedBuilds > 0 && (
-        <IconButton
-          aria-label="Unfinished Builds"
+        <IconBtn
           icon={<FaTools />}
-          onClick={() => router.push("/build")}
-          mb={2}
-          colorScheme="blue"
+          animate
+          rounded
+          onClick={handleScrollToTop}
+          ariaLabel="Scroll to Top"
+          scheme={"brandGreen"}
+          mb="10px"
         >
           <Tag.Root
             colorPalette="red"
             borderRadius="full"
             position="absolute"
-            top="-1"
+            top="-3"
             right="-1"
+            padding="6px"
+            width="25px"
+            height="25px"
+            textAlign="center"
+            placeContent="center"
+            background="black"
+            color="brandGreen.500"
+            fontWeight="bolder"
+            border="1px solid "
+            backdropFilter="blur(20px)"
           >
             <Tag.Label>{unfinishedBuilds}</Tag.Label>
           </Tag.Root>
-        </IconButton>
+        </IconBtn>
       )}
-      <IconButton
-        aria-label="Scroll to top"
-        icon={<FaArrowUp />}
-        onClick={handleScrollToTop}
-        colorScheme="green"
-      />
+
+      {isScrolled && (
+        <IconBtn
+          icon={<FaArrowUp />}
+          animate
+          rounded
+          onClick={handleScrollToTop}
+          ariaLabel="Scroll to Top"
+          scheme={"brandGreen"}
+        />
+      )}
     </Box>
   );
 }

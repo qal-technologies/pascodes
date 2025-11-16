@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import {
   Box,
   Flex,
   Text,
-  IconButton,
   Menu,
   Input,
   Textarea,
@@ -15,13 +16,14 @@ import {
   Slider,
   Tag,
 } from "@chakra-ui/react";
-import { FaArrowLeft, FaEllipsisV } from "react-icons/fa";
+import { FaArrowLeft, FaDotCircle, FaEllipsisV } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { estimatePrice } from "@/lib/price-estimator";
 import { convertCurrency } from "@/lib/currency-converter";
 import { db } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
+import IconBtn from "@/components/buttons/IconBtn";
 
 const useUnfinishedBuild = () => {
   const [build, setBuild] = useState(() => {
@@ -59,20 +61,26 @@ export default function BuildPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [convertedPrice, setConvertedPrice] = useState<number | null>(null);
   const [currency, setCurrency] = useState("USD");
-  const [priceBreakdown, setPriceBreakdown] = useState<{ [key: string]: number } | null>(null);
+  const [priceBreakdown, setPriceBreakdown] = useState<{
+    [key: string]: number;
+  } | null>(null);
   const [verb, setVerb] = useState("building");
 
   useEffect(() => {
     document.title = "Build with AI | PasCodes";
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setBuild((prev) => ({ ...prev, [name]: value }));
+    setBuild((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const handleSliderChange = (value: number) => {
-    setBuild((prev) => ({ ...prev, pages: value }));
+    setBuild((prev: any) => ({ ...prev, pages: value }));
   };
 
   const handleCheckEstimate = async () => {
@@ -106,7 +114,7 @@ export default function BuildPage() {
         Price: $${estimate}
         ID: ${buildId}
       `;
-      const whatsappUrl = `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      const whatsappUrl = `https://wa.me/${process.env.WHATSAPP_NUMBER}?text=${encodeURIComponent(
         message
       )}`;
       window.location.href = whatsappUrl;
@@ -126,43 +134,68 @@ export default function BuildPage() {
   ];
 
   return (
-    <Box minH="100vh" p={4}>
-      <Flex justify="space-between" align="center" mb={8}>
-        <IconButton
-          aria-label="Back"
+    <Box minH="100vh" p={4} pt={10}>
+      <Flex justify="space-between" align="center" mb={10}>
+        <IconBtn
           icon={<FaArrowLeft />}
           onClick={() => router.back()}
+          ariaLabel="Go Back"
         />
-        <Text fontSize="2xl" fontWeight="bold">
+
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          fontFamily={"PoppinsSemi"}
+          letterSpacing={"1px"}
+        >
           Build with AI
         </Text>
+
         <Menu.Root>
-          <Menu.Trigger asChild>
-            <IconButton
-              aria-label="Options"
-              icon={<FaEllipsisV />}
-            />
+          <Menu.Trigger>
+            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" />
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>
-              <Menu.Content>
-                <Menu.Group>
-                  <Menu.GroupLabel>Go to</Menu.GroupLabel>
+              <Menu.Content
+                padding={6}
+                borderRadius={15}
+                overflow={"hidden"}
+                border="1px solid"
+                color="brandGreen.500"
+              >
+                <Menu.ItemGroup marginBottom={2}>
+                  <Menu.ItemGroupLabel mb={1} fontSize={18}>
+                    Go to
+                  </Menu.ItemGroupLabel>
                   {routes.map((route) => (
                     <Menu.Item
                       key={route.link}
                       value={route.link}
                       onClick={() => router.push(route.link)}
+                      padding="4px"
+                      cursor="pointer"
+                      borderRadius={12}
+                      _hover={{
+                        background: "brandGreen.500/20",
+                      }}
                     >
+                      <FaDotCircle color="brandGreen.500" size={6} />{" "}
                       {route.title}
                     </Menu.Item>
                   ))}
-                </Menu.Group>
+                </Menu.ItemGroup>
                 <Menu.Item
                   value="email"
                   onClick={() =>
-                    (window.location.href = "mailto:paschal.ngaoka@gmail.com")
+                    (window.location.href = "mailto:pasqal.dev@gmail.com")
                   }
+                  padding="4px"
+                  cursor="pointer"
+                  borderRadius={12}
+                  _hover={{
+                    background: "brandGreen.500/20",
+                  }}
                 >
                   Email Developer
                 </Menu.Item>
@@ -171,32 +204,79 @@ export default function BuildPage() {
           </Portal>
         </Menu.Root>
       </Flex>
+
       <Flex direction={{ base: "column", lg: "row" }} gap={8}>
         <Box flex={1}>
-          <Field.Root mb={4}>
-            <Field.Label>Title</Field.Label>
+          <Field.Root mb={8}>
+            <Field.Label
+              fontFamily={"PoppinsSemi"}
+              color="brandGreen.500"
+              fontWeight={"bold"}
+              fontSize={20}
+            >
+              Title{" "}
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: "grey",
+                  opacity: 0.8,
+                  marginLeft: "5px",
+                }}
+              >
+                (max 50)
+              </span>
+            </Field.Label>
             <Flex align="center">
               <Input
                 name="title"
                 value={build.title}
                 onChange={handleChange}
-                placeholder="Enter project title"
+                padding={0}
+                width="max-content"
+                maxWidth="300px"
+                maxLength={50}
+                fontSize={25}
+                placeholder="Enter project title "
+                _placeholder={{
+                  fontSize: "20px",
+                }}
               />
               {build.projectType && (
-                <Tag.Root ml={2}>
-                  <Tag.Label>{build.projectType}</Tag.Label>
+                <Tag.Root
+                  ml={2}
+                  padding={3}
+                  paddingInline={5}
+                  borderRadius={16}
+                  colorScheme={"brandGreen"}
+                  colorPalette={"brandGreen"}
+                  variant={"subtle"}
+                >
+                  <Tag.Label>
+                    {build.projectType[0].toUpperCase() +
+                      build.projectType.slice(1)}
+                  </Tag.Label>
                 </Tag.Root>
               )}
             </Flex>
           </Field.Root>
           <Field.Root mb={4} opacity={build.projectType ? 0.5 : 1}>
-            <Field.Label>Project Type</Field.Label>
+            <Field.Label
+              fontFamily={"PoppinsSemi"}
+              color="brandGreen.500"
+              fontWeight={"bold"}
+              fontSize={20}
+            >
+              Project Type
+            </Field.Label>
             <NativeSelect.Root>
               <NativeSelect.Field
                 name="projectType"
                 value={build.projectType}
                 onChange={handleChange}
                 placeholder="Select project type"
+                colorScheme={"brandGreen"}
+                colorPalette={"brandGreen"}
+                cursor="pointer"
               >
                 <option value="e-commerce">E-commerce Website</option>
                 <option value="portfolio">Portfolio Website</option>
@@ -210,7 +290,15 @@ export default function BuildPage() {
             </NativeSelect.Root>
           </Field.Root>
           <Field.Root mb={4}>
-            <Field.Label>Number of Pages: {build.pages}</Field.Label>
+            <Field.Label
+              fontFamily={"PoppinsSemi"}
+              color="brandGreen.500"
+              fontWeight={"bold"}
+              fontSize={20}
+            >
+              Number of Pages: {build.pages > 4 && `4 - ${build.pages}pages`}
+            </Field.Label>
+
             <Slider.Root
               min={4}
               max={100}
@@ -226,11 +314,26 @@ export default function BuildPage() {
             </Slider.Root>
           </Field.Root>
           <Field.Root mb={4}>
-            <Field.Label>Description</Field.Label>
+            <Field.Label
+              fontFamily={"PoppinsSemi"}
+              color="brandGreen.500"
+              fontWeight={"bold"}
+              fontSize={20}
+            >
+              Description
+            </Field.Label>
             <Textarea
               name="description"
               value={build.description}
               onChange={handleChange}
+              resize={"none"}
+              border={"1px solid green"}
+              borderRadius="15px"
+              borderColor="brandGreen.500"
+              minHeight={"80px"}
+              height="auto"
+              scrollbar={"hidden"}
+              maxHeight="300px"
               placeholder="Describe your project"
             />
           </Field.Root>
@@ -238,23 +341,28 @@ export default function BuildPage() {
             <Button
               onClick={handleCheckEstimate}
               loading={isLoading}
+              borderRadius={12}
+              colorScheme={"brandGreen"}
+              colorPalette={"brandGreen"}
+              padding={5}
+              paddingInline={10}
               loadingText="Estimating..."
             >
               Check Estimate
             </Button>
             {estimate && (
-              <Button
-                ml={4}
-                colorScheme="green"
-                onClick={handleFinishBuild}
-              >
+              <Button ml={4} colorScheme="green"  borderRadius={12}
+              colorPalette={"green"}
+              padding={5}
+                paddingInline={10}
+                onClick={handleFinishBuild}>
                 Finish Build
               </Button>
             )}
           </Flex>
         </Box>
         <Box flex={1} display={{ base: "none", lg: "block" }}>
-          {estimate ? (
+          {estimate ?
             <Box>
               <Text fontSize="2xl" fontWeight="bold">
                 Your Estimate: ${estimate} ({convertedPrice} {currency})
@@ -272,9 +380,7 @@ export default function BuildPage() {
                 ))}
               </Box>
             </Box>
-          ) : (
-            <Image src="/images/logo.png" alt="Passcode Image" />
-          )}
+          : <Image src="/images/logo.png" alt="Passcode Image" />}
         </Box>
       </Flex>
     </Box>

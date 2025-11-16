@@ -621,3 +621,7 @@ body {
   }
 
 }
+
+* input, * textarea, * button, * a{
+  outline: none !important
+}
