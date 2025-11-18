@@ -121,7 +121,7 @@ export default function BuildPage() {
     setIsLoading(false);
     if (price) setEstimate(price);
 
-    window.document.querySelector("#estimate")?.scrollIntoView();
+    window.document.querySelector("#estimate")?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleFinishBuild = async () => {
@@ -164,6 +164,7 @@ export default function BuildPage() {
 
   const buttonCheck =
     build.description.trim().length > 1 &&
+    build.title.trim().length > 0 &&
     build.projectType &&
     build.pages >= 4;
 
