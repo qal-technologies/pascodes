@@ -22,7 +22,7 @@ interface BuildData {
     projectType: string;
     status?: "pending" | "progress" | "complete" | "cancelled";
     createdAt?: {seconds: number; nanoseconds: number;};
-    [key: string]: unknown;
+    [key: string]: any;
 }
 
 interface ContactData {
@@ -32,7 +32,7 @@ interface ContactData {
     subject: string;
     message: string;
     status: "unread" | "read";
-    createdAt: unknown;
+    createdAt: any;
 }
 
 interface BlogPost {
@@ -40,7 +40,7 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
-    date: unknown;
+    date: number | any;
     slug: string;
 }
 
