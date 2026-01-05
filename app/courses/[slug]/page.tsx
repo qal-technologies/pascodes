@@ -57,6 +57,6 @@ export default function CoursePage() {
     </CourseLayout>
 */}
 
-<View><Text>Course slug</Text><View>
+<View><Text>Course slug</Text></View>
   );
 }
