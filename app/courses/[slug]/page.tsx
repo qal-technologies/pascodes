@@ -1,12 +1,14 @@
 "use client";
 
-import CourseLayout from "@/components/courses/CourseLayout";
+/*import CourseLayout from "@/components/courses/CourseLayout";
 import VideoPlayer from "@/components/courses/VideoPlayer";
 import ResourceDownloader from "@/components/courses/ResourceDownloader";
-import { Box, Heading, VStack, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/react";
+import { Box, Heading, VStack, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/react";*/
+
+import {View, Text} from 'react-native';
 
 export default function CoursePage() {
-  // In a real application, you would fetch the course data from a CMS or database based on the slug.
+  
   const course = {
     title: "",
     videoSrc: "",
@@ -15,7 +17,7 @@ export default function CoursePage() {
     tests: [],
   };
   return (
-    <CourseLayout>
+    {/*<CourseLayout>
       <VStack spacing={8} align="stretch">
         <Heading as="h1" size="2xl">
           {course.title}
@@ -53,6 +55,8 @@ export default function CoursePage() {
         </Tabs>
 
       </VStack>
-    </CourseLayout>
+    </CourseLayout>*/}
+
+<View><Text>Course slug</Text><View>
   );
 }
