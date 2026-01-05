@@ -52,11 +52,12 @@ export default function CoursePage() {
                 </TabPanel>
             </TabPanels>
 */}
+
 {/*
         </Tabs>
-
       </VStack>
-    </CourseLayout>*/}
+    </CourseLayout>
+*/}
 
 <View><Text>Course slug</Text><View>
   );
