@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea} from "@chakra-ui/react";
 import {useState, useEffect} from "react";

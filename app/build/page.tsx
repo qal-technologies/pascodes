@@ -148,7 +148,7 @@ function BuildPageContent () {
     setIsLoading(false);
     if (price) setEstimate(price);
 
-    window.document.querySelector("#estimate")?.scrollIntoView();
+    window.document.querySelector("#estimate")?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleFinishBuild = async () => {
@@ -211,6 +211,7 @@ function BuildPageContent () {
 
   const buttonCheck =
     build.description.trim().length > 1 &&
+    build.title.trim().length > 0 &&
     build.projectType &&
     build.name.length > 0 &&
     build.pages >= 4;
