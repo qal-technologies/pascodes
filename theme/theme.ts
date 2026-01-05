@@ -57,21 +57,29 @@ const config = defineConfig({
 
         // ✅ define semantic tokens directly under colors in v3
         background: {
-          DEFAULT: { value: "{colors.brandBlack.900}" },
-          _dark: { value: "{colors.brandBlack.50}" },
+          DEFAULT: {value: "{colors.brandBlack.900}"}, // Light mode background
+          _dark: {value: "{colors.brandBlack.900}"}, // Dark mode background
         },
         foreground: {
-          DEFAULT: { value: "{colors.brandBlack.50}" },
-          _dark: { value: "{colors.brandBlack.900}" },
+          DEFAULT: {value: "{colors.brandBlack.50}"}, // Light mode text
+          _dark: {value: "{colors.brandBlack.900}"}, // Dark mode text
         },
         primary: {
-          DEFAULT: { value: "{colors.brandNavy.500}" },
-          _dark: { value: "{colors.brandNavy.300}" },
+          DEFAULT: {value: "{colors.brandNavy.600}"},
+          _dark: {value: "{colors.brandNavy.400}"},
         },
         accent: {
-          DEFAULT: { value: "{colors.brandGreen.500}" },
-          _dark: { value: "{colors.brandGreen.300}" },
+          DEFAULT: {value: "{colors.brandGreen.500}"}, 
+          _dark: {value: "{colors.brandGreen.400}"},
         },
+        border: {
+          DEFAULT: {value: "rgba(0,0,0,0.1)"},
+          _dark: {value: "rgba(255,255,255,0.1)"},
+        },
+        glass: {
+          DEFAULT: {value: "rgba(255,255,255,0.7)"},
+          _dark: {value: "rgba(0,0,0,0.7)"},
+        }
       },
 
       fonts: {

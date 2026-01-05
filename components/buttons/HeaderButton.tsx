@@ -18,25 +18,24 @@ const HeaderButton = ({ title, link, titleCase, active }: ButtonProps) => {
     <Link passHref href={l} key={title}>
       <Box
         as="div"
-        colorPalette={"brandGreen"}
         width={"max-content"}
         padding={"6px"}
         paddingInline={active ? "30px" : "12px"}
         border={"1px solid transparent"}
-        borderColor={active ? "colorPalette.500" : "transparent"}
+        borderColor={active ? "brandGreen.500" : "transparent"}
         backdropFilter={active ? "blur(40px)" : "none"}
         borderRadius={20}
         letterSpacing={1}
         fontFamily={"PoppinsMed"}
         _hover={{
-          borderColor: "colorPalette.500",
+          borderColor: "brandGreen.500",
           paddingInline: "30px",
           marginInlineStart: "10px",
           backdropFilter: "blur(40px)",
         }}
         className={`${active ? "shadow-md shadow-cyan-800" : ""} hover:shadow-md hover:shadow-cyan-800`}
       >
-        <Text fontWeight={"bold"} fontSize={"md"} color={"colorPalette.500"}>
+        <Text fontWeight={"bold"} fontSize={"md"} color={"brandGreen.500"}>
           {t}
         </Text>
       </Box>

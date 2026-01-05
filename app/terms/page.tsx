@@ -1,0 +1,61 @@
+import {Box, Container, Heading, Text, VStack} from "@chakra-ui/react";
+import Navbar from "@/components/layout/Navbar";
+import {Reveal} from "@/components/utils/Reveal";
+
+export const metadata = {
+    title: "Terms of Service",
+    description: "Terms of Service for PasCodes platform."
+};
+
+export default function TermsPage () {
+    return (
+        <Box bg="background" minH="100vh">
+            <Navbar />
+            <Box pt={32} pb={20}>
+                <Container maxW="container.md">
+                    <Reveal>
+                        <VStack align="start" gap={8}>
+                            <Heading size="3xl" color="brandGreen.500" className="neon-text">Terms of Service</Heading>
+                            <Text color="gray.400">Last Updated: January 2026</Text>
+
+                            <VStack align="start" gap={4}>
+                                <Heading size="lg" color="foreground">1. Terms</Heading>
+                                <Text color="gray.300">
+                                    By accessing this website, you are agreeing to be bound by these website Terms and Conditions of Use, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws.
+                                </Text>
+                            </VStack>
+
+                            <VStack align="start" gap={4}>
+                                <Heading size="lg" color="foreground">2. Use License</Heading>
+                                <Text color="gray.300">
+                                    Permission is granted to temporarily download one copy of the materials on PasCodes&apos;s website for personal, non-commercial transitory viewing only.
+                                </Text>
+                            </VStack>
+
+                            <VStack align="start" gap={4}>
+                                <Heading size="lg" color="foreground">3. Disclaimer</Heading>
+                                <Text color="gray.300">
+                                    The materials on PasCodes&apos;s website are provided &quot;as is&quot;. PasCodes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                                </Text>
+                            </VStack>
+
+                            <VStack align="start" gap={4}>
+                                <Heading size="lg" color="foreground">4. Limitations</Heading>
+                                <Text color="gray.300">
+                                    In no event shall PasCodes or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PasCodes&apos;s Internet site.
+                                </Text>
+                            </VStack>
+
+                            <VStack align="start" gap={4}>
+                                <Heading size="lg" color="foreground">5. Governing Law</Heading>
+                                <Text color="gray.300">
+                                    Any claim relating to PasCodes&apos;s website shall be governed by the laws of Nigeria without regard to its conflict of law provisions.
+                                </Text>
+                            </VStack>
+                        </VStack>
+                    </Reveal>
+                </Container>
+            </Box>
+        </Box>
+    );
+}

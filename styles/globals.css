@@ -104,6 +104,41 @@
   }
 }
 
+/* Premium Transitions & Polish */
+body, div, section, footer, nav {
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel {
+  backdrop-filter: blur(12px) brightness(40%);
+  background: rgba(0, 5, 15, 0.6);
+  border: 1px solid rgba(60, 117, 255, 0.2);
+}
+
+.neon-text {
+  color: var(--chakra-colors-accent);
+  text-shadow: 0 0 15px rgba(58, 238, 187, 0.4);
+}
+
+.neon-glow-primary {
+  box-shadow: 0 0 20px rgba(60, 117, 255, 0.2);
+}
+
+.neon-glow-accent {
+  box-shadow: 0 0 20px rgba(58, 238, 187, 0.2);
+}
+
+.hover-lift {
+  transition: transform 0.2s ease-out !important;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

@@ -16,8 +16,8 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import { FaArrowLeft, FaDotCircle, FaEllipsisV } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import {useRouter, useSearchParams} from "next/navigation";
+import {useState, useEffect, Suspense} from "react";
 import { estimatePrice } from "@/lib/price-estimator";
 import { convertCurrency } from "@/lib/currency-converter";
 import { db } from "@/lib/firebase";
@@ -25,9 +25,13 @@ import { collection, addDoc } from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
 import { BiEnvelope } from "react-icons/bi";
 import { useScroll } from "@/hooks/useScroll";
+import {SITE_CONFIG} from "@/lib/site-config";
+import {FaTrash} from "react-icons/fa";
 
 interface buildProps {
   title: string;
+  name: string;
+  email: string;
   projectType: string;
   pages: number;
   description: string;
@@ -46,6 +50,8 @@ const useUnfinishedBuild = () => {
     }
     return {
       title: "",
+      name: "",
+      email: "",
       projectType: "",
       pages: 4,
       description: "",
@@ -62,7 +68,16 @@ const useUnfinishedBuild = () => {
 };
 
 export default function BuildPage() {
+  return (
+    <Suspense fallback={<Box>Loading...</Box>}>
+      <BuildPageContent />
+    </Suspense>
+  );
+}
+
+function BuildPageContent () {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [build, setBuild] = useUnfinishedBuild();
   const [estimate, setEstimate] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +94,19 @@ export default function BuildPage() {
 
   useEffect(() => {
     document.title = "Build with AI | PasCodes";
-  }, []);
+
+    // Check search params for plan data
+    const planType = searchParams.get("type");
+    const planPages = searchParams.get("pages");
+
+    if(planType || planPages) {
+      setBuild(prev => ({
+        ...prev,
+        projectType: planType || prev.projectType,
+        pages: planPages ? parseInt(planPages) : prev.pages
+      }));
+    }
+  }, [searchParams, setBuild]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -134,16 +161,21 @@ export default function BuildPage() {
         currency,
         buildId,
         priceBreakdown,
+        status: "pending",
+        createdAt: new Date().toISOString(), // Or serverTimestamp if imported
       });
 
       const message = `
-        New Build Request!
-        Title: ${build.title}
-        Type: ${build.projectType}
-        Price: $${estimate}
-        ID: ${buildId}
+        *New Build Request!*
+        *ID:* ${buildId}
+        *Client:* ${build.name}
+        *Email:* ${build.email || "Not provided"}
+        *Title:* ${build.title}
+        *Type:* ${build.projectType}
+        *Price:* ${fmtUSDestimate}
+        *Pages:* ${build.pages}
       `;
-      const whatsappUrl = `https://wa.me/2349016561308?text=${encodeURIComponent(
+      const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
         message
       )}`;
       window.location.href = whatsappUrl;
@@ -151,6 +183,21 @@ export default function BuildPage() {
     } catch (error) {
       console.error("Error adding document: ", error);
       alert("Error saving build. Please try again.");
+    }
+  };
+
+  const clearBuild = () => {
+    if(confirm("Are you sure you want to delete this unfinished build?")) {
+      setBuild({
+        title: "",
+        name: "",
+        email: "",
+        projectType: "",
+        pages: 4,
+        description: "",
+      });
+      localStorage.removeItem("unfinishedBuild");
+      setEstimate(null);
     }
   };
 
@@ -165,6 +212,7 @@ export default function BuildPage() {
   const buttonCheck =
     build.description.trim().length > 1 &&
     build.projectType &&
+    build.name.length > 0 &&
     build.pages >= 4;
 
   const isScrolled = useScroll();
@@ -199,6 +247,14 @@ export default function BuildPage() {
           Build with AI
         </Text>
 
+        <Flex gap={5}>
+          <IconBtn
+            icon={<FaTrash color="red"/>}
+            onClick={clearBuild}
+            ariaLabel="Delete Build"
+            size="sm"
+          />
+
         <Menu.Root>
           <Menu.Trigger>
             <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
@@ -211,7 +267,7 @@ export default function BuildPage() {
                 overflow={"hidden"}
                 border="1px solid"
                 color="brandGreen.500"
-                zIndex={"modall"}
+                  zIndex="modal"
               >
                 <Menu.ItemGroup marginBottom={2}>
                   <Menu.ItemGroupLabel mb={1} fontSize={18}>
@@ -253,8 +309,9 @@ export default function BuildPage() {
           </Portal>
         </Menu.Root>
       </Flex>
+      </Flex>
 
-      <Flex direction={{ base: "column", lg: "row" }} gap={8}
+      <Flex direction={{base: "column", lg: "row"}} gap={8}
         p={4}
       >
         <Box
@@ -304,6 +361,32 @@ export default function BuildPage() {
                   paddingBottom: "5px",
                 }}
               />
+              <Input
+                name="name"
+                value={build.name}
+                onChange={handleChange}
+                width="max-content"
+                maxWidth="200px"
+                variant="flushed"
+                placeholder="Your Name (Required)*"
+                required
+                _placeholder={{fontSize: "16px", color: "gray.400"}}
+                borderBottom="1px solid"
+                borderColor="brandGreen.500"
+              />
+              <Input
+                name="email"
+                type="email"
+                value={build.email}
+                onChange={handleChange}
+                width="max-content"
+                maxWidth="250px"
+                variant="flushed"
+                placeholder="Email (Optional)"
+                _placeholder={{fontSize: "16px", color: "gray.400"}}
+                borderBottom="1px solid"
+                borderColor="brandGreen.500"
+              />
               {build.projectType && (
                 <Tag.Root
                   ml={2}
@@ -338,7 +421,6 @@ export default function BuildPage() {
                 value={build.projectType}
                 onChange={handleChange}
                 placeholder="Select project type"
-                colorScheme={"brandGreen"}
                 colorPalette={"brandGreen"}
                 cursor="pointer"
                 title="Select Project Type"
@@ -417,7 +499,6 @@ export default function BuildPage() {
               loading={isLoading}
               loadingText="Estimating..."
               borderRadius={18}
-              colorScheme={"brandGreen"}
               colorPalette={"brandGreen"}
               padding={6}
               paddingInline={8}
@@ -425,7 +506,7 @@ export default function BuildPage() {
               color="brandGreen.900"
               fontWeight={"bold"}
               fontFamily="PoppinsMed"
-              disabled={!buttonCheck}
+              disabled={!buttonCheck || estimate != null}
               _disabled={{
                 background: "grey",
               }}
@@ -497,7 +578,6 @@ export default function BuildPage() {
 
               <Button
                 mt={6}
-                colorScheme="green"
                 borderRadius={20}
                 colorPalette={"green"}
                 fontFamily="PoppinsMed"

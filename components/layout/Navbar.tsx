@@ -59,10 +59,10 @@ export default function Navbar() {
 
   return (
     <Box
-      bg={`${isScrolled || open ? "brandBlack.900/70" : "brandBlack.900/0"}`}
-      color="white"
-      p={4.5}
+      color="foreground"
+      p={4}
       minW={"100%"}
+      maxH={open ? '100vh' : '100px'}
       paddingInline={{ lgDown: 6, lgTo2xl: 8, "2xl": 8 }}
       position={"fixed"}
       marginBottom={10}
@@ -75,8 +75,7 @@ export default function Navbar() {
       overflow={"hidden"}
       placeSelf={"center"}
       zIndex={"999999"}
-      backdropFilter={`${isScrolled || open ? "blur(20px) brightness(50%)" : ""}`}
-      className={`transition-transform duration-300 ${isScrolled ? "mt-6" : "translate-y-0"} ${open ? "max-h-full" : "h-24"} `}
+      className={`transition-all duration-500 ${isScrolled || open ? "glass-panel" : "bg-transparent"} ${isScrolled ? "py-4" : "py-10"} `}
     >
       <Flex align="center" justify="space-between" className="upper">
         <Link href="/" passHref>
@@ -137,19 +136,17 @@ export default function Navbar() {
               background={"none"}
               borderRadius={14}
               color={open ? "red" : "brandGreen.500"}
-              size={"lg"}
+              size={"xl"}
               _hover={{
                 border: open ? "2px solid red" : "2px solid transparent",
                 borderColor: open ? "red" : "brandGreen.500",
-                boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px",
-                boxShadowColor: open ? "red" : "brandGreen.500",
+                boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px {colors.brandGreen.500}",
               }}
               _active={{
                 transform: "rotate(45deg) scale(80%)",
                 border: open ? "2px solid red" : "2px solid transparent",
                 borderColor: open ? "red" : "brandGreen.500",
-                boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px",
-                boxShadowColor: open ? "red" : "brandGreen.500",
+                boxShadow: open ? "0px 0px 12px red" : "0px 0px 12px {colors.brandGreen.500}",
               }}
             >
               {open ?

@@ -12,7 +12,7 @@ export default function Scrollable({ children, props }: ScrollableType) {
     <Flex
       as={'main'}
       direction="column"
-      gap={"10px"}
+      // gap={"10px"}
       className={"main-bg antialiased"}
       {...props}
     >

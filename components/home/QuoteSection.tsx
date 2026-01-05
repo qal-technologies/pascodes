@@ -1,0 +1,47 @@
+"use client";
+
+import {Box, Text, Container} from "@chakra-ui/react";
+import {Reveal} from "../utils/Reveal";
+import {TECH_QUOTES} from "@/lib/tech-quotes";
+import {useState, useEffect} from "react";
+
+export default function QuoteSection () {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % TECH_QUOTES.length);
+        }, 8000); // Rotate every 8 seconds
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const currentQuote = TECH_QUOTES[currentIndex];
+
+    return (
+        <Box py={20} bg="background.500" textAlign="center">
+            <Container maxW="container.md">
+                <Reveal key={currentIndex}>
+                    <Text
+                        fontSize={{base: "2xl", md: "4xl"}}
+                        fontWeight="bold"
+                        fontFamily="PoppinsSemi"
+                        color="foreground"
+                        mb={5}
+                        lineHeight="shorter"
+                        className="neon-text"
+                        px={10}
+                        textAlign={'center'}
+                    >
+                        &quot;{currentQuote.text}&quot;
+                    </Text>
+                </Reveal>
+                <Reveal delay={0.5} key={`author-${currentIndex}`}>
+                    <Text color="brandGreen.500" fontSize="lg" fontStyle="italic">
+                        - {currentQuote.author}
+                    </Text>
+                </Reveal>
+            </Container>
+        </Box>
+    );
+}

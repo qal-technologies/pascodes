@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import { Provider } from '@/components/ui/provider';
 import FloatingButtons from '@/components/layout/FloatingButtons';
+import Footer from '@/components/layout/Footer';
+import {Toaster} from "@/components/ui/toaster";
 
 import "@/styles/globals.css";
 
@@ -144,7 +146,9 @@ export default function RootLayout({
       >
         <Provider>
           {children}
+          <Footer />
           <FloatingButtons />
+          <Toaster />
         </Provider>
       </body>
     </html>

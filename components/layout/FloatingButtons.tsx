@@ -5,11 +5,10 @@ import { FaArrowUp, FaTools } from "react-icons/fa";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFloatingButtons } from "@/hooks/useFloatingButtons";
-import { useScroll } from "@/hooks/useScroll";
-import { motion } from "framer-motion";
+import {useScroll} from "@/hooks/useScroll";
 import IconBtn from "../buttons/IconBtn";
 
-const MotionBox = motion.create(Box);
+
 
 export default function FloatingButtons() {
   const [unfinishedBuilds] = useState(() => {

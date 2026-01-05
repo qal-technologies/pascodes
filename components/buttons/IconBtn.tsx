@@ -30,7 +30,6 @@ export default function IconBtn({
   ariaLabel,
   props,
   rounded = true,
-  scheme,
   bRadius,
   mb,
   mt,
@@ -58,7 +57,6 @@ export default function IconBtn({
       aria-label={ariaLabel}
       onClick={() => clickFunction()}
       cursor="pointer"
-      colorScheme={scheme || "brandGreen.500"}
       background="brandGreen.500/90"
       backdropBlur={'md'}
       borderRadius={rounded ? "50%" : bRadius}
@@ -67,8 +65,7 @@ export default function IconBtn({
       display="grid"
       placeContent="center"
       outline='none'
-      filter="drop-shadow(0px 0px 12px black)"
-      dropShadow={"0px 0px 120px brandGreen.500"}
+      boxShadow="0px 0px 12px black"
       initial={animate ? { opacity: 0, scale: 0, y: 50 } : ""}
       animate={animate ? { opacity: 1, scale: 1, y: 0 } : ""}
       exit={{ opacity: 0, scale: 0.8, y: 50 }}
@@ -78,6 +75,7 @@ export default function IconBtn({
       }}
       mb={mb}
       mt={mt}
+      {...props}
     >
       {icon}
       {children}

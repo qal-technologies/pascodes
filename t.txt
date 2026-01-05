@@ -1,0 +1,71 @@
+Now we are building an app with react native (use all latest versions for all packages, libraries and coding practices and each procedure or implementation - very necessary).
+
+the repo currently empty even without a single folder, you are going to start from ground up with all npm installations and packages used in the json files - so immediately i pull the repo i can just `npm install` to add a necessary modules.
+make sure to use future and error proof packages and libraries, i dont want any error even a single one.
+
+Now, the app name is Epmate (immitating Helpmate):
+description: "Get someone trusted to help you with what you need or offer help to others and earn money. All in one place."
+it must feel and flow like bolt app .
+the goal is using bolts theme colors, ui layouts and even interface to push the impression of the app being from bolt.
+we need everything feeling and running smooth.
+
+this is an mvp and so we're resorting to free or less expensive platforms and services.
+
+I'll be attaching the ui templates and arrange in the prompt, and in as much we're taking inspiration from bolt app, we are not adding everything they have.
+
+okay now the necessary features we are adding on the app so you can curate the packages we'll be adding:
+- location and map (with real time tracking & movement/tracking trail).
+- we be using flutterwave payment for all payments (escrow logic, refunds support, payout speed, and log update and protection).
+- we'll be using firebase for storing our data
+- integrate a media storage with all security and caching checks put in place.
+- we'll be using emailing for login, signup, forgot password and successfully payment, failed payment, completed task, or incompleted tasks (and other necessary things that needs emailing).
+- we'll be using a netlify function for certain things for backend functions and some environment variables that needs to work backend.
+- we need subtle animations (just like bolt's - no extras)
+- we need things like in-phone notifications (for things like tasks arrival/completed or tasks being available - for helpers), just like bolt. 
+- we'll be using modal for most of the things/flows to lessen page loads / navigations.
+- we'll be usings icons, fonts, colors, theme and even side drawer bar similar to bolt's, just make it feel like bolt made it.
+- we'll be also fetching and updating lots of async and database calls throughout the app so find a better way to manage the calls and even states handled well.
+
+with all these being all specifics on the packages we'll be needing, here is the advice or maybe practices i think we should look into too:
+- for the datbase; structure each data into categories so data doesnt leak and its easier to call data - structure example: collections: admin, users, helpers.
+inside the admin is where the pricing, users private data (like nin, card number and other data that is very sensitive), tasks and other admin related documents. any call to this collection must be from the backend using admin sdk, this is to secure the collection from tamper. all pricing, and tasks in the app comes from this collection too, only the admin has the access to change them, but the frontend only using backend function to only read the data [pricing for each services and helps], tasks too is read from the collections too admin can add and remove tasks too.
+-- the user collection houses the basic user data, like their name, email, number, history [both tasks and payment], type [if they're just users or helper], status [verified email for users and verified email and verified identity for helpers].
+--helpers collection: has the name of all helpers and their details, just a direct seperation of them [their main details are still in the users - just thought this is the better way to easily get helper's details or do you have a better way?] .
+
+- another practice is: develop this app to work very properly and follow all store rules, both apple and andriod.
+1. make clear unboardings on the app, make necessary data collections, make sure the app is prune to cratch, make the ui responsive, make a good practice of location tracking, and background location too. and other rules and practices that would make the accept our app and also our app run very well on their platforms, add delete account feature too.
+
+
+-make the developemnt structure modular; every feature and function categorized properly and reusable components, modulate apis and functions too, use most of helper functions and even hooks, so it is reusable and easily configured during scaling.
+
+- use proper state management and tracking procedures and packages that would cause data loss or crashing; Do not manage large state with useState. make sure you do research and understand the best practice for that very action.
+
+no hardcoded values - make every thing easily scalable and changeable, no fake delays, no only local storage in certain data, use pagination, use database and local storage for certain media and data.
+use serverless or free cloud functions for heavy functions.
+
+-for map and location: we're planning on using google map and look for proper permissions and real time tracking and battery usage optimzed, make sure to add the trails as i said. and ping helpers location too when they say they're active for helping and add those helpers to the map. 
+
+after all these create a very comprehensive txt or md file directing and explaing to me about everything and for things i need to do and accounts i need to create too, tell me how everything works and should work and pricing or expected pricing of each things.
+add jules comments in places to explain what you did 
+
+configure to protect us from overcharging and overusage.
+
+if you can make the admin dashboard, but should for now run only on web - highlight how i can host only that admin panel since we're not planning on creating a seperate app for admin yet.
+admin can see verified helpers, see and update tasks, manage disputes, suspend and delete users and helpers, handle payments and edit pricing and tasks.
+
+use spreads to certain props to accomodate new props as we scale and expand.
+-fix the app to light mode.
+-calculate every distance by time to helper or use (not km)
+- when a user opens the app, they see the green background with the icon at the center just like bolt they see the sign up page I attached tot this prompt, after all the signup process/login [use a dummy login check now for developement - create signup functions but dont add them now) they see see the map, menu icon at the top [functions like bolts's - a side drawer with all the ui there in bolt], the modal at the bottom titled: what do you need help with today? then shows what's in the image i attached to this very prompt including: errands & delivery, cooking and catering ....(add other services with their respective icons).
+when any service is clicked it opens and closes a new or old modal depending, just look at the image and see if each flow is a full page or modal and maintain it (payment sections sjhouldnt be modals so users doesnt accidentally close payment and loose track).
+the bottom tab would be just two tabs - home and profile, the history and rides appears from the side drawer.
+on login, user is asked to use email and password or just google login.
+
+replace every instance of using mobile phone on signup or login to emails and password.
+when a help is clicked, it searches for helper on that services and then displays helper, with their prices, then the user is given an input to add their on price and is adviced that higher prices attracts helpers, if the user didn't accept any hellper and stayed on that modal for 1min, the modal closes and the user needs to start with selecting help again. while the modal opens, the accept button backgound of each helper starts turning light grey (disabled) gradually and after 1min it disbales and the modal closes.
+
+remember to main the theme color and styling, and look at the image i aattached properly for more understanding
+
+ask me anything you dont understand and we'll be adding more features soon 
+ 
+

@@ -54,7 +54,7 @@ export default function UnfinishedBuildModal({
           </Dialog.Body>
           <Dialog.Footer mt={2} flexWrap="wrap" gap='10px'>
             <Button
-              colorScheme="blue"
+              colorPalette="blue"
               onClick={handleContinue}
               p={2}
               px={4}
@@ -71,7 +71,7 @@ export default function UnfinishedBuildModal({
               p={2}
               px={6}
               fontWeight="bold"
-              background="brandGreen.400"
+              background="brandGreen.500"
               color="black"
               borderRadius="20px"
               border="1px solid "
