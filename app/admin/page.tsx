@@ -278,7 +278,7 @@ export default function AdminDashboard () {
                                             </Box>
                                             <Box>
                                                 <Text color="gray.500" fontSize="sm">Pages</Text>
-                                                <Text fontWeight="bold">{selectedBuild?.pages || 0}</Text>
+                                                <Text fontWeight="bold">{selectedBuild?.pages}</Text>
                                             </Box>
                                         </SimpleGrid>
 
