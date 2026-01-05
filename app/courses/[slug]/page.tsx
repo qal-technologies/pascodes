@@ -52,6 +52,7 @@ export default function CoursePage() {
                 </TabPanel>
             </TabPanels>
 */}
+{/*
         </Tabs>
 
       </VStack>
