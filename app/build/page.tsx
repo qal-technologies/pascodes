@@ -210,11 +210,11 @@ function BuildPageContent () {
   ];
 
   const buttonCheck =
-    build.description.trim().length > 1 &&
-    build.title.trim().length > 0 &&
-    build.projectType &&
-    build.name.length > 0 &&
-    build.pages >= 4;
+    build?.description?.trim()?.length > 1 &&
+    build?.title?.trim()?.length > 0 &&
+    build?.projectType &&
+    build?.name?.length > 0 &&
+    build?.pages >= 4;
 
   const isScrolled = useScroll();
   return (
@@ -248,17 +248,17 @@ function BuildPageContent () {
           Build with AI
         </Text>
 
-        <Flex gap={5}>
+        <Flex gap={3} marginRight={4}>
           <IconBtn
-            icon={<FaTrash color="red"/>}
+            icon={<FaTrash color="black"/>}
             onClick={clearBuild}
             ariaLabel="Delete Build"
-            size="sm"
+            size="md"
           />
 
-        <Menu.Root>
+        <Menu.Root >
           <Menu.Trigger>
-            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
+            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="md" />
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>

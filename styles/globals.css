@@ -85,8 +85,9 @@
   user-select: none;
   border: none;
   font-family: PoppinsLight, PoppinsMed, PoppinsSemi, PoppinsBold, sans-serif;
-  transition: all ease 600ms;
+  transition: all ease-in 600ms;
   scroll-behavior: smooth;
+  scroll-padding-top: 60px;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -113,9 +114,19 @@ body, div, section, footer, nav {
 }
 
 .glass-panel {
-  backdrop-filter: blur(12px) brightness(40%);
+  backdrop-filter: blur(14px) brightness(40%);
   background: rgba(0, 5, 15, 0.6);
   border: 1px solid rgba(60, 117, 255, 0.2);
+}
+
+.navbar-open{
+   backdrop-filter: blur(15px) brightness(40%);
+  background: rgb(1, 0, 5);
+}
+
+.navbar-open, .bg-transparent, div.nav-btn{
+  transition: all ease 400ms;
+
 }
 
 .neon-text {
@@ -204,7 +215,7 @@ body {
   }
 
   100% {
-    opacity: 1;
+    opacity: initial;
     filter: blur(0px);
     display: initial;
   }
@@ -426,7 +437,7 @@ body {
   }
 
   100% {
-    opacity: 1;
+    opacity: initial;
     transform: scale(100%) translateX(0%);
   }
 }

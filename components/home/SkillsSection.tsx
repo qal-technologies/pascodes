@@ -2,6 +2,7 @@ import {Box, SimpleGrid, Text, VStack, Container} from "@chakra-ui/react";
 import {FaReact, FaNodeJs, FaPython, FaDatabase, FaAws, FaMobile} from "react-icons/fa";
 import {SiTypescript, SiTailwindcss, SiFirebase} from "react-icons/si";
 import {Reveal} from "../utils/Reveal";
+import Section from "../utils/Section";
 
 const skills = [
     {name: "React / Next.js", icon: FaReact, color: "#61DAFB"},
@@ -17,8 +18,10 @@ const skills = [
 
 export default function SkillsSection () {
     return (
-        <Box py={{base: 16, md: 20}} px={{base: 6, md: 12}} bg="background">
-            <Container maxW="container.xl">
+        <Section padding={12} pt={'110px'} pb={'100px'} bgColor="background">
+            <Box width={300} bg={'brandGreen.600'} height={300} borderRadius={'50%'} position='absolute' top={-20} left={-20} opacity={.2} filter={'blur(100px) brightness(120%)'} />
+
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <VStack gap={4} mb={12} textAlign="center">
                     <Text
                         fontSize={{base: "3xl", md: "4xl"}}
@@ -33,7 +36,7 @@ export default function SkillsSection () {
                         Crafting high-performance, scalable solutions across web, mobile, and cloud platforms using cutting-edge technologies.
                     </Text>
                 </VStack>
-                <SimpleGrid columns={{base: 2, sm: 3, md: 4}} gap={10}>
+                <SimpleGrid columns={{base: 2, sm: 3, md: 4, lg: 5}} gap={10} alignContent={'center'} justifyContent={'center'}>
                     {skills.map((skill, index) => (
                         <Reveal key={skill.name} delay={0.1 * index} glow>
                             <VStack
@@ -67,6 +70,8 @@ export default function SkillsSection () {
                     ))}
                 </SimpleGrid>
             </Container>
-        </Box>
+
+            <Box width={300} bg={'yellow.400'} height={300} borderRadius={'50%'} position='absolute' bottom={-20} right={-20} opacity={.2} filter={'blur(100px) brightness(120%)'} />
+        </Section>
     );
 }

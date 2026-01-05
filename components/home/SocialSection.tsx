@@ -15,8 +15,13 @@ const socialPlatforms = [
 
 export default function SocialSection () {
     return (
-        <Box py={{base: 16, md: 20}} px={{base: 6, md: 12}} bg="background" textAlign="center">
-            <Container maxW="container.lg">
+        <Box
+            py={{base: 20, md: 40}}
+            px={{base: 6, md: 12}}
+            style={{backdropFilter: 'blur(10px) brightness(50%)'}}
+            textAlign="center"
+        >
+            <Container alignSelf='center' maxW="container.lg" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Reveal>
                     <VStack gap={4} mb={12}>
                         <Heading
@@ -49,6 +54,7 @@ export default function SocialSection () {
                                     borderColor: platform.color,
                                     textDecoration: "none"
                                 }}
+                                bg={'background'}
                             >
                                 <Box
                                     as={platform.icon}

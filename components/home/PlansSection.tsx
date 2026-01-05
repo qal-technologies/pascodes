@@ -4,6 +4,7 @@ import {Box, Button, Container, Flex, Heading, List, Text, VStack} from "@chakra
 import {FaCheckCircle} from "react-icons/fa";
 import {useRouter} from "next/navigation";
 import {Reveal} from "../utils/Reveal";
+import Section from "../utils/Section";
 
 const plans = [
     {
@@ -21,7 +22,7 @@ const plans = [
         features: ["8+ Pages", "CMS Integration", "Analytics", "Priority Support", "Email Setup"],
         type: "business",
         pages: 8,
-        color: 'rgba(200, 50, 255)',
+        color: 'rgba(255, 100, 255)',
     },
     {
         title: "E-Commerce / Web App",
@@ -93,8 +94,36 @@ export default function PlansSection () {
     };
 
     return (
-        <Box py={20} bg="gray.900" id="plans">
-            <Container maxW="container.xl">
+        <Section py={40} pt={55} bgColor="brandNavy.900" key="plans"
+            id="pricing"
+        >
+            <Box
+                width={'50vw'}
+                height={'30vh'}
+                background={'purple'}
+                position='absolute'
+                top={-10}
+                right={-12}
+                opacity={.25}
+                filter={'blur(100px) brightness(110%)'}
+                rotate={'40deg'}
+                borderRadius={'50%'}
+            />
+
+            <Box
+                width={'80vw'}
+                height={'50vh'}
+                background={'red'}
+                position='absolute'
+                top={'50vh'}
+                right={-2}
+                opacity={.3}
+                filter={'blur(160px) brightness(110%)'}
+                rotate={'40deg'}
+                borderRadius={'10%'}
+            />
+            
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Reveal width='100%'>
                     <Text
                         fontSize={{base: "3xl", md: "4xl"}}
@@ -108,10 +137,10 @@ export default function PlansSection () {
                     </Text>
                 </Reveal>
                 <Reveal delay={0.4} width='100%' >
-                    <Text fontSize={{base: "md", md: "lg"}} color="gray.200" maxW="4xl" mb={16}
-                        textAlign={'center'} alignSelf='center'
+                    <Text fontSize={{base: "md", md: "xl"}} color="gray.200" maxW="4xl" mb={16}
+                        textAlign={'center'} alignSelf='center' justifySelf={'center'}
                     >
-                        Transparent pricing packages tailored to your needs. All plans include my core commitment to quality and performance.
+                        Transparent pricing packages, tailored to your needs. All plans include my core commitment to quality and performance.
                     </Text>
                 </Reveal>
 
@@ -126,10 +155,11 @@ export default function PlansSection () {
                                 transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
                                 _hover={{
                                     borderColor: getColor(plan.color, 'border', 'brandGreen.500'),
-                                    transform: "translateY(-12px)",
+                                    transform: "translateY(-12px) scale(1.05)",
                                     boxShadow: `0 15px 30px ${getColor(plan.color, 'shadow', 'rgba(58, 238, 187, 0.2)')}`
                                 }}
                                 maxW={350}
+                                background={'brandBlack.900/60'}
                                 className="glass-panel hover-lift"
                             >
                                 <Text color={getColor(plan.color, 'background', 'brandGreen.500')} fontWeight="bold" fontSize="sm" letterSpacing="widest" textTransform="uppercase">
@@ -162,7 +192,7 @@ export default function PlansSection () {
                                     borderRadius="full"
                                     fontWeight="bold"
                                     mt="auto"
-                                    onClick={() => handleSelectPlan(plan)}
+                                    onClick={()=> handleSelectPlan(plan)}
                                     className="hover-lift neon-glow-accent"
                                 >
                                     Start Building
@@ -172,6 +202,20 @@ export default function PlansSection () {
                     ))}
                 </Flex>
             </Container>
-        </Box >
+
+            <Box
+                width={'50vw'}
+                height={'30vh'}
+                background={'darkorange'}
+                position='absolute'
+                bottom={-30}
+                left={-12}
+                opacity={.5}
+                filter={'blur(80px) brightness(110%)'}
+                rotate={'25deg'}
+                borderRadius={'50%'}
+            />
+
+        </Section >
     );
 }

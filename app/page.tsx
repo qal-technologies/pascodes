@@ -14,8 +14,9 @@ import ContactSection from "@/components/home/ContactSection";
 import SocialSection from "@/components/home/SocialSection";
 import {Reveal} from "@/components/utils/Reveal";
 import {Separator} from "@chakra-ui/react";
+import Footer from "@/components/layout/Footer";
 
-export default function HomePage() {
+export default function HomePage () {
   return (
     <Scrollable>
       <Navbar />
@@ -58,6 +59,9 @@ export default function HomePage() {
       </Reveal>
 
       <Separator borderColor="whiteAlpha.100" />
+
+      <Footer />
+
     </Scrollable>
   );
 }

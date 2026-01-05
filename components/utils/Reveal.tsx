@@ -2,16 +2,19 @@
 
 import React, {useEffect, useRef} from "react";
 import {motion, useInView, useAnimation} from "framer-motion";
+import Section, {type SectionProp} from "./Section";
 
 interface Props {
     children: React.ReactNode;
     width?: "fit-content" | "100%";
     delay?: number;
     glow?: boolean;
-    glowRadius?:boolean | number
+    glowRadius?: boolean | number;
+    type?: 'section';
+    sectionProp?: SectionProp;
 }
 
-export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, glowRadius = true}: Props) => {
+export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, glowRadius = true, type, sectionProp}: Props) => {
     const ref = useRef(null);
     const isInView = useInView(ref, {once: true, amount: 0.2});
 
@@ -24,7 +27,7 @@ export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, gl
     }, [isInView, mainControls]);
 
     return (
-        <div ref={ref} style={{position: "relative", width, overflow: "visible"}}>
+        <div ref={ref} style={{position: "relative", width, overflow: "visible", alignSelf: 'center'}}>
             <motion.div
                 variants={{
                     hidden: {opacity: 0, y: 30, filter: "blur(10px)"},
@@ -49,7 +52,15 @@ export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, gl
                     borderRadius: glow && glowRadius ? typeof glowRadius === 'number' ? glowRadius : "16px" : "0"
                 }}
             >
-                {children}
+                {
+                    type === 'section' ?
+                        <Section direction={sectionProp?.direction} wrap={sectionProp?.wrap} bgColor={sectionProp?.bgColor} padding={sectionProp?.padding} py={sectionProp?.py} px={sectionProp?.px} children={sectionProp?.children || children}/>
+                        :
+                        <>
+                            {children}
+                        </>
+
+                }
             </motion.div>
         </div>
     );

@@ -74,6 +74,7 @@ export default function Banner() {
       minH="100vh"
       paddingInline="20px"
       paddingBlock="20vh"
+      paddingBottom='10vh'
       overflow="visible"
       gap={"10%"}
       userSelect="none"
@@ -102,7 +103,7 @@ export default function Banner() {
         backgroundColor="brandNavy.500/30"
         filter="blur(15vh)"
         position="absolute"
-        top="50vh"
+        top="70vh"
         right="-12vh"
         borderRadius="50%"
         zIndex="0"
@@ -222,7 +223,6 @@ export default function Banner() {
 
       <Box className="z-upper" display={{ base: "none", lg: "block" }}>
         <Image
-          id="pricing"
           _hover={{
             transform: "translateY(-20px) translateX(-20px)",
           }}

@@ -9,18 +9,31 @@ export default function Footer () {
   const currentYear = new Date().getFullYear();
 
   return (
-    <Box bg="background" color="gray.400" pt={20} pb={10} borderTop="1px solid" borderColor="border" className="glass-panel" style={{backdropFilter: 'none', background: 'transparent'}}>
+    <Box
+      bg="background/80"
+      color="gray.400"
+      pt={25}
+      pb={12}
+      padding={12}
+      borderTop="1px solid"
+      borderColor="border"
+      backdropFilter={'blur(10px)'}
+      bgGradient="to-br"
+      gradientFrom='background'
+      gradientVia='background'
+      gradientTo='brandGreen.900/90'
+    >
       <Container maxW="container.xl">
-        <SimpleGrid columns={{base: 1, md: 2, lg: 4}} gap={12} mb={16}>
+        <SimpleGrid columns={{base: 1, md: 2, lg: 4}} gap={10} mb={16}>
           {/* Brand Section */}
-          <VStack align="start" gap={6}>
+          <VStack align="start" gap={8}>
             <HStack gap={3}>
               <Box position="relative">
                 <Image src="/images/logo.png" alt="PasCodes" w="40px" borderRadius="12px" className="neon-glow-accent" />
               </Box>
               <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodes_</Heading>
             </HStack>
-            <Text fontSize="sm" lineHeight="tall">
+            <Text fontSize="md" lineHeight="tall">
               Building next-generation digital experiences. Specializing in high-performance web applications, specialized developer tools, and comprehensive coding education.
             </Text>
             <VStack align="start" gap={3}>
@@ -53,7 +66,7 @@ export default function Footer () {
           <VStack align="start" gap={4}>
             <Heading size="sm" color="foreground" mb={2}>Core Services</Heading>
             <FooterLink href="/build?type=portfolio">Portfolio Design</FooterLink>
-            <FooterLink href="/build?type=business">Business Solutions</FooterLink>
+            <FooterLink href="/build?type=business" >Business Solutions</FooterLink>
             <FooterLink href="/build?type=e-commerce">E-Commerce Systems</FooterLink>
             <FooterLink href="/build?type=webapp">Custom Web Apps</FooterLink>
             <FooterLink href="/services">Technical Audit</FooterLink>
@@ -69,11 +82,12 @@ export default function Footer () {
                 p={1}
                 borderRadius="full"
                 border="1px solid"
+                gap={1}
                 borderColor="border"
                 transition="all 0.3s"
                 _focusWithin={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
               >
-                <Box flex={1} px={4} color="foreground" fontSize="xs" fontWeight="bold">
+                <Box flex={1} px={4} color="foreground" fontSize="xs" fontWeight="bold" letterSpacing={1}>
                   {SITE_CONFIG.email}
                 </Box>
                 <Box
@@ -89,15 +103,17 @@ export default function Footer () {
                 </Box>
               </HStack>
             </Box>
-            <Text fontSize="xs" mt={2}>Located: Global (Remote/Nigeria)</Text>
+            <Text fontSize="xs" mt={2}>Located: Calabar, Nigeria
+
+              (Remotely Available)</Text>
           </VStack>
         </SimpleGrid>
 
         <Separator borderColor="border" mb={8} />
 
         <HStack justify="space-between" wrap="wrap" gap={4}>
-          <Text fontSize="xs">
-            &copy; {currentYear} PasCodes. Handcrafted with &hearts; in Nigeria.
+          <Text fontSize="sm">
+            &copy; {currentYear} PasCodes.
           </Text>
           <HStack gap={6}>
             <FooterLink href="/privacy" fontSize="xs">Privacy Policy</FooterLink>

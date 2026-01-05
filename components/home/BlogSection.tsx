@@ -33,14 +33,16 @@ export default function BlogSection () {
     }, []);
 
     return (
-        <Box p={{base: 12, md: 20}} bg="blackAlpha.900">
-            <Container maxW="container.xl">
+        <Box p={{base: 12, md: 20}}
+            py={{base: 20, md: 40}}
+            bg="brandGreen.900/40">
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <VStack align="start" gap={8} mb={12}>
                     <Reveal>
-                        <Heading color="white" fontWeight="bold" fontSize={{base: "2xl", md: "3xl"}}>Latest From <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>The Blog</Text></Heading>
+                        <Heading color="white" fontWeight="bold" textAlign={'center'} fontSize={{base: "2xl", md: "3xl"}}>Latest From <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>The Blog</Text></Heading>
                     </Reveal>
                     <Reveal delay={0.4}>
-                        <Text color="gray.400" maxW="2xl">
+                        <Text color="gray.400" maxW="2xl" textAlign={'center'}>
                             Deep dives into modern web technologies, technical tutorials, and industry insights to keep you ahead of the curve.
                         </Text>
                     </Reveal>

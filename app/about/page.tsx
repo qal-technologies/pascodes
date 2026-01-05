@@ -6,23 +6,24 @@ import {Reveal} from "@/components/utils/Reveal";
 import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
 import {FaRocket, FaCode, FaLightbulb} from "react-icons/fa";
+import Footer from "@/components/layout/Footer";
 
 export default function AboutPage () {
   return (
     <Box minH="100vh" bg="black" color="white">
       <Navbar />
 
-      <Container maxW="container.xl" pt="150px" pb={20}>
-        <Reveal width="100%">
+      <Container maxW="container.xl" padding={10} pt={150} pb={20} alignSelf='center' placeItems='center' justifySelf={'center'}>
+        <Reveal width="100%" >
           <VStack gap={12} align="stretch">
             {/* Hero Section */}
-            <SimpleGrid columns={{base: 1, md: 2}} gap={10} alignItems="center">
-              <VStack align="start" gap={6}>
-                <Box>
-                  <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase" mb={2}>
+            <SimpleGrid columns={{base: 1, md: 2}} gap={10} alignItems="center" justifyContent={'space-evenly'}>
+              <VStack align="start" gap={6} mb={2}>
+                <Box mb={1}>
+                  <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase" mb={1}>
                     The Story Behind
                   </Text>
-                  <Heading size="3xl" fontFamily="PoppinsBold">
+                  <Heading size="3xl" fontFamily="PoppinsBold"  fontSize={25}>
                     Paschal Ngaoka
                   </Heading>
                 </Box>
@@ -42,7 +43,8 @@ export default function AboutPage () {
                   ))}
                 </HStack>
               </VStack>
-              <Box position="relative">
+
+              <Box position="relative" alignSelf={'end'}>
                 <Box
                   position="absolute"
                   inset="-20px"
@@ -111,6 +113,9 @@ export default function AboutPage () {
           </VStack>
         </Reveal>
       </Container>
+
+      <Separator borderColor="whiteAlpha.100" />
+      <Footer />
     </Box>
   );
 }

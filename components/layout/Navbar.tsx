@@ -44,7 +44,7 @@ export default function Navbar() {
     { title: "Services", link: "/services" },
     { title: "courses", link: "/courses" },
     { title: "Blog", link: "/blog" },
-    { title: "contact", link: "/contact" },
+    { title: "contact", link: "/about" },
   ];
 
   const socials = [
@@ -75,7 +75,7 @@ export default function Navbar() {
       overflow={"hidden"}
       placeSelf={"center"}
       zIndex={"999999"}
-      className={`transition-all duration-500 ${isScrolled || open ? "glass-panel" : "bg-transparent"} ${isScrolled ? "py-4" : "py-10"} `}
+      className={`transition-all duration-500 ${isScrolled || open ? "navbar-open" : "bg-transparent"} ${isScrolled ? "py-4" : "py-10"} `}
     >
       <Flex align="center" justify="space-between" className="upper">
         <Link href="/" passHref>

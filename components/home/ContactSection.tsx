@@ -62,14 +62,15 @@ export default function ContactSection () {
     };
 
     return (
-        <Box py={20} bg="background" id="contact">
-            <Container maxW="container.xl">
+        <Box py={{base: 20, md: 40}}
+            padding={10} bg="background" id="contact">
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <SimpleGrid columns={{base: 1, md: 2}} gap={16}>
                     <Box>
                         <Reveal>
-                            <Heading color="foreground" mb={6} size="2xl">
+                            <Heading color="foreground" mb={6} size="xl" fontSize={{base: 22, md: 30}}>
                                 Let&apos;s Build <br />
-                                <Text as="span" color="brandGreen.500" className="neon-text">Something Amazing</Text>
+                                <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: 20, md: 28}}>Something Amazing</Text>
                             </Heading>
                         </Reveal>
                         <Reveal delay={0.3}>
@@ -84,6 +85,8 @@ export default function ContactSection () {
                                     icon={<FaEnvelope />}
                                     label="Email"
                                     value={SITE_CONFIG.email}
+                                    link={SITE_CONFIG.socials.email}
+
                                 />
                             </Reveal>
                             <Reveal delay={0.5}>
@@ -91,6 +94,8 @@ export default function ContactSection () {
                                     icon={<FaWhatsapp />}
                                     label="WhatsApp"
                                     value={SITE_CONFIG.whatsappNumber}
+                                    link={SITE_CONFIG.socials.whatsapp}
+
                                 />
                             </Reveal>
                             <Reveal delay={0.6}>
@@ -111,6 +116,7 @@ export default function ContactSection () {
                             p={8}
                             borderRadius="2xl"
                             className="glass-panel"
+                            pt={15}
                         >
                             <VStack gap={5}>
                                 <Field.Root invalid={!formData.name && isSubmitting}>
@@ -122,7 +128,8 @@ export default function ContactSection () {
                                         bg="blackAlpha.200"
                                         border="1px solid"
                                         borderColor="border"
-                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
+                                        style={{padding: 10, borderRadius: '12px'}}
                                     />
                                 </Field.Root>
 
@@ -136,7 +143,8 @@ export default function ContactSection () {
                                         bg="blackAlpha.200"
                                         border="1px solid"
                                         borderColor="border"
-                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
+                                        style={{padding: 10, borderRadius: '12px'}}
                                     />
                                 </Field.Root>
 
@@ -148,7 +156,9 @@ export default function ContactSection () {
                                     bg="blackAlpha.200"
                                     border="1px solid"
                                     borderColor="border"
-                                    _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                    _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
+                                    style={{padding: 10, borderRadius: '12px'}}
+
                                 />
 
                                 <Field.Root invalid={!formData.message && isSubmitting}>
@@ -161,7 +171,8 @@ export default function ContactSection () {
                                         bg="blackAlpha.200"
                                         border="1px solid"
                                         borderColor="border"
-                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
+                                        style={{padding: 10, borderRadius: '12px'}}
                                     />
                                 </Field.Root>
 
@@ -175,6 +186,8 @@ export default function ContactSection () {
                                     loading={isSubmitting}
                                     loadingText="Sending..."
                                     className="hover-lift neon-glow-accent"
+                                    style={{padding: 10, borderRadius: '16px', marginTop: 20}}
+
                                 >
                                     Send Message <FaPaperPlane style={{marginLeft: '8px'}} />
                                 </Button>
@@ -204,7 +217,7 @@ function ContactItem ({icon, label, value, link}: {icon: React.ReactNode, label:
         return (
             <Box
                 as="a"
-                href={link}
+                href={link as any}
                 target="_blank"
                 rel="noopener noreferrer"
                 display="block"

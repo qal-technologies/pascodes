@@ -52,7 +52,7 @@ export const TECH_QUOTES = [
         author: "Burt Rutan"
     },
     {
-        text: "The Web3 revolution isn't just about technology—it's about reimagining ownership, trust, and value exchange in the digital age.",
+        text: "The Web3 revolution isn't just about technology, it's about reimagining ownership, trust, and value exchange in the digital age.",
         author: "Tech Insight"
     },
     {

@@ -4,23 +4,23 @@ import {Reveal} from "../utils/Reveal";
 
 export default function PartnershipSection () {
     return (
-        <Box py={{base: 16, md: 20}} px={{base: 6, md: 12}} bg="background">
-            <Container maxW="container.xl">
+        <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" >
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <SimpleGrid columns={{base: 1, md: 2}} gap={10}>
                     <Reveal delay={0.2} glow>
                         <VStack
                             p={10}
                             borderRadius="2xl"
                             align="start"
-                            borderLeft="4px solid"
+                            borderLeft="10px solid"
                             borderColor="brandGreen.500"
                             transition="all 0.4s ease"
                             className="glass-panel hover-lift"
                         >
-                            <Box color="brandGreen.500" fontSize="6xl" mb={4} className="neon-text">
-                                <FaHandshake />
+                            <Box color="brandGreen.500" fontSize="6xl" mb={2} className="neon-text">
+                                <FaHandshake size={'60px'} />
                             </Box>
-                            <Heading color="foreground" mb={4} size="lg" fontWeight="bold">
+                            <Heading color="foreground" mb={2} size="xl" fontWeight="bold" fontSize={{base:20, md:25}}>
                                 Partnerships
                             </Heading>
                             <Text color="gray.200" mb={6} fontSize="md">
@@ -29,8 +29,15 @@ export default function PartnershipSection () {
                             <Button
                                 variant="plain"
                                 color="brandGreen.500"
-                                _hover={{color: "brandGreen.400", transform: "translateX(5px)"}}
+                                _hover={{transform: "translateX(5px)", fontWeight: 'bold', bg:'brandGreen.500', color:'black'}}
                                 className="hover-lift"
+                                borderColor="brandGreen.500"
+                                colorPalette={'brandGreen.400'}
+                                size="lg"
+                                border='2px solid '
+                                paddingInline={10}
+                                borderRadius='12px'
+                                fontFamily="PoppinsSemi"
                             >
                                 Let&apos;s Partner Up &rarr;
                             </Button>
@@ -42,15 +49,15 @@ export default function PartnershipSection () {
                             p={10}
                             borderRadius="2xl"
                             align="start"
-                            borderLeft="4px solid"
+                            borderLeft="10px solid"
                             borderColor="primary"
                             transition="all 0.4s ease"
                             className="glass-panel hover-lift"
                         >
-                            <Box color="primary" fontSize="6xl" mb={4}>
-                                <FaProjectDiagram />
+                            <Box color="primary" fontSize="6xl" mb={2}>
+                                <FaProjectDiagram size={'60px'} />
                             </Box>
-                            <Heading color="foreground" mb={4} size="lg" fontWeight="bold">
+                            <Heading color="foreground" mb={2} size="xl" fontWeight="bold" fontSize={{base: 20, md: 25}}>
                                 Collaborations
                             </Heading>
                             <Text color="gray.200" mb={6} fontSize="md">
@@ -59,8 +66,15 @@ export default function PartnershipSection () {
                             <Button
                                 variant="plain"
                                 color="primary"
-                                _hover={{color: "brandNavy.400", transform: "translateX(5px)"}}
                                 className="hover-lift"
+                                _hover={{transform: "translateX(5px)", fontWeight: 'bold', bg: "primary", color: 'black'}}
+                                borderColor="primary"
+                                colorPalette={'primary'}
+                                size="lg"
+                                border='2px solid '
+                                paddingInline={10}
+                                borderRadius='12px'
+                                fontFamily="PoppinsSemi"
                             >
                                 Start a Conversation &rarr;
                             </Button>

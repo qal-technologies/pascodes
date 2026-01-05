@@ -37,7 +37,7 @@ const testimonials = [
 export default function TestimonialSection () {
     return (
         <Box p={{base: 12, md: 20}} bg="foregound">
-            <Container maxW="container.xl">
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Reveal>
                     <Heading
                         fontSize={{base: "3xl", md: "4xl"}}

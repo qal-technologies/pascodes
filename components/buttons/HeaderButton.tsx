@@ -33,7 +33,7 @@ const HeaderButton = ({ title, link, titleCase, active }: ButtonProps) => {
           marginInlineStart: "10px",
           backdropFilter: "blur(40px)",
         }}
-        className={`${active ? "shadow-md shadow-cyan-800" : ""} hover:shadow-md hover:shadow-cyan-800`}
+        className={`${active ? "shadow-md shadow-cyan-800" : ""} hover:shadow-md hover:shadow-cyan-800 nav-btn` }
       >
         <Text fontWeight={"bold"} fontSize={"md"} color={"brandGreen.500"}>
           {t}

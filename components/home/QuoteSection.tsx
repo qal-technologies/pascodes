@@ -4,6 +4,7 @@ import {Box, Text, Container} from "@chakra-ui/react";
 import {Reveal} from "../utils/Reveal";
 import {TECH_QUOTES} from "@/lib/tech-quotes";
 import {useState, useEffect} from "react";
+import Section from "../utils/Section";
 
 export default function QuoteSection () {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,8 +20,8 @@ export default function QuoteSection () {
     const currentQuote = TECH_QUOTES[currentIndex];
 
     return (
-        <Box py={20} bg="background.500" textAlign="center">
-            <Container maxW="container.md">
+        <Section padding={15} pt={'100px'} pb={'100px'} bgColor="brandGreen.900/20" key="quote">
+            <Container alignSelf='center' maxW="container.md" placeItems='center' placeContent='center' justifySelf={'center'} textAlign='center'>
                 <Reveal key={currentIndex}>
                     <Text
                         fontSize={{base: "2xl", md: "4xl"}}
@@ -42,6 +43,6 @@ export default function QuoteSection () {
                     </Text>
                 </Reveal>
             </Container>
-        </Box>
+        </Section>
     );
 }

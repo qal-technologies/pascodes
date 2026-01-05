@@ -10,6 +10,8 @@ export const SITE_CONFIG = {
         github: "https://github.com/pasqal-dev",
         instagram: "https://instagram.com/pasqal.dev",
         youtube: "https://youtube.com/@pascodes",
+        whatsapp: 'https://wa.me/2349016561308',
+        email:'mailto:pasqal.dev@gmail.com'
     },
 
     // Pricing Constants

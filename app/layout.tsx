@@ -25,7 +25,7 @@ const homeUrl = `${origin}/`;
 
 export const metadata: Metadata = {
   title: {
-    default: "PasCodes - All About Coding",
+    default: "PasCodes - All About Tech",
     template: "%s | PasCodes",
   },
   description:
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "PasCodes - All About Coding",
+    title: "PasCodes - All About Tech",
     description:
       "PasCodes - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
     url: `${homeUrl}`,
@@ -102,7 +102,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PasCodes - All About Coding",
+    title: "PasCodes - All About Tech",
     description:
       "PasCodes - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
     creator: "@pasqal.dev",
@@ -146,7 +146,6 @@ export default function RootLayout({
       >
         <Provider>
           {children}
-          <Footer />
           <FloatingButtons />
           <Toaster />
         </Provider>
