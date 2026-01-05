@@ -3,7 +3,7 @@
 import CourseLayout from "@/components/courses/CourseLayout";
 import VideoPlayer from "@/components/courses/VideoPlayer";
 import ResourceDownloader from "@/components/courses/ResourceDownloader";
-import { Box, Heading, VStack, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Box, Heading, VStack, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/react";
 
 export default function CoursePage() {
   // In a real application, you would fetch the course data from a CMS or database based on the slug.
@@ -27,7 +27,8 @@ export default function CoursePage() {
                 <Tab>Assignments</Tab>
                 <Tab>Tests</Tab>
             </TabList>
-            <TabPanels>
+            {/*
+<TabPanels>
                 <TabPanel>
                     <ResourceDownloader resources={course.resources} />
                 </TabPanel>
@@ -48,6 +49,7 @@ export default function CoursePage() {
                     ))}
                 </TabPanel>
             </TabPanels>
+*/}
         </Tabs>
 
       </VStack>
