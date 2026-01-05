@@ -29,7 +29,7 @@ export default function CoursePage() {
                 <Tab>Assignments</Tab>
                 <Tab>Tests</Tab>
             </TabList>
-            {/*
+            
 <TabPanels>
                 <TabPanel>
                     <ResourceDownloader resources={course.resources} />
@@ -51,9 +51,7 @@ export default function CoursePage() {
                     ))}
                 </TabPanel>
             </TabPanels>
-*/}
 
-{/*
         </Tabs>
       </VStack>
     </CourseLayout>
