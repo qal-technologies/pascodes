@@ -53,6 +53,7 @@ export default function IconBtn({
   }
 
   return (
+    // @ts-ignore
     <MotionBox
       aria-label={ariaLabel}
       onClick={() => clickFunction()}
@@ -66,13 +67,13 @@ export default function IconBtn({
       placeContent="center"
       outline='none'
       boxShadow="0px 0px 12px black"
-      initial={animate ? { opacity: 0, scale: 0, y: 50 } : ""}
-      animate={animate ? { opacity: 1, scale: 1, y: 0 } : ""}
+      initial={animate ? {opacity: 0, scale: 0, y: 50} : undefined}
+      animate={animate ? {opacity: 1, scale: 1, y: 0} : undefined}
       exit={{ opacity: 0, scale: 0.8, y: 50 }}
       transition={{
         duration: 0.06,
-        type: "spring",
-      }}
+        type: 'spring'
+      } as any}
       mb={mb}
       mt={mt}
       {...props}

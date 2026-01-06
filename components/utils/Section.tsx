@@ -7,9 +7,9 @@ export interface SectionProp {
     children?: React.ReactNode;
     direction?: 'row' | 'column';
     wrap?: boolean;
-    bgColor?: string | any;
+    bgColor?: string;
     padding?: number | string;
-    id?: string | any;
+    id?: string;
     py?: number | string;
     px?: number | string;
     pt?: number | string;

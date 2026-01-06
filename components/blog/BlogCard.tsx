@@ -33,7 +33,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             <Text fontSize="xl" fontWeight="bold" mb={2}>
                 {post.title}
             </Text>
-            <Text noOfLines={3}>{post.excerpt}</Text>
+            <Text lineClamp={3}>{post.excerpt}</Text>
             </Box>
         </Box>
         </Link>

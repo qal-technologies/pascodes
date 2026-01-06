@@ -1,4 +1,4 @@
-import {Box, SimpleGrid, Text, VStack, Container} from "@chakra-ui/react";
+import {Box, SimpleGrid, Text, VStack, Container, Icon} from "@chakra-ui/react";
 import {FaReact, FaNodeJs, FaPython, FaDatabase, FaAws, FaMobile} from "react-icons/fa";
 import {SiTypescript, SiTailwindcss, SiFirebase} from "react-icons/si";
 import {Reveal} from "../utils/Reveal";
@@ -54,9 +54,9 @@ export default function SkillsSection () {
                                 }}
                                 className="group hover-lift"
                             >
-                                <Box
+                                <Icon
                                     as={skill.icon}
-                                    size="40px"
+                                    boxSize="40px"
                                     color={skill.color}
                                     mb={2}
                                     transition="transform 0.5s ease"

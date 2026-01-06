@@ -3,7 +3,11 @@
 import { Box, Button, Heading, VStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
+import {useRouter} from "next/navigation";
+
 export default function Collaboration() {
+  const router = useRouter();
+
   return (
     <Box py={20}>
       <motion.div
@@ -12,23 +16,22 @@ export default function Collaboration() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <VStack spacing={6} textAlign="center">
+        <VStack gap={6} textAlign="center">
           <Heading as="h2" size="2xl">
-            Let's Collaborate
+            Let&apos;s Collaborate
           </Heading>
           <p>
-            Have a project in mind? I'm always open to discussing new ideas and
-            opportunities. Let's work together to create something amazing.
+            Have a project in mind? I&apos;m always open to discussing new ideas and
+            opportunities. Let&apos;s work together to create something amazing.
           </p>
           <Button
-            as="a"
-            href="/contact"
-            colorScheme="green"
+            onClick={() => router.push('/contact')}
+            colorPalette="brandGreen"
             size="lg"
             px={8}
             py={6}
           >
-            Let's Work
+            Let&apos;s Work
           </Button>
         </VStack>
       </motion.div>

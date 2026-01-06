@@ -61,7 +61,7 @@ export default function WorkedWith() {
       <Heading as="h2" size="2xl" textAlign="center" mb={10}>
         My Track Record
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+      <SimpleGrid columns={{base: 1, md: 3}} gap={10}>
         {statsList.map((stat, i) => (
             <motion.div
             key={stat.label}
@@ -72,7 +72,7 @@ export default function WorkedWith() {
             custom={i}
             >
                 <Stat.Root p={6} bg="gray.800" borderRadius="lg" textAlign="center">
-                    <Stat.Number fontSize="5xl">{stat.value}{stat.label === "Star Rating" && "+"}</Stat.Number>
+              <Stat.ValueText fontSize="5xl">{stat.value}{stat.label === "Star Rating" && "+"}</Stat.ValueText>
                     <Stat.Label fontSize="lg">{stat.label}</Stat.Label>
                 </Stat.Root>
             </motion.div>

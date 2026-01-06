@@ -20,8 +20,10 @@ interface BuildData {
     name: string;
     email?: string;
     projectType: string;
+    pages?: number;
     status?: "pending" | "progress" | "complete" | "cancelled";
     createdAt?: {seconds: number; nanoseconds: number;};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
 
@@ -32,7 +34,7 @@ interface ContactData {
     subject: string;
     message: string;
     status: "unread" | "read";
-    createdAt: any;
+    createdAt?: {seconds: number; nanoseconds: number;};
 }
 
 interface BlogPost {
@@ -40,6 +42,7 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     date: number | any;
     slug: string;
 }
@@ -414,7 +417,7 @@ export default function AdminDashboard () {
                                                     {contact.status}
                                                 </Badge>
                                                 <Text fontSize="xs" color="gray.500">
-                                                    {contact.createdAt?.toDate ? contact.createdAt.toDate().toLocaleDateString() : 'Just now'}
+                                                    {contact.createdAt?.toString() ? contact.createdAt?.toString() : 'Just now'}
                                                 </Text>
                                             </HStack>
                                             <Heading size="sm" mb={1} color="white">{contact.name}</Heading>
@@ -543,12 +546,10 @@ export default function AdminDashboard () {
                                     />
                                     <Box position="relative">
                                         <Button
-                                            as="label"
-                                            htmlFor="blog-image"
                                             size="md"
                                             colorPalette="brandNavy"
-                                            cursor="pointer"
                                             loading={uploadingImage}
+                                            onClick={() => document.getElementById('blog-image')?.click()}
                                         >
                                             <FaUpload style={{marginRight: '8px'}} /> Upload
                                         </Button>

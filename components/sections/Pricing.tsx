@@ -77,7 +77,7 @@ export default function Pricing() {
       <Heading as="h2" size="2xl" textAlign="center" mb={10}>
         Pricing
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+      <SimpleGrid columns={{base: 1, md: 3}} gap={10}>
         {tiers.map((tier, i) => (
           <motion.div
             key={tier.id}
@@ -103,7 +103,7 @@ export default function Pricing() {
                 {tier.pages && <>/ {tier.pages} pages</>}
               </Text>
               <Text color="gray.400">{tier.description}</Text>
-              <List.Root spacing={2} my={6}>
+              <List.Root gap={2} my={6}>
                 {tier.bonus.map((item) => (
                   <List.Item key={item}>
                     <List.Icon as={FaCheckCircle} color="green.500" />

@@ -3,7 +3,11 @@
 import { Box, Button, Heading, VStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
+import {useRouter} from "next/navigation";
+
 export default function CoursePurchase() {
+  const router = useRouter();
+
   return (
     <Box py={20} bg="gray.800">
       <motion.div
@@ -12,7 +16,7 @@ export default function CoursePurchase() {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <VStack spacing={6} textAlign="center">
+        <VStack gap={6} textAlign="center">
           <Heading as="h2" size="2xl">
             Start Learning Today
           </Heading>
@@ -21,9 +25,8 @@ export default function CoursePurchase() {
             courses.
           </p>
           <Button
-            as="a"
-            href="/courses"
-            colorScheme="green"
+            onClick={() => router.push('/courses')}
+            colorPalette="brandGreen"
             size="lg"
             px={8}
             py={6}

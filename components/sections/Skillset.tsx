@@ -46,7 +46,7 @@ export default function Skillset() {
       <Heading as="h2" size="2xl" textAlign="center" mb={10}>
         My Skillset
       </Heading>
-      <SimpleGrid columns={{ base: 2, md: 5 }} spacing={10}>
+      <SimpleGrid columns={{base: 2, md: 5}} gap={10}>
         {skills.map((skill, i) => (
           <motion.div
             key={skill.name}

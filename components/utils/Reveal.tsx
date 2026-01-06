@@ -1,5 +1,7 @@
 "use client";
 
+
+/* eslint-disable react/no-unescaped-entities */
 import React, {useEffect, useRef} from "react";
 import {motion, useInView, useAnimation} from "framer-motion";
 import Section, {type SectionProp} from "./Section";
@@ -27,7 +29,7 @@ export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, gl
     }, [isInView, mainControls]);
 
     return (
-        <div ref={ref} style={{position: "relative", width, overflow: "visible", alignSelf: 'center'}}>
+        <div ref={ref} style={{position: "relative", width, overflow: "visible", alignSelf: "center"}}>
             <motion.div
                 variants={{
                     hidden: {opacity: 0, y: 30, filter: "blur(10px)"},
@@ -54,7 +56,9 @@ export const Reveal = ({children, width = "100%", delay = 0.25, glow = false, gl
             >
                 {
                     type === 'section' ?
-                        <Section direction={sectionProp?.direction} wrap={sectionProp?.wrap} bgColor={sectionProp?.bgColor} padding={sectionProp?.padding} py={sectionProp?.py} px={sectionProp?.px} children={sectionProp?.children || children}/>
+                        <Section direction={sectionProp?.direction} wrap={sectionProp?.wrap} bgColor={sectionProp?.bgColor} padding={sectionProp?.padding} py={sectionProp?.py} px={sectionProp?.px}>
+                            {sectionProp?.children || children}
+                        </Section>
                         :
                         <>
                             {children}

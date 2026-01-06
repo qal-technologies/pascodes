@@ -11,7 +11,7 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
-    date: unknown;
+    date: any;
     slug: string;
 }
 
@@ -89,7 +89,7 @@ export default function BlogSection () {
                                             <Text color="brandGreen.500" fontSize="xs" fontWeight="bold" mb={2}>
                                                 {post.date?.toDate ? post.date.toDate().toLocaleDateString() : 'Recent Post'}
                                             </Text>
-                                            <Heading size="md" color="white" mb={3} lineClamp={2} transition="color 0.3s" _groupHover={{color: "brandGreen.500"}}>
+                                            <Heading size="md" color="white" mb={3} transition="color 0.3s" _groupHover={{color: "brandGreen.500"}}>
                                                 {post.title}
                                             </Heading>
                                             <Text color="gray.400" fontSize="sm" lineClamp={3}>

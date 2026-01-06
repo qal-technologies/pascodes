@@ -216,10 +216,7 @@ function ContactItem ({icon, label, value, link}: {icon: React.ReactNode, label:
     if(link) {
         return (
             <Box
-                as="a"
-                href={link as any}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => window.open(link, '_blank')}
                 display="block"
                 transition="transform 0.2s ease"
                 _hover={{transform: "translateX(5px)", cursor: "pointer"}}

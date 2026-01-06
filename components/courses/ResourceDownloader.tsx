@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, List, ListItem, ListIcon } from "@chakra-ui/react";
+import {Box, Button, List, ListItem} from "@chakra-ui/react";
 import { FaDownload } from "react-icons/fa";
 
 interface Resource {
@@ -17,22 +17,20 @@ export default function ResourceDownloader({
 }: ResourceDownloaderProps) {
   return (
     <Box>
-      <List spacing={3}>
+      <List.Root gap="3">
         {resources.map((resource) => (
-          <ListItem key={resource.name}>
+          <List.Item key={resource.name}>
             <Button
-              as="a"
-              href={resource.url}
-              download
-              leftIcon={<FaDownload />}
               variant="outline"
               w="full"
+              onClick={() => window.open(resource.url, '_blank')}
             >
+              <FaDownload style={{marginRight: '8px'}} />
               {resource.name}
             </Button>
-          </ListItem>
+          </List.Item>
         ))}
-      </List>
+      </List.Root>
     </Box>
   );
 }
