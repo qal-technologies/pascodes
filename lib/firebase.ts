@@ -10,7 +10,7 @@ const firebaseConfig = {
   storageBucket: "pascodes-web.firebasestorage.app",
   messagingSenderId: "5630854707",
   appId: "1:5630854707:web:45a848df90e88e94634546",
-  measurementId: "G-7HLWTH0S59",
+  measurementId: "G-7HLWTH0S59"
 };
 
 // Initialize Firebase

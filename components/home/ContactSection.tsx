@@ -93,9 +93,8 @@ export default function ContactSection () {
                                 <ContactItem
                                     icon={<FaWhatsapp />}
                                     label="WhatsApp"
-                                    value={SITE_CONFIG.whatsappNumber}
+                                    value={`+${SITE_CONFIG.whatsappNumber}`}
                                     link={SITE_CONFIG.socials.whatsapp}
-
                                 />
                             </Reveal>
                             <Reveal delay={0.6}>

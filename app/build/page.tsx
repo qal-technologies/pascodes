@@ -93,7 +93,7 @@ function BuildPageContent () {
   );
 
   useEffect(() => {
-    document.title = "Build with AI | PasCodes";
+    document.title = "Build with AI | PasCodez";
 
     // Check search params for plan data
     const planType = searchParams.get("type");

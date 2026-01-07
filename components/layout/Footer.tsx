@@ -1,6 +1,6 @@
 "use client";
 
-import {Box, Container, SimpleGrid, HStack, Text, Heading, Link, Separator, Image, VStack} from "@chakra-ui/react";
+import {Box, Container, SimpleGrid, HStack, Text, Heading, Link, Separator, Image, VStack, Icon} from "@chakra-ui/react";
 import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
 import {FaMapMarkerAlt, FaPaperPlane} from "react-icons/fa";
@@ -24,14 +24,14 @@ export default function Footer () {
       gradientTo='brandGreen.900/90'
     >
       <Container maxW="container.xl">
-        <SimpleGrid columns={{base: 1, md: 2, lg: 4}} gap={10} mb={16}>
+        <SimpleGrid columns={{base: 1, md: 2, lg: 4}} gap={11} mb={16}>
           {/* Brand Section */}
           <VStack align="start" gap={8} mb={4}>
             <HStack gap={3}>
               <Box position="relative">
                 <Image src="/images/logo.png" alt="PasCodez" w="40px" borderRadius="12px" className="neon-glow-accent" />
               </Box>
-              <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodes_</Heading>
+              <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodez_</Heading>
             </HStack>
             <Text fontSize="md" lineHeight="tall">
               Building next-generation digital experiences. Specializing in high-performance web applications, specialized developer tools, and comprehensive coding education.
@@ -55,7 +55,7 @@ export default function Footer () {
 
           {/* Quick Links */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Quick Navigation</Heading>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Quick Navigation</Heading>
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/about">About Me</FooterLink>
             <FooterLink href="/services">Our Services</FooterLink>
@@ -65,7 +65,7 @@ export default function Footer () {
 
           {/* Services */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Core Services</Heading>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Core Services</Heading>
             <FooterLink href="/build?type=portfolio">Portfolio Design</FooterLink>
             <FooterLink href="/build?type=business" >Business Solutions</FooterLink>
             <FooterLink href="/build?type=e-commerce">E-Commerce Systems</FooterLink>
@@ -75,7 +75,7 @@ export default function Footer () {
 
           {/* Newsletter/Contact */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Stay Connected</Heading>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Stay Connected</Heading>
             <Text fontSize="sm">Got a project in mind? Let&apos;s talk about it.</Text>
             <Box w="full">
               <HStack
@@ -87,6 +87,7 @@ export default function Footer () {
                 borderColor="border"
                 transition="all 0.3s"
                 _focusWithin={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                _active={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
               >
                 <Box flex={1} px={4} color="foreground" fontSize="xs" fontWeight="bold" letterSpacing={1}>
                   {SITE_CONFIG.email}
@@ -105,12 +106,12 @@ export default function Footer () {
               </HStack>
             </Box>
             <VStack gap={2} align="start">
-              <Box flexDirection="row" direction={'row'} width={'100%'} alignItems="center" gap={1} mb={2}>
-                <FaMapMarkerAlt color="brandGreen.500" size={14} />
-                <Text fontSize="xs">Located</Text>
+              <Box flexDirection="row" direction={'row'} width={'full'} gap={1} mb={2.5}>
+                <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} />
+                <Text fontSize="xs" maxWidth={'fit-content'}>Located</Text>
               </Box>
 
-              <Text fontWeight="bolder" fontSize="sm"> Calabar, Nigeria</Text>
+              <Text fontWeight="bolder" fontSize="sm" mb={-1}> Calabar, Nigeria</Text>
               <Text fontWeight="bold" fontSize="xs"> (Remotely Available)</Text>
             </VStack>
           </VStack>

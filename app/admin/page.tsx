@@ -5,12 +5,15 @@ import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
 import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp} from "firebase/firestore";
 import {sendBuildStatusEmail} from "@/lib/email-service";
-import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload} from "react-icons/fa";
+import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload, FaGlobe} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
 import {signOut} from "firebase/auth";
 import {useRouter} from "next/navigation";
 import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import "@/styles/loading.css";
+import {toaster} from "@/components/ui/toaster";
+
 
 // Interface for Build Data
 interface BuildData {
@@ -61,7 +64,7 @@ export default function AdminDashboard () {
     const [uploadingImage, setUploadingImage] = useState(false);
 
     const router = useRouter();
-    
+
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if(!file) return;
@@ -161,23 +164,19 @@ export default function AdminDashboard () {
         }
     };
 
-    // In a real app, you'd put "Tabs" properly.
-    // Since Chakra v3 Tabs API might differ or require context, using visual tabs for simplicity or checking docs.
-    // Assuming standard composition.
-
     if(authLoading) {
         return (
             <Flex h="100vh" align="center" justify="center" bg="background">
                 <VStack gap={4}>
-                    <Box className="skeleton" w="40px" h="40px" borderRadius="full" />
-                    <Text color="gray.400">Verifying Session...</Text>
+                    <Box as={"div"} className="spinner" />
+
+                    <Text color="gray.400" mt={4}>Verifying Session...</Text>
                 </VStack>
             </Flex>
         );
     }
 
     if(!user && !authLoading) {
-        // Fallback redirect if useAuth one misses
         router.push("/admin/login");
         return null;
     }
@@ -185,22 +184,40 @@ export default function AdminDashboard () {
     return (
         <Box minH="100vh" bg="background" color="foreground" p={8}>
             <Container maxW="container.xl">
-                <Flex justify="space-between" align="center" mb={10}>
+                <Flex justify="space-between" align="center" mb={10} wrap={'wrap'} gap={3}>
                     <VStack align="start" gap={1}>
-                        <Heading color="brandGreen.500" size="2xl">
-                            Admin <Text as="span" color="foreground">Dashboard</Text>
+                        <Heading color="brandGreen.500" size="2xl" fontSize={{base: 20, md: 25}}>
+                            Admin <Text as="span" color="foreground" fontSize={{base: 20, md: 25}}>Dashboard</Text>
                         </Heading>
-                        <Text color="gray.500">Welcome back, {user?.email}</Text>
+                        <Text color="gray.500" fontSize={{base: 18, md: 20}}>Welcome back, {user?.email}</Text>
                     </VStack>
-                    <Button
-                        onClick={() => signOut(auth)}
-                        variant="ghost"
-                        color="red.400"
-                        _hover={{bg: "red.500/10"}}
-                        className="hover-lift"
-                    >
-                        <FaSignOutAlt style={{marginRight: '8px'}} /> Logout
-                    </Button>
+
+                    <HStack gap={2}>
+                        <Button
+                            onClick={() => signOut(auth)}
+                            variant="ghost"
+                            color="red.400"
+                            _hover={{bg: "red.500/10"}}
+                            className="hover-lift"
+                            aria-label="Log out"
+                        >
+                            <FaSignOutAlt style={{marginRight: '8px'}} />
+                        </Button>
+
+                        <Button
+                            onClick={() => {
+                                const base = window.location.origin;
+                                window.open(base as string);
+                            }}
+                            variant="ghost"
+                            color="blue.400"
+                            _hover={{bg: "blue.500/10"}}
+                            className="hover-lift"
+                            aria-label="View Website"
+                        >
+                            <FaGlobe style={{marginRight: '8px'}} />
+                        </Button>
+                    </HStack>
                 </Flex>
 
                 <Flex justify="space-between" align="center" mb={8}>
@@ -213,16 +230,17 @@ export default function AdminDashboard () {
                             borderRadius="full"
                             bg="gray.800"
                             border="none"
+                            style={{padding: 10}}
                         />
                         <Button borderRadius="full" colorPalette="brandGreen"><FaSearch /></Button>
                     </HStack>
                 </Flex>
 
                 <Tabs.Root defaultValue="builds">
-                    <Tabs.List mb={6}>
-                        <Tabs.Trigger value="builds">Builds</Tabs.Trigger>
-                        <Tabs.Trigger value="blogs">Blogs</Tabs.Trigger>
-                        <Tabs.Trigger value="contacts">Contacts</Tabs.Trigger>
+                    <Tabs.List mb={6} gap={4}>
+                        <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'}>Builds</Tabs.Trigger>
+                        <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'}>Blogs</Tabs.Trigger>
+                        <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'}>Contacts</Tabs.Trigger>
                     </Tabs.List>
 
                     <Tabs.Content value="builds">
@@ -533,12 +551,15 @@ export default function AdminDashboard () {
                                 value={newBlog.title}
                                 onChange={e => setNewBlog({...newBlog, title: e.target.value})}
                                 bg="black"
+                                style={{padding: 10, borderRadius: '12px'}}
+
                             />
                             <Input
                                 placeholder="Slug (e.g. future-of-web)"
                                 value={newBlog.slug}
                                 onChange={e => setNewBlog({...newBlog, slug: e.target.value})}
                                 bg="black"
+                                style={{padding: 10, borderRadius: '12px'}}
                             />
                             <Box w="full">
                                 <Text color="gray.400" mb={2} fontSize="sm">Blog Cover Image</Text>
@@ -549,6 +570,8 @@ export default function AdminDashboard () {
                                         onChange={e => setNewBlog({...newBlog, image: e.target.value})}
                                         bg="black"
                                         flex={1}
+                                        style={{padding: 10, borderRadius: '12px'}}
+
                                     />
                                     <Box position="relative">
                                         <Button
@@ -557,8 +580,9 @@ export default function AdminDashboard () {
                                             loading={uploadingImage}
                                             onClick={() => document.getElementById('blog-image')?.click()}
                                         >
-                                            <FaUpload style={{marginRight: '8px'}} /> Upload
+                                            <FaUpload style={{marginRight: '8px'}} />
                                         </Button>
+
                                         <input
                                             type="file"
                                             id="blog-image"
@@ -575,6 +599,8 @@ export default function AdminDashboard () {
                                 onChange={e => setNewBlog({...newBlog, excerpt: e.target.value})}
                                 bg="black"
                                 rows={4}
+                                style={{padding: 10, borderRadius: '12px'}}
+
                             />
                             <HStack w="full" gap={4} pt={4}>
                                 <Button flex={1} variant="outline" onClick={() => setIsBlogModalOpen(false)}>Cancel</Button>
@@ -582,12 +608,25 @@ export default function AdminDashboard () {
                                     flex={1}
                                     colorPalette="brandGreen"
                                     onClick={async () => {
-                                        await addDoc(collection(db, "blogs"), {
-                                            ...newBlog,
-                                            date: serverTimestamp()
-                                        });
-                                        setIsBlogModalOpen(false);
-                                        setNewBlog({title: "", excerpt: "", slug: "", image: ""});
+                                        try {
+                                            await addDoc(collection(db, "blogs"), {
+                                                ...newBlog,
+                                                date: serverTimestamp()
+                                            });
+                                            setIsBlogModalOpen(false);
+                                            setNewBlog({title: "", excerpt: "", slug: "", image: ""});
+                                            toaster.create({
+                                                title: 'Blog Post',
+                                                type: 'success',
+                                                description: `You just created a blog post!`
+                                            });
+                                        } catch(err) {
+                                            toaster.create({
+                                                title: 'Blog Post Error',
+                                                type: 'error',
+                                                description: `You encountered an error while uploading - ${err ? `- ${err}` : ""}`
+                                            });
+                                        }
                                     }}
                                 >Create Post</Button>
                             </HStack>

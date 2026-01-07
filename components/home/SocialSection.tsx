@@ -12,16 +12,13 @@ const socialPlatforms = [
     {name: "Twitter", icon: FaTwitter, url: SITE_CONFIG.socials.twitter, color: "#1DA1F2"},
     {name: "Instagram", icon: FaInstagram, url: SITE_CONFIG.socials.instagram, color: "#E4405F"},
     {name: "WhatsApp", icon: FaWhatsapp, url: SITE_CONFIG.socials.whatsapp, color: "#25D366"},
-    {name: "Facebook", icon: FaFacebook, url: SITE_CONFIG.socials.facebook, color: "#1877F2"},
-    {name: "StackOverflow", icon: FaStackOverflow, url: SITE_CONFIG.socials.stackoverflow, color: "#F48024"},
-    {name: "Reddit", icon: FaReddit, url: SITE_CONFIG.socials.reddit, color: "#FF4500"},
 ];
 
 export default function SocialSection () {
     return (
         <Box
             py={{base: 20, md: 40}}
-            px={{base: 6, md: 12}}
+            px={{base: 5, md: 12}}
             style={{backdropFilter: 'blur(10px) brightness(50%)'}}
             textAlign="center"
         >

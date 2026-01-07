@@ -6,7 +6,7 @@ import {
   Link,
   type SystemStyleObject,
 } from "@chakra-ui/react";
-import { LuFacebook, LuGlobe } from "react-icons/lu";
+import {LuFacebook, LuGlobe} from "react-icons/lu";
 
 import {
   FaWhatsapp,
@@ -17,26 +17,30 @@ import {
   FaInstagram,
   FaPhone,
   FaEnvelope,
+  FaReddit,
+  FaStackOverflow,
 } from "react-icons/fa";
-import type { ElementType } from "react";
-import { AiOutlineX } from "react-icons/ai";
+import type {ElementType} from "react";
+import {AiOutlineX} from "react-icons/ai";
 
 type ChakraColor = SystemStyleObject["color"];
 type ChakraFontSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 interface SocialsProps {
   socialsName:
-    | string
-    | "facebook"
-    | "github"
-    | "whatsapp"
-    | "phone"
-    | "email"
-    | "website"
-    | "instagram"
-    | "youtube"
-    | "linkedin"
-    | "twitter"
-    | "pintrest";
+  | string
+  | "facebook"
+  | "github"
+  | "whatsapp"
+  | "phone"
+  | "email"
+  | "website"
+  | "instagram"
+  | "youtube"
+  | "linkedin"
+  | "twitter"
+  | "pintrest"
+  | 'stackoverflow'
+  | 'reddit';
   title?: {
     status: boolean;
     titleName?: string;
@@ -54,7 +58,7 @@ interface SocialsProps {
   size?: "sm" | "md" | "lg";
 }
 
-export default function SocialButton({
+export default function SocialButton ({
   socialsName,
   title,
   themeColor,
@@ -84,6 +88,8 @@ export default function SocialButton({
     email: FaEnvelope,
     website: LuGlobe,
     pintrest: FaPinterest,
+    reddit: FaReddit,
+    stackoverflow: FaStackOverflow,
   };
 
   const IconComponent = iconMap[socialsName];
@@ -94,9 +100,9 @@ export default function SocialButton({
   let buttonTitle =
     title?.status && title.titleName ?
       title.titleName.charAt(0).toUpperCase() + title.titleName.slice(1)
-    : socialsName.charAt(0).toUpperCase() + socialsName.slice(1);
+      : socialsName.charAt(0).toUpperCase() + socialsName.slice(1);
 
-  if (allCaps) buttonTitle = buttonTitle.toUpperCase();
+  if(allCaps) buttonTitle = buttonTitle.toUpperCase();
 
   //
   // APPEARANCE LOGIC
@@ -110,24 +116,24 @@ export default function SocialButton({
 
   const finalBorderColor = themeColor;
 
-const shadowColor =
-  glow ?
-    glowColor ||
-    (isBorderBtn ? finalBorderColor : finalBackground || finalTextColor)
-  : "transparent";
+  const shadowColor =
+    glow ?
+      glowColor ||
+      (isBorderBtn ? finalBorderColor : finalBackground || finalTextColor)
+      : "transparent";
 
-const glowShadow = `0px 0px 12px ${shadowColor}`;
+  const glowShadow = `0px 0px 12px ${shadowColor}`;
 
   //
   // SIZE LOGIC
   //
   const sizeMap: Record<
     "sm" | "md" | "lg",
-    { px: number; py: number; font: ChakraFontSize; icon: number }
+    {px: number; py: number; font: ChakraFontSize; icon: number;}
   > = {
-    sm: { px: 4, py: 2, font: "sm", icon: 14 },
-    md: { px: 5, py: 3, font: "md", icon: 16 },
-    lg: { px: 6, py: 3.5, font: "lg", icon: 20 },
+    sm: {px: 4, py: 2, font: "sm", icon: 14},
+    md: {px: 5, py: 3, font: "md", icon: 16},
+    lg: {px: 6, py: 3.5, font: "lg", icon: 20},
   };
 
   const currentSize = sizeMap[size];
@@ -147,7 +153,7 @@ const glowShadow = `0px 0px 12px ${shadowColor}`;
   return (
     <Link
       href={mainLink}
-      _hover={{ textDecoration: "none" }}
+      _hover={{textDecoration: "none"}}
       border="none"
       outline="none"
       target="_blank"
@@ -176,7 +182,7 @@ const glowShadow = `0px 0px 12px ${shadowColor}`;
               backgroundColor: themeColor,
               color: textColor || "black",
             }
-          : {
+            : {
               backgroundColor: "transparent",
               borderColor: finalBorderColor,
               color: finalBorderColor,

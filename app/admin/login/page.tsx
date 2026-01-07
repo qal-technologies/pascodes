@@ -2,12 +2,12 @@
 
 import {Box, Button, Container, Heading, Input, VStack, Text, Field} from "@chakra-ui/react";
 import {useState} from "react";
-import {signInWithEmailAndPassword} from "firebase/auth";
+import {signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 import {auth} from "@/lib/firebase";
 import {useRouter} from "next/navigation";
 import {toaster} from "@/components/ui/toaster";
 import {Reveal} from "@/components/utils/Reveal";
-import {FaLock} from "react-icons/fa";
+import {FaGoogle, FaLock} from "react-icons/fa";
 
 export default function AdminLoginPage () {
     const [email, setEmail] = useState("");
@@ -32,6 +32,30 @@ export default function AdminLoginPage () {
             toaster.create({
                 title: "Login Failed",
                 description: errorMessage,
+                type: "error"
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogle = async () => {
+        setLoading(true);
+
+        try {
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
+            toaster.create({
+                title: "Welcome back!",
+                description: "Successfully logged into Admin Dashboard via Google.",
+                type: "success"
+            });
+            router.replace("/admin");
+        } catch(error: any) {
+            console.error("Google Login error:", error);
+            toaster.create({
+                title: "Login Failed",
+                description: error.message || "Failed to sign in with Google.",
                 type: "error"
             });
         } finally {
@@ -106,34 +130,13 @@ export default function AdminLoginPage () {
                                     size="lg"
                                     w="full"
                                     className="hover-lift"
-                                    onClick={async () => {
-                                        setLoading(true);
-                                        try {
-                                            const {GoogleAuthProvider, signInWithPopup} = await import("firebase/auth");
-                                            const provider = new GoogleAuthProvider();
-                                            await signInWithPopup(auth, provider);
-                                            toaster.create({
-                                                title: "Welcome back!",
-                                                description: "Successfully logged into Admin Dashboard via Google.",
-                                                type: "success"
-                                            });
-                                            router.push("/admin");
-                                        } catch(error: any) {
-                                            console.error("Google Login error:", error);
-                                            toaster.create({
-                                                title: "Login Failed",
-                                                description: error.message || "Failed to sign in with Google.",
-                                                type: "error"
-                                            });
-                                        } finally {
-                                            setLoading(false);
-                                        }
-                                    }}
+                                    onClick={handleGoogle}
+                                    style={{padding: 10, borderRadius: '18px'}}
                                 >
-                                    <Box as="span" mr={2} fontWeight="bold" color="blue.500">G</Box> Sign in with Google
+                                    <Box as="span" mr={2}><FaGoogle size={16} color="blue"/></Box> Sign in with Google
                                 </Button>
 
-                                <Box position="relative" w="full" py={2}>
+                                <Box position="relative" w="full" py={3}>
                                     <Text fontSize="sm" color="gray.500" bg="background" px={2} position="relative" zIndex={1}>
                                         Or continue with email
                                     </Text>
@@ -152,6 +155,8 @@ export default function AdminLoginPage () {
                                         size="lg"
                                         required
                                         _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        style={{padding: 10, borderRadius: '12px'}}
+
                                     />
                                 </Field.Root>
                                 <Field.Root>
@@ -166,6 +171,8 @@ export default function AdminLoginPage () {
                                         size="lg"
                                         required
                                         _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        style={{padding: 10, borderRadius: '12px'}}
+
                                     />
                                 </Field.Root>
 
@@ -179,6 +186,7 @@ export default function AdminLoginPage () {
                                     loading={loading}
                                     className="hover-lift neon-glow-accent"
                                     mt={2}
+                                    style={{borderRadius: '18px'}}
                                 >
                                     Login to Dashboard
                                 </Button>

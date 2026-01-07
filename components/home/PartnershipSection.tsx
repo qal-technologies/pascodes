@@ -157,10 +157,10 @@ export default function PartnershipSection () {
                         </IconButton>
 
 
-                        <Heading size="lg" color="white" mb={1} textAlign="center" fontFamily={'PoppinsSemi'}>
+                        <Heading size="lg" fontSize={20} color="white" mb={1} textAlign="center" fontWeight={'bolder'} fontFamily={'PoppinsSemi'}>
                             {contactType === "partnership" ? "Partnership" : "Collaboration"}
                         </Heading>
-                        <Text color="gray.400" textAlign="center" mb={6}>
+                        <Text color="gray.400" textAlign="center" fontSize={16} mb={6}>
                             Choose your preferred way to connect
                         </Text>
 

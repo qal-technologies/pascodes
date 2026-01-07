@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
         twitter: "https://twitter.com/PasQal_Ng",
         whatsapp: 'https://wa.me/2349016561308',
         instagram: "https://instagram.com/pasqal.dev",
-        email: 'mailto:pasqal.dev@gmail.com',
+        email: 'mailto:pascodes.dev@gmail.com',
         facebook: "https://facebook.com/pasqal.dev",
         stackoverflow: "https://stackoverflow.com/users/pasqal-dev",
         reddit: "https://reddit.com/user/pasqal-dev"

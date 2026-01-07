@@ -23,7 +23,7 @@ export default function AboutPage () {
                   <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase" mb={1}>
                     The Story Behind
                   </Text>
-                  <Heading size="3xl" fontFamily="PoppinsBold"  fontSize={25}>
+                  <Heading size="3xl" fontFamily="PoppinsBold" fontSize={25}>
                     Paschal Ngaoka
                   </Heading>
                 </Box>
@@ -70,24 +70,24 @@ export default function AboutPage () {
 
             {/* What's Going On Section */}
             <Box id="whats-going-on">
-              <Heading size="xl" mb={8} fontFamily="PoppinsSemi" color="brandGreen.500">
+              <Heading size="xl" mb={8} fontFamily="PoppinsSemi" fontSize={{base: 20, md: 25}} color="brandGreen.500">
                 What&apos;s Going On?
               </Heading>
               <SimpleGrid columns={{base: 1, md: 3}} gap={8}>
                 <NewsCard
-                  icon={<FaRocket />}
+                  icon={<FaRocket size={18}/>}
                   title="New Platform Launch"
                   date="Jan 2026"
                   description="Currently finalizing the PasCodes v2 portal with automated price estimation and developer toolkits."
                 />
                 <NewsCard
-                  icon={<FaCode />}
+                  icon={<FaCode size={18} />}
                   title="Advanced React Course"
                   date="Coming Soon"
                   description="Recording a comprehensive series on Next.js 15 and Chakra UI v3 for the upcoming course release."
                 />
                 <NewsCard
-                  icon={<FaLightbulb />}
+                  icon={<FaLightbulb size={18} />}
                   title="Open Source Projects"
                   date="Ongoing"
                   description="Exploring AI integration for workflow automation and contributing to modern web ecosystems."

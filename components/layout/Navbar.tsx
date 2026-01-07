@@ -10,16 +10,17 @@ import {
   Stack,
 } from "@chakra-ui/react";
 // import { useColorMode } from "@chakra-ui/system";
-import { LuMenu, LuX } from "react-icons/lu";
-import {} from "react-icons/ai";
-import { useEffect, useState } from "react";
-import { useScroll } from "@/hooks/useScroll";
+import {LuMenu, LuX} from "react-icons/lu";
+import { } from "react-icons/ai";
+import {useEffect, useState} from "react";
+import {useScroll} from "@/hooks/useScroll";
 import HeaderButton from "../buttons/HeaderButton";
-import { usePathname } from "next/navigation";
-import { useScreen } from "@/hooks/useScreenSize";
+import {usePathname} from "next/navigation";
+import {useScreen} from "@/hooks/useScreenSize";
 import SocialButton from "../buttons/SocialsButton";
+import {SITE_CONFIG} from "@/lib/site-config";
 
-export default function Navbar() {
+export default function Navbar () {
   // const { colorMode, toggleColorMode } = useColorMode();
   const pathname = usePathname();
   const [open, isOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (size.width > 1024) isOpen(false);
+      if(size.width > 1024) isOpen(false);
     }, 50);
 
     return () => clearTimeout(timeout);
@@ -40,21 +41,18 @@ export default function Navbar() {
   };
 
   const routes = [
-    { title: "Home", link: "/" },
-    { title: "Services", link: "/services" },
-    { title: "courses", link: "/courses" },
-    { title: "Blog", link: "/blog" },
-    { title: "contact", link: "/about" },
+    {title: "Home", link: "/"},
+    {title: "Services", link: "/services"},
+    {title: "courses", link: "/courses"},
+    {title: "Blog", link: "/blog"},
+    {title: "contact", link: "/about"},
   ];
 
   const socials = [
-    { name: "github", link: "https://www.github.com/pasqal-dev" },
-    { name: "youtube", link: "https://www.youtube.com/@pasCodes" },
-    {
-      name: "linkedin",
-      link: "https://www.linkedin.com/in/paschal-ngaoka-693859280",
-    },
-    { name: "email", link: "pascodes.dev@gmail.com", type: "email" },
+    {name: "github", link: SITE_CONFIG.socials.github},
+    {name: "youtube", link: SITE_CONFIG.socials.youtube},
+    {name: "linkedin", link: SITE_CONFIG.socials.linkedin},
+    {name: "email", link: SITE_CONFIG.socials.email, type: "email"},
   ];
 
   return (
@@ -63,7 +61,7 @@ export default function Navbar() {
       p={4}
       minW={"100%"}
       maxH={open ? '100vh' : '100px'}
-      paddingInline={{ lgDown: 6, lgTo2xl: 8, "2xl": 8 }}
+      paddingInline={{lgDown: 6, lgTo2xl: 8, "2xl": 8}}
       position={"fixed"}
       marginBottom={10}
       paddingTop={isScrolled ? 8 : 10}
@@ -101,7 +99,7 @@ export default function Navbar() {
               fontFamily={"PoppinsLight"}
               color={"brandGreen.500"}
             >
-              pascodes_
+              pascodez_
             </Text>
           </Flex>
         </Link>
@@ -151,7 +149,7 @@ export default function Navbar() {
             >
               {open ?
                 <LuX color="red" className="animate-pulse duration-100" />
-              : <LuMenu fontSize={30} />}
+                : <LuMenu fontSize={30} />}
             </IconButton>
           </Flex>
         </Stack>
@@ -179,9 +177,9 @@ export default function Navbar() {
 
       <Stack hideFrom={"lg"}>
         <Flex
-          align={{ mdDown: "flex-start", mdTo2xl: "center" }}
-          direction={{ mdDown: "column", mdTo2xl: "row" }}
-          justify={{ mdDown: "space-between", mdToXl: "space-around" }}
+          align={{mdDown: "flex-start", mdTo2xl: "center"}}
+          direction={{mdDown: "column", mdTo2xl: "row"}}
+          justify={{mdDown: "space-between", mdToXl: "space-around"}}
           gap={2}
           marginTop={"20px"}
         >

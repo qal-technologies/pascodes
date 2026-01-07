@@ -87,26 +87,26 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "PasCodes - All About Tech",
+    title: "PasCodez - All About Tech",
     description:
-      "PasCodes - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
+      "PasCodez - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
     url: `${homeUrl}`,
-    siteName: "PasCodes",
+    siteName: "PasCodez",
     images: [
       {
         url: `${imageUrl}`,
         width: 1200,
         height: 630,
-        alt: "PasCodes Image Preview",
+        alt: "PasCodez Image Preview",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PasCodes - All About Tech",
+    title: "PasCodez - All About Tech",
     description:
-      "PasCodes - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
+      "PasCodez - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
     creator: "@pasqal.dev",
     images: [`${imageUrl}`],
   },
