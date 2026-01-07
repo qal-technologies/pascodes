@@ -1,8 +1,32 @@
-import {Box, Button, Container, Heading, SimpleGrid, Text, VStack} from "@chakra-ui/react";
-import {FaHandshake, FaProjectDiagram} from "react-icons/fa";
+import {Box, Button, Container, Heading, SimpleGrid, Text, VStack, HStack, IconButton} from "@chakra-ui/react";
+import {FaHandshake, FaProjectDiagram, FaWhatsapp, FaEnvelope, FaTimes} from "react-icons/fa";
 import {Reveal} from "../utils/Reveal";
+import {useState} from "react";
+import {SITE_CONFIG} from "@/lib/site-config";
 
 export default function PartnershipSection () {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [contactType, setContactType] = useState<"partnership" | "collaboration">("partnership");
+
+    const handleOpenModal = (type: "partnership" | "collaboration") => {
+        setContactType(type);
+        setIsModalOpen(true);
+    };
+
+    const handleContact = (method: "email" | "whatsapp") => {
+        const subject = contactType === "partnership" ? "Partnership Inquiry" : "Collaboration Request";
+        const body = contactType === "partnership"
+            ? "Hi PasCodez, I represent [Company/Agency] and we are interested in a partnership..."
+            : "Hi PasCodez, I am a developer/creator and I would like to collaborate on...";
+
+        if(method === "email") {
+            window.open(`mailto:${SITE_CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+        } else {
+            window.open(`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(body)}`);
+        }
+        setIsModalOpen(false);
+    };
+
     return (
         <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" >
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
@@ -39,6 +63,7 @@ export default function PartnershipSection () {
                                 borderRadius='12px'
                                 fontFamily="PoppinsSemi"
                                 maxW={'100%'}
+                                onClick={() => handleOpenModal("partnership")}
                             >
                                 Let&apos;s Partner Up &rarr;
                             </Button>
@@ -77,6 +102,7 @@ export default function PartnershipSection () {
                                 borderRadius='12px'
                                 fontFamily="PoppinsSemi"
                                 maxW={'100%'}
+                                onClick={() => handleOpenModal("collaboration")}
                             >
                                 Let&apos;s Collab &rarr;
                             </Button>
@@ -84,6 +110,73 @@ export default function PartnershipSection () {
                     </Reveal>
                 </SimpleGrid>
             </Container>
+
+            {/* Modal Overlay */}
+            {isModalOpen && (
+                <Box
+                    position="fixed"
+                    inset={0}
+                    bg="blackAlpha.800"
+                    backdropFilter="blur(10px)"
+                    zIndex={1000}
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    p={6}
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <Box
+                        bg="gray.900"
+                        p={8}
+                        borderRadius="2xl"
+                        maxW="400px"
+                        w="full"
+                        onClick={(e) => e.stopPropagation()}
+                        border="1px solid"
+                        borderColor="whiteAlpha.200"
+                        position="relative"
+                        className="neon-glow-accent"
+                    >
+                        <IconButton
+                            onClick={() => setIsModalOpen(false)}
+                            aria-label="Close modal"
+                            size="sm"
+                            variant="ghost"
+                            position="absolute"
+                            top={4}
+                            right={4}
+                            color="gray.400"
+                        >
+                            <FaTimes />
+                        </IconButton>
+                        <Heading size="lg" color="white" mb={2} textAlign="center">
+                            {contactType === "partnership" ? "Partnership" : "Collaboration"}
+                        </Heading>
+                        <Text color="gray.400" textAlign="center" mb={6}>
+                            Choose your preferred way to connect
+                        </Text>
+
+                        <VStack gap={4} width="100%">
+                            <Button
+                                width="100%"
+                                size="lg"
+                                colorPalette="green"
+                                onClick={() => handleContact("whatsapp")}
+                            >
+                                <FaWhatsapp style={{marginRight: '8px'}} /> WhatsApp
+                            </Button>
+                            <Button
+                                width="100%"
+                                size="lg"
+                                variant="outline"
+                                onClick={() => handleContact("email")}
+                            >
+                                <FaEnvelope style={{marginRight: '8px'}} /> Email
+                            </Button>
+                        </VStack>
+                    </Box>
+                </Box>
+            )}
         </Box>
     );
 };

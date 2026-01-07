@@ -206,7 +206,7 @@ function BuildPageContent () {
     { title: "Services", link: "/services" },
     { title: "courses", link: "/courses" },
     { title: "Blog", link: "/blog" },
-    { title: "contact", link: "/contact" },
+    { title: "contact", link: "/about" },
   ];
 
   const buttonCheck =
@@ -240,7 +240,7 @@ function BuildPageContent () {
         />
 
         <Text
-          fontSize="2xl"
+          fontSize={{base: "xl", md:'2xl'}}
           fontWeight="bold"
           fontFamily={"PoppinsSemi"}
           letterSpacing={"1px"}

@@ -25,11 +25,11 @@ const homeUrl = `${origin}/`;
 
 export const metadata: Metadata = {
   title: {
-    default: "PasCodes - All About Tech",
-    template: "%s | PasCodes",
+    default: "PasCodez - All About Tech",
+    template: "%s | PasCodez",
   },
   description:
-    "PasCodes by Paschal Ngaoka — Full-Stack Developer, UI/UX Designer & Software Engineer. I build fast, modern web and mobile apps using React, Next.js, and Firebase — with clean UI, optimized performance, and real-world scalability. Explore my portfolio, read insightful tech blogs, or learn through my free and premium coding courses. Ready to build your next idea? Let’s turn it into reality.",
+    "PasCodez by Paschal Ngaoka — Full-Stack Developer, UI/UX Designer & Software Engineer. I build fast, modern web and mobile apps using React, Next.js, and Firebase — with clean UI, optimized performance, and real-world scalability. Explore my portfolio, read insightful tech blogs, or learn through my free and premium coding courses. Ready to build your next idea? Let’s turn it into reality.",
   keywords: [
     "coding courses",
     "React",
@@ -43,6 +43,8 @@ export const metadata: Metadata = {
     "PasQalNg",
     "pascodes",
     "pasCodes",
+    "pascodez",
+    "PasCodez",
     "web developer",
     "mobile app developer",
     "web development",

@@ -98,6 +98,48 @@ export default function AdminLoginPage () {
                             </Box>
 
                             <VStack as="form" onSubmit={handleLogin} gap={5} w="full">
+                                <Button
+                                    type="button"
+                                    colorPalette="blue"
+                                    bg="white"
+                                    color="gray.800"
+                                    size="lg"
+                                    w="full"
+                                    className="hover-lift"
+                                    onClick={async () => {
+                                        setLoading(true);
+                                        try {
+                                            const {GoogleAuthProvider, signInWithPopup} = await import("firebase/auth");
+                                            const provider = new GoogleAuthProvider();
+                                            await signInWithPopup(auth, provider);
+                                            toaster.create({
+                                                title: "Welcome back!",
+                                                description: "Successfully logged into Admin Dashboard via Google.",
+                                                type: "success"
+                                            });
+                                            router.push("/admin");
+                                        } catch(error: any) {
+                                            console.error("Google Login error:", error);
+                                            toaster.create({
+                                                title: "Login Failed",
+                                                description: error.message || "Failed to sign in with Google.",
+                                                type: "error"
+                                            });
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    }}
+                                >
+                                    <Box as="span" mr={2} fontWeight="bold" color="blue.500">G</Box> Sign in with Google
+                                </Button>
+
+                                <Box position="relative" w="full" py={2}>
+                                    <Text fontSize="sm" color="gray.500" bg="background" px={2} position="relative" zIndex={1}>
+                                        Or continue with email
+                                    </Text>
+                                    <Box position="absolute" top="50%" left={0} w="full" h="1px" bg="whiteAlpha.200" />
+                                </Box>
+
                                 <Field.Root>
                                     <Input
                                         placeholder="Email Address"
@@ -136,7 +178,7 @@ export default function AdminLoginPage () {
                                     w="full"
                                     loading={loading}
                                     className="hover-lift neon-glow-accent"
-                                    mt={4}
+                                    mt={2}
                                 >
                                     Login to Dashboard
                                 </Button>

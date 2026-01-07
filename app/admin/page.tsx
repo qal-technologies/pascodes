@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
@@ -9,6 +8,7 @@ import {sendBuildStatusEmail} from "@/lib/email-service";
 import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
 import {signOut} from "firebase/auth";
+import {useRouter} from "next/navigation";
 import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
@@ -60,6 +60,8 @@ export default function AdminDashboard () {
     const [newBlog, setNewBlog] = useState({title: "", excerpt: "", slug: "", image: ""});
     const [uploadingImage, setUploadingImage] = useState(false);
 
+    const router = useRouter();
+    
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if(!file) return;
@@ -174,7 +176,11 @@ export default function AdminDashboard () {
         );
     }
 
-    if(!user) return null;
+    if(!user && !authLoading) {
+        // Fallback redirect if useAuth one misses
+        router.push("/admin/login");
+        return null;
+    }
 
     return (
         <Box minH="100vh" bg="background" color="foreground" p={8}>
@@ -184,7 +190,7 @@ export default function AdminDashboard () {
                         <Heading color="brandGreen.500" size="2xl">
                             Admin <Text as="span" color="foreground">Dashboard</Text>
                         </Heading>
-                        <Text color="gray.500">Welcome back, {user.email}</Text>
+                        <Text color="gray.500">Welcome back, {user?.email}</Text>
                     </VStack>
                     <Button
                         onClick={() => signOut(auth)}

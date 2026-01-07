@@ -30,7 +30,8 @@ export default function AboutPage () {
                 <Text fontSize="lg" color="gray.400" lineHeight="tall">
                   I&apos;m a Full-Stack Developer and UI/UX Designer dedicated to building high-performance, aesthetically pleasing digital solutions. My mission is to simplify complex problems through clean code and intuitive design.
                 </Text>
-                <HStack gap={4} wrap={'wrap'}>
+                <HStack gap={4} wrap={'wrap'} mt={2}>
+                  <Text minW={'100%'} fontSize="md" color="whiteAlpha.800" fontWeight="bold" textTransform="uppercase" letterSpacing="wider" >Let&apos;s connect</Text>
                   {Object.entries(SITE_CONFIG.socials).map(([name, link]) => (
                     <SocialButton
                       key={name}
@@ -56,6 +57,7 @@ export default function AboutPage () {
                   src="/images/logo.png"
                   alt="Pasqal"
                   borderRadius="2xl"
+                  width="90%"
                   maxW="400px"
                   mx="auto"
                   position="relative"

@@ -26,10 +26,10 @@ export default function Footer () {
       <Container maxW="container.xl">
         <SimpleGrid columns={{base: 1, md: 2, lg: 4}} gap={10} mb={16}>
           {/* Brand Section */}
-          <VStack align="start" gap={8}>
+          <VStack align="start" gap={8} mb={4}>
             <HStack gap={3}>
               <Box position="relative">
-                <Image src="/images/logo.png" alt="PasCodes" w="40px" borderRadius="12px" className="neon-glow-accent" />
+                <Image src="/images/logo.png" alt="PasCodez" w="40px" borderRadius="12px" className="neon-glow-accent" />
               </Box>
               <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodes_</Heading>
             </HStack>
@@ -105,12 +105,12 @@ export default function Footer () {
               </HStack>
             </Box>
             <VStack gap={2} align="start">
-              <Box flexDirection="row" alignItems="center" gap={1} mb={2}>
-                <FaMapMarkerAlt />
+              <Box flexDirection="row" direction={'row'} width={'100%'} alignItems="center" gap={1} mb={2}>
+                <FaMapMarkerAlt color="brandGreen.500" size={14} />
                 <Text fontSize="xs">Located</Text>
               </Box>
 
-              <Text fontWeight="bolder" fontSize="xs"> Calabar, Nigeria</Text>
+              <Text fontWeight="bolder" fontSize="sm"> Calabar, Nigeria</Text>
               <Text fontWeight="bold" fontSize="xs"> (Remotely Available)</Text>
             </VStack>
           </VStack>
@@ -120,7 +120,7 @@ export default function Footer () {
 
         <HStack justify="space-between" wrap="wrap" gap={4}>
           <Text fontSize="sm">
-            &copy; {currentYear} PasCodes.
+            &copy; {currentYear} PasCodez.
           </Text>
           <HStack gap={6}>
             <FooterLink href="/privacy" fontSize="xs">Privacy Policy</FooterLink>

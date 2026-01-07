@@ -5,7 +5,7 @@ const testimonials = [
     {
         name: "Alex Johnson",
         role: "CEO, TechWave",
-        content: "PasCodes delivered our platform ahead of schedule. The code quality and attention to detail were exceptional.",
+        content: "PasCodez delivered our platform ahead of schedule. The code quality and attention to detail were exceptional.",
     },
     {
         name: "Sarah Martinez",
@@ -15,12 +15,12 @@ const testimonials = [
     {
         name: "Michael Chen",
         role: "CTO, DataFlow Systems",
-        content: "Working with PasCodes on our data analytics dashboard was seamless. Expert-level React and cloud integration.",
+        content: "Working with PasCodez on our data analytics dashboard was seamless. Expert-level React and cloud integration.",
     },
     {
         name: "Emily Rodriguez",
         role: "Product Manager, StartupHub",
-        content: "From web to mobile, PasCodes handled our cross-platform needs perfectly. Great communication throughout.",
+        content: "From web to mobile, PasCodez handled our cross-platform needs perfectly. Great communication throughout.",
     },
     {
         name: "David Park",
@@ -30,7 +30,7 @@ const testimonials = [
     {
         name: "Lisa Thompson",
         role: "Director, SecureOps",
-        content: "Security-first approach impressed us. PasCodes helped us build a compliant, robust cybersecurity platform.",
+        content: "Security-first approach impressed us. PasCodez helped us build a compliant, robust cybersecurity platform.",
     },
 ];
 

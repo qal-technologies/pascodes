@@ -10,7 +10,7 @@ import {
   useDisclosure,
   Span,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import {motion, useInView} from "framer-motion";
 import { BiDollarCircle, BiTrendingUp } from "react-icons/bi";
 import {
   LuLayoutDashboard,
@@ -57,13 +57,17 @@ export default function Banner() {
   ];
   const [mainService, setService] = React.useState(services[0]);
 
+  const ref = React.useRef(null);
+  const isInView = useInView(ref);
+
   React.useEffect(() => {
+    if(!isInView) return;
     const interval = setInterval(() => {
       const random = Math.floor(Math.random() * services.length);
       setService(services[random]);
     }, 5000);
     return () => clearInterval(interval);
-  }, [services]);
+  }, [services, isInView]);
 
   return (
     <Flex
@@ -79,6 +83,7 @@ export default function Banner() {
       gap={"10%"}
       userSelect="none"
       className="transition-all"
+      ref={ref}
     >
       <Box
         width="60vw"

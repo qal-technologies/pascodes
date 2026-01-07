@@ -90,7 +90,7 @@ export default function Navbar() {
               justifyContent={"center"}
             >
               <Image
-                alt="PasCodes Image"
+                alt="PasCodez Image"
                 src={"/images/logo.png"}
                 w={"50px"}
                 h={"50px"}

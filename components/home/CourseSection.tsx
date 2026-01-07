@@ -30,7 +30,7 @@ export default function CourseSection () {
                         fontWeight="bold"
                         fontSize={{base: "3xl", md: "4xl"}}
                     >
-                        Learn with <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "4xl"}}>PasCodes</Text>
+                        Learn with <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "4xl"}}>PasCodez</Text>
                     </Heading>
                     {/* <Text>Add </Text> */}
                 </Box>
