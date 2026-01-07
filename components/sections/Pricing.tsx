@@ -106,7 +106,7 @@ export default function Pricing() {
               <List.Root gap={2} my={6}>
                 {tier.bonus.map((item) => (
                   <List.Item key={item}>
-                    <List.Icon as={FaCheckCircle} color="green.500" />
+                    <FaCheckCircle color="brandGreen" />
                     {item}
                   </List.Item>
                 ))}
@@ -117,13 +117,13 @@ export default function Pricing() {
                   defaultValue={[4]}
                   min={4}
                   max={100}
-                  onValueChange={(value) => handleSliderChange(value[0], tier.id)}
+                  onValueChange={(value: number | any) => handleSliderChange(value, tier.id)}
                 >
                   <Slider.Control>
                     <Slider.Track>
                       <Slider.Range />
                     </Slider.Track>
-                    <Slider.Thumb />
+                    <Slider.Thumb index={0}  />
                   </Slider.Control>
                 </Slider.Root>
               ) : null}
