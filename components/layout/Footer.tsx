@@ -1,9 +1,9 @@
 "use client";
 
-import {Box, Container, SimpleGrid, VStack, HStack, Text, Heading, Link, Separator, Image, VStack} from "@chakra-ui/react";
+import {Box, Container, SimpleGrid, HStack, Text, Heading, Link, Separator, Image, VStack} from "@chakra-ui/react";
 import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
-import {FaMapMarkerAlt, FaMapMarkerAlt, FaPaperPlane} from "react-icons/fa";
+import {FaMapMarkerAlt, FaPaperPlane} from "react-icons/fa";
 
 export default function Footer () {
   const currentYear = new Date().getFullYear();
