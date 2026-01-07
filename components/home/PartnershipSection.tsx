@@ -44,7 +44,7 @@ export default function PartnershipSection () {
                             <Box color="brandGreen.500" fontSize="6xl" mb={2} className="neon-text">
                                 <FaHandshake size={'60px'} />
                             </Box>
-                            <Heading color="foreground" mb={2} size="xl" fontWeight="bold" fontSize={{base:20, md:25}}>
+                            <Heading color="foreground" mb={2} size="xl" fontWeight="bold" fontSize={{base: 20, md: 25}}>
                                 Partnerships
                             </Heading>
                             <Text color="gray.200" mb={6} fontSize="md">
@@ -53,7 +53,7 @@ export default function PartnershipSection () {
                             <Button
                                 variant="plain"
                                 color="brandGreen.500"
-                                _hover={{transform: "translateX(5px)", fontWeight: 'bold', bg:'brandGreen.500', color:'black'}}
+                                _hover={{transform: "translateX(5px)", fontWeight: 'bold', bg: 'brandGreen.500', color: 'black'}}
                                 className="hover-lift"
                                 borderColor="brandGreen.500"
                                 colorPalette={'brandGreen.400'}
@@ -114,11 +114,17 @@ export default function PartnershipSection () {
             {/* Modal Overlay */}
             {isModalOpen && (
                 <Box
-                    position="fixed"
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    width="100vw"
+                    height="100vh"
                     inset={0}
-                    bg="blackAlpha.800"
-                    backdropFilter="blur(10px)"
-                    zIndex={1000}
+                    bg="blackAlpha.800/30"
+                    backdropFilter="blur(20px)"
+                    zIndex={'modal'}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
@@ -126,14 +132,14 @@ export default function PartnershipSection () {
                     onClick={() => setIsModalOpen(false)}
                 >
                     <Box
-                        bg="gray.900"
+                        bg="blackAlpha.800"
                         p={8}
                         borderRadius="2xl"
                         maxW="400px"
                         w="full"
                         onClick={(e) => e.stopPropagation()}
                         border="1px solid"
-                        borderColor="whiteAlpha.200"
+                        borderColor="brandGreen.500"
                         position="relative"
                         className="neon-glow-accent"
                     >
@@ -145,11 +151,13 @@ export default function PartnershipSection () {
                             position="absolute"
                             top={4}
                             right={4}
-                            color="gray.400"
+                            color="brandGreen.500"
                         >
                             <FaTimes />
                         </IconButton>
-                        <Heading size="lg" color="white" mb={2} textAlign="center">
+
+
+                        <Heading size="lg" color="white" mb={1} textAlign="center" fontFamily={'PoppinsSemi'}>
                             {contactType === "partnership" ? "Partnership" : "Collaboration"}
                         </Heading>
                         <Text color="gray.400" textAlign="center" mb={6}>
@@ -161,7 +169,10 @@ export default function PartnershipSection () {
                                 width="100%"
                                 size="lg"
                                 colorPalette="green"
+                                borderRadius='18px'
+                                fontFamily={'PoppinsSemi'}
                                 onClick={() => handleContact("whatsapp")}
+                                gap={10}
                             >
                                 <FaWhatsapp style={{marginRight: '8px'}} /> WhatsApp
                             </Button>
@@ -169,6 +180,9 @@ export default function PartnershipSection () {
                                 width="100%"
                                 size="lg"
                                 variant="outline"
+                                borderRadius='18px'
+                                fontFamily={'PoppinsSemi'}
+                                gap={10}
                                 onClick={() => handleContact("email")}
                             >
                                 <FaEnvelope style={{marginRight: '8px'}} /> Email
