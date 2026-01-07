@@ -13,7 +13,6 @@
     animation: moveBg infinite 10s ease-in-out alternate !important;
     display: flex;
     position: relative;
-
     -webkit-scrollbar-width: thin;
     scrollbar-width: thin;
 }

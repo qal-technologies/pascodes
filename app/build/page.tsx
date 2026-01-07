@@ -248,17 +248,17 @@ function BuildPageContent () {
           Build with AI
         </Text>
 
-        <Flex gap={3} marginRight={4}>
+        <Flex gap={2}>
           <IconBtn
             icon={<FaTrash color="black"/>}
             onClick={clearBuild}
             ariaLabel="Delete Build"
-            size="md"
+            size="sm"
           />
 
         <Menu.Root >
           <Menu.Trigger>
-            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="md" />
+            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>

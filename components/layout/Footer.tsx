@@ -1,9 +1,9 @@
 "use client";
 
-import {Box, Container, SimpleGrid, VStack, HStack, Text, Heading, Link, Separator, Image} from "@chakra-ui/react";
+import {Box, Container, SimpleGrid, VStack, HStack, Text, Heading, Link, Separator, Image, VStack} from "@chakra-ui/react";
 import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
-import {FaPaperPlane} from "react-icons/fa";
+import {FaMapMarkerAlt, FaMapMarkerAlt, FaPaperPlane} from "react-icons/fa";
 
 export default function Footer () {
   const currentYear = new Date().getFullYear();
@@ -37,7 +37,8 @@ export default function Footer () {
               Building next-generation digital experiences. Specializing in high-performance web applications, specialized developer tools, and comprehensive coding education.
             </Text>
             <VStack align="start" gap={3}>
-              <HStack gap={4}>
+              <Text fontSize="xs" mt={2}>Reach out to me on any of the socials</Text>
+              <HStack gap={4} wrap={'wrap'}>
                 {Object.entries(SITE_CONFIG.socials).map(([name, link]) => (
                   <SocialButton
                     key={name}
@@ -54,7 +55,7 @@ export default function Footer () {
 
           {/* Quick Links */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2}>Quick Navigation</Heading>
+            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Quick Navigation</Heading>
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/about">About Me</FooterLink>
             <FooterLink href="/services">Our Services</FooterLink>
@@ -64,7 +65,7 @@ export default function Footer () {
 
           {/* Services */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2}>Core Services</Heading>
+            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Core Services</Heading>
             <FooterLink href="/build?type=portfolio">Portfolio Design</FooterLink>
             <FooterLink href="/build?type=business" >Business Solutions</FooterLink>
             <FooterLink href="/build?type=e-commerce">E-Commerce Systems</FooterLink>
@@ -74,7 +75,7 @@ export default function Footer () {
 
           {/* Newsletter/Contact */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={2}>Stay Connected</Heading>
+            <Heading size="sm" color="foreground" mb={2} fontFamily={'PoppinsSemi'}>Stay Connected</Heading>
             <Text fontSize="sm">Got a project in mind? Let&apos;s talk about it.</Text>
             <Box w="full">
               <HStack
@@ -103,9 +104,15 @@ export default function Footer () {
                 </Box>
               </HStack>
             </Box>
-            <Text fontSize="xs" mt={2}>Located: Calabar, Nigeria
+            <VStack gap={2} align="start">
+              <Box flexDirection="row" alignItems="center" gap={1} mb={2}>
+                <FaMapMarkerAlt />
+                <Text fontSize="xs">Located</Text>
+              </Box>
 
-              (Remotely Available)</Text>
+              <Text fontWeight="bolder" fontSize="xs"> Calabar, Nigeria</Text>
+              <Text fontWeight="bold" fontSize="xs"> (Remotely Available)</Text>
+            </VStack>
           </VStack>
         </SimpleGrid>
 

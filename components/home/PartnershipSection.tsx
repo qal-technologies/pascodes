@@ -38,6 +38,7 @@ export default function PartnershipSection () {
                                 paddingInline={10}
                                 borderRadius='12px'
                                 fontFamily="PoppinsSemi"
+                                maxW={'100%'}
                             >
                                 Let&apos;s Partner Up &rarr;
                             </Button>
@@ -75,8 +76,9 @@ export default function PartnershipSection () {
                                 paddingInline={10}
                                 borderRadius='12px'
                                 fontFamily="PoppinsSemi"
+                                maxW={'100%'}
                             >
-                                Start a Conversation &rarr;
+                                Let&apos;s Collab &rarr;
                             </Button>
                         </VStack>
                     </Reveal>

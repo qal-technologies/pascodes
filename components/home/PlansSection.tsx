@@ -13,7 +13,8 @@ const plans = [
         description: "Perfect for personal brands and portfolios.",
         features: ["4+ Pages", "Responsive Design", "Contact Form", "Basic SEO"],
         type: "portfolio",
-        pages: 4
+        pages: 4,
+        cta: 'Get Started'
     },
     {
         title: "Business / Corporate",
@@ -23,6 +24,7 @@ const plans = [
         type: "business",
         pages: 8,
         color: 'rgba(255, 100, 255)',
+        cta: 'Choose Plan'
     },
     {
         title: "E-Commerce / Web App",
@@ -32,6 +34,7 @@ const plans = [
         type: "e-commerce",
         pages: 10,
         color: 'rgba(255, 150, 50)',
+        cta: 'Start Building'
     }
 ];
 
@@ -94,8 +97,8 @@ export default function PlansSection () {
     };
 
     return (
-        <Section py={40} pt={55} bgColor="brandNavy.900" key="plans"
-            id="pricing"
+        <Box py={40} pt={55} px={{base: 6, md: 12}} bg="brandNavy.900" key="plans"
+            id="pricing" width={'100%'}
         >
             <Box
                 width={'50vw'}
@@ -144,7 +147,7 @@ export default function PlansSection () {
                     </Text>
                 </Reveal>
 
-                <Flex direction={'row'} gap={8} justify="space-evenly" align='center' p={10} wrap={'wrap'}>
+                <Flex direction={'row'} gap={8} justify="space-evenly" p={4} wrap={'wrap'}>
                     {plans.map((plan, index) => (
                         <Reveal key={index} delay={0.2 * index} glow width="fit-content" glowRadius={30}>
                             <VStack
@@ -158,11 +161,13 @@ export default function PlansSection () {
                                     transform: "translateY(-12px) scale(1.05)",
                                     boxShadow: `0 15px 30px ${getColor(plan.color, 'shadow', 'rgba(58, 238, 187, 0.2)')}`
                                 }}
+                                width={'100%'}
+                                minWidth={200}
                                 maxW={350}
                                 background={'brandBlack.900/60'}
                                 className="glass-panel hover-lift"
                             >
-                                <Text color={getColor(plan.color, 'background', 'brandGreen.500')} fontWeight="bold" fontSize="sm" letterSpacing="widest" textTransform="uppercase">
+                                <Text color={getColor(plan.color, 'background', 'brandGreen.500')} fontWeight="bold" fontSize="sm" letterSpacing="widest" textTransform="uppercase" minWidth={'100%'} textAlign={'left'}>
                                     {plan.title}
                                 </Text>
                                 <Text color="white" fontSize="4xl" fontWeight="bold" my={4}>
@@ -195,7 +200,7 @@ export default function PlansSection () {
                                     onClick={()=> handleSelectPlan(plan)}
                                     className="hover-lift neon-glow-accent"
                                 >
-                                    Start Building
+                                    {plan.cta || 'Choose Plan'}
                                 </Button>
                             </VStack>
                         </Reveal>
@@ -216,6 +221,6 @@ export default function PlansSection () {
                 borderRadius={'50%'}
             />
 
-        </Section >
+        </Box >
     );
 }

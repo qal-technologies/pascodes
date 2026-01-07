@@ -30,7 +30,7 @@ export default function AboutPage () {
                 <Text fontSize="lg" color="gray.400" lineHeight="tall">
                   I&apos;m a Full-Stack Developer and UI/UX Designer dedicated to building high-performance, aesthetically pleasing digital solutions. My mission is to simplify complex problems through clean code and intuitive design.
                 </Text>
-                <HStack gap={4}>
+                <HStack gap={4} wrap={'wrap'}>
                   {Object.entries(SITE_CONFIG.socials).map(([name, link]) => (
                     <SocialButton
                       key={name}

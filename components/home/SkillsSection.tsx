@@ -50,7 +50,7 @@ export default function SkillsSection () {
                                     bg: "whiteAlpha.100",
                                     transform: "translateY(-10px)",
                                     borderColor: skill.color,
-                                    boxShadow: `0 10px 30px ${skill.color}30`,
+                                    boxShadow: `0 10px 30px ${skill.color}70`,
                                 }}
                                 className="group hover-lift"
                             >

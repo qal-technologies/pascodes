@@ -1,7 +1,7 @@
 "use client";
 
 import {Box, Container, Heading, SimpleGrid, Link, VStack, Text} from "@chakra-ui/react";
-import {FaGithub, FaLinkedin, FaYoutube, FaTwitter, FaInstagram} from "react-icons/fa";
+import {FaGithub, FaLinkedin, FaYoutube, FaTwitter, FaInstagram, FaWhatsapp} from "react-icons/fa";
 import {SITE_CONFIG} from "@/lib/site-config";
 import {Reveal} from "../utils/Reveal";
 
@@ -11,6 +11,7 @@ const socialPlatforms = [
     {name: "YouTube", icon: FaYoutube, url: SITE_CONFIG.socials.youtube, color: "#FF0000"},
     {name: "Twitter", icon: FaTwitter, url: SITE_CONFIG.socials.twitter, color: "#1DA1F2"},
     {name: "Instagram", icon: FaInstagram, url: SITE_CONFIG.socials.instagram, color: "#E4405F"},
+    {name: "WhatsApp", icon: FaWhatsapp, url: SITE_CONFIG.socials.whatsapp, color: "#25D366"},
 ];
 
 export default function SocialSection () {

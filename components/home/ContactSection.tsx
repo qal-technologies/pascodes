@@ -63,7 +63,7 @@ export default function ContactSection () {
 
     return (
         <Box py={{base: 20, md: 40}}
-            padding={10} bg="background" id="contact">
+            padding={6} bg="background" id="contact">
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <SimpleGrid columns={{base: 1, md: 2}} gap={16}>
                     <Box>
@@ -116,7 +116,7 @@ export default function ContactSection () {
                             p={8}
                             borderRadius="2xl"
                             className="glass-panel"
-                            pt={15}
+                            pt={25}
                         >
                             <VStack gap={5}>
                                 <Field.Root invalid={!formData.name && isSubmitting}>

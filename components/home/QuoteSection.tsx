@@ -12,7 +12,7 @@ export default function QuoteSection () {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % TECH_QUOTES.length);
-        }, 8000); // Rotate every 8 seconds
+        }, 12000); // Rotate every 12 seconds
 
         return () => clearInterval(interval);
     }, []);

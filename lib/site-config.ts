@@ -5,12 +5,12 @@ export const SITE_CONFIG = {
     email: "pasqal.dev@gmail.com",
     location: "Calabar, Nigeria. Can work remotely.",
     socials: {
-        twitter: "https://twitter.com/PasQal_Ng",
-        linkedin: "https://www.linkedin.com/in/paschal-ngaoka-693859280",
         github: "https://github.com/pasqal-dev",
-        instagram: "https://instagram.com/pasqal.dev",
+        linkedin: "https://www.linkedin.com/in/paschal-ngaoka-693859280",
         youtube: "https://youtube.com/@pascodes",
+        twitter: "https://twitter.com/PasQal_Ng",
         whatsapp: 'https://wa.me/2349016561308',
+        instagram: "https://instagram.com/pasqal.dev",
         email:'mailto:pasqal.dev@gmail.com'
     },
 
