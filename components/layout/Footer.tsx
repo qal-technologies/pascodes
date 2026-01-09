@@ -152,8 +152,8 @@ export function FooterLink ({href, children, ...props}: {href: string, children:
   );
 }
 
-export function UnderLine ({maxWidth = 200}: {maxWidth?: string | number;}) {
+export function UnderLine ({maxWidth = 150}: {maxWidth?: string | number;}) {
   return(
-    <Box height={2} background={'brandGreen.500'} borderRadius={'full'} width='80%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-5} />
+    <Box height={1} background={'brandGreen.500'} borderRadius={'full'} width='60%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-4} />
   )
 }
