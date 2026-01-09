@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Toaster as ChakraToaster,
@@ -7,19 +7,21 @@ import {
   Stack,
   Toast,
   createToaster,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 
 export const toaster = createToaster({
   placement: 'bottom-end',
   pauseOnPageIdle: true,
-})
+});
 
 export const Toaster = () => {
   return (
     <Portal>
       <ChakraToaster
         toaster={toaster}
-        insetInline={{ mdDown: '4' }}>
+        insetInline={{ mdDown: '4' }}
+        p={1}
+        mb={2}>
         {(toast) => (
           <Toast.Root
             width={{ md: 'sm' }}
@@ -27,8 +29,9 @@ export const Toaster = () => {
             p='2'
             borderRadius='12px'
             boxShadow='md'
-            className="neon-glow-accent"
-            >
+            gapY={'2'}
+            className='neon-glow-accent'
+          >
             {toast.type === 'loading' ?
               <Spinner
                 size='sm'
@@ -39,11 +42,11 @@ export const Toaster = () => {
               />
             : <Toast.Indicator />}
             <Stack
-              gap='1'
+              gap='2'
               flex='1'
               maxWidth='100%'>
               {toast.title && (
-                <Toast.Title fontWeight='bold'>{toast.title}</Toast.Title>
+                <Toast.Title fontWeight='bolder'>{toast.title}</Toast.Title>
               )}
               {toast.description && (
                 <Toast.Description fontWeight='normal'>
@@ -62,4 +65,4 @@ export const Toaster = () => {
       </ChakraToaster>
     </Portal>
   );
-}
+};

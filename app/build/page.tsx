@@ -15,16 +15,16 @@ import {
   Slider,
   Tag,
 } from "@chakra-ui/react";
-import { FaArrowLeft, FaDotCircle, FaEllipsisV } from "react-icons/fa";
+import {FaArrowLeft, FaDotCircle, FaEllipsisV} from "react-icons/fa";
 import {useRouter, useSearchParams} from "next/navigation";
 import {useState, useEffect, Suspense} from "react";
-import { estimatePrice } from "@/lib/price-estimator";
-import { convertCurrency } from "@/lib/currency-converter";
-import { db } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import {estimatePrice} from "@/lib/price-estimator";
+import {convertCurrency} from "@/lib/currency-converter";
+import {db} from "@/lib/firebase";
+import {collection, addDoc} from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
-import { BiEnvelope } from "react-icons/bi";
-import { useScroll } from "@/hooks/useScroll";
+import {BiEnvelope} from "react-icons/bi";
+import {useScroll} from "@/hooks/useScroll";
 import {SITE_CONFIG} from "@/lib/site-config";
 import {FaTrash} from "react-icons/fa";
 
@@ -38,12 +38,12 @@ interface buildProps {
 }
 const useUnfinishedBuild = () => {
   const [build, setBuild] = useState<buildProps>(() => {
-    if (typeof window !== "undefined") {
+    if(typeof window !== "undefined") {
       const savedBuild = localStorage.getItem("unfinishedBuild");
-      if (savedBuild) {
+      if(savedBuild) {
         try {
           return JSON.parse(savedBuild);
-        } catch (error) {
+        } catch(error) {
           console.error("Failed to parse unfinished build:", error);
         }
       }
@@ -59,7 +59,7 @@ const useUnfinishedBuild = () => {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if(typeof window !== "undefined") {
       localStorage.setItem("unfinishedBuild", JSON.stringify(build));
     }
   }, [build]);
@@ -67,7 +67,7 @@ const useUnfinishedBuild = () => {
   return [build, setBuild] as const;
 };
 
-export default function BuildPage() {
+export default function BuildPage () {
   return (
     <Suspense fallback={<Box>Loading...</Box>}>
       <BuildPageContent />
@@ -113,18 +113,18 @@ function BuildPageContent () {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
-    setBuild((prev: buildProps) => ({ ...prev, [name]: value }));
-    if (estimate !== null) setEstimate(null);
+    const {name, value} = e.target;
+    setBuild((prev: buildProps) => ({...prev, [name]: value}));
+    if(estimate !== null) setEstimate(null);
   };
 
   const handleSliderChange = (value: number) => {
-    setBuild((prev: buildProps) => ({ ...prev, pages: value }));
+    setBuild((prev: buildProps) => ({...prev, pages: value}));
   };
 
   const handleCheckEstimate = async () => {
     setIsLoading(true);
-    const { price, priceBreakdown, verb } = estimatePrice(build);
+    const {price, priceBreakdown, verb} = estimatePrice(build);
     setPriceBreakdown(priceBreakdown);
     setVerb(verb);
 
@@ -135,7 +135,7 @@ function BuildPageContent () {
     });
     setUSDestimate(usdFormatter.format(price));
 
-    const { convertedPrice, currency } = await convertCurrency(price);
+    const {convertedPrice, currency} = await convertCurrency(price);
     setConvertedPrice(convertedPrice);
     setCurrency(currency);
     //for user:
@@ -146,9 +146,9 @@ function BuildPageContent () {
     setConvertedEstimate(convertedFormatter.format(convertedPrice));
 
     setIsLoading(false);
-    if (price) setEstimate(price);
+    if(price) setEstimate(price);
 
-    window.document.querySelector("#estimate")?.scrollIntoView({ behavior: 'smooth' });
+    window.document.querySelector("#estimate")?.scrollIntoView({behavior: 'smooth'});
   };
 
   const handleFinishBuild = async () => {
@@ -174,13 +174,23 @@ function BuildPageContent () {
         *Type:* ${build.projectType}
         *Price:* ${fmtUSDestimate}
         *Pages:* ${build.pages}
+        *Breakdown:* ${priceBreakdown}
       `;
       const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
         message
       )}`;
       window.location.href = whatsappUrl;
       localStorage.removeItem("unfinishedBuild");
-    } catch (error) {
+      setBuild({
+        title: "",
+        name: "",
+        email: "",
+        projectType: "",
+        pages: 4,
+        description: "",
+      });
+      setEstimate(null);
+    } catch(error) {
       console.error("Error adding document: ", error);
       alert("Error saving build. Please try again.");
     }
@@ -202,11 +212,11 @@ function BuildPageContent () {
   };
 
   const routes = [
-    { title: "Home", link: "/" },
-    { title: "Services", link: "/services" },
-    { title: "courses", link: "/courses" },
-    { title: "Blog", link: "/blog" },
-    { title: "contact", link: "/about" },
+    {title: "Home", link: "/"},
+    {title: "Services", link: "/services"},
+    {title: "courses", link: "/courses"},
+    {title: "Blog", link: "/blog"},
+    {title: "contact", link: "/about"},
   ];
 
   const buttonCheck =
@@ -240,7 +250,7 @@ function BuildPageContent () {
         />
 
         <Text
-          fontSize={{base: "xl", md:'2xl'}}
+          fontSize={{base: "xl", md: '2xl'}}
           fontWeight="bold"
           fontFamily={"PoppinsSemi"}
           letterSpacing={"1px"}
@@ -250,66 +260,66 @@ function BuildPageContent () {
 
         <Flex gap={2}>
           <IconBtn
-            icon={<FaTrash color="black"/>}
+            icon={<FaTrash color="black" />}
             onClick={clearBuild}
             ariaLabel="Delete Build"
             size="sm"
           />
 
-        <Menu.Root >
-          <Menu.Trigger>
-            <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
-          </Menu.Trigger>
-          <Portal>
-            <Menu.Positioner>
-              <Menu.Content
-                padding={6}
-                borderRadius={15}
-                overflow={"hidden"}
-                border="1px solid"
-                color="brandGreen.500"
+          <Menu.Root >
+            <Menu.Trigger>
+              <IconBtn icon={<FaEllipsisV />} ariaLabel="Open Menu" size="sm" />
+            </Menu.Trigger>
+            <Portal>
+              <Menu.Positioner>
+                <Menu.Content
+                  padding={6}
+                  borderRadius={15}
+                  overflow={"hidden"}
+                  border="1px solid"
+                  color="brandGreen.500"
                   zIndex="modal"
-              >
-                <Menu.ItemGroup marginBottom={2}>
-                  <Menu.ItemGroupLabel mb={1} fontSize={18}>
-                    Go to
-                  </Menu.ItemGroupLabel>
-                  {routes.map((route) => (
-                    <Menu.Item
-                      key={route.link}
-                      value={route.link}
-                      onClick={() => router.push(route.link)}
-                      padding="4px"
-                      cursor="pointer"
-                      borderRadius={12}
-                      _hover={{
-                        background: "brandGreen.500/20",
-                      }}
-                    >
-                      <FaDotCircle color="brandGreen.500" size={6} />{" "}
-                      {route.title}
-                    </Menu.Item>
-                  ))}
-                </Menu.ItemGroup>
-                <Menu.Item
-                  value="email"
-                  onClick={() =>
-                    (window.location.href = "mailto:pasqal.dev@gmail.com")
-                  }
-                  padding="4px"
-                  cursor="pointer"
-                  borderRadius={12}
-                  _hover={{
-                    background: "brandGreen.500/20",
-                  }}
                 >
-                  <BiEnvelope /> Email Developer
-                </Menu.Item>
-              </Menu.Content>
-            </Menu.Positioner>
-          </Portal>
-        </Menu.Root>
-      </Flex>
+                  <Menu.ItemGroup marginBottom={2}>
+                    <Menu.ItemGroupLabel mb={1} fontSize={18}>
+                      Go to
+                    </Menu.ItemGroupLabel>
+                    {routes.map((route) => (
+                      <Menu.Item
+                        key={route.link}
+                        value={route.link}
+                        onClick={() => router.push(route.link)}
+                        padding="4px"
+                        cursor="pointer"
+                        borderRadius={12}
+                        _hover={{
+                          background: "brandGreen.500/20",
+                        }}
+                      >
+                        <FaDotCircle color="brandGreen.500" size={6} />{" "}
+                        {route.title}
+                      </Menu.Item>
+                    ))}
+                  </Menu.ItemGroup>
+                  <Menu.Item
+                    value="email"
+                    onClick={() =>
+                      (window.location.href = "mailto:pasqal.dev@gmail.com")
+                    }
+                    padding="4px"
+                    cursor="pointer"
+                    borderRadius={12}
+                    _hover={{
+                      background: "brandGreen.500/20",
+                    }}
+                  >
+                    <BiEnvelope /> Email Developer
+                  </Menu.Item>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Portal>
+          </Menu.Root>
+        </Flex>
       </Flex>
 
       <Flex direction={{base: "column", lg: "row"}} gap={8}
@@ -518,7 +528,7 @@ function BuildPageContent () {
         </Box>
         <Box
           flex={1}
-          borderLeft={{ base: "none", lg: "1px solid grey" }}
+          borderLeft={{base: "none", lg: "1px solid grey"}}
           borderColor={"brandGreen.500"}
           lg={{
             paddingInlineStart: "20px",
@@ -564,7 +574,7 @@ function BuildPageContent () {
                   Object.entries(priceBreakdown).map(([key, value]) => (
                     <Text key={key}>
                       <span
-                        style={{ letterSpacing: "0.5px", fontWeight: "bold" }}
+                        style={{letterSpacing: "0.5px", fontWeight: "bold"}}
                       >
                         {key.toUpperCase()}
                       </span>
@@ -594,8 +604,8 @@ function BuildPageContent () {
                 Finish Build
               </Button>
             </Box>
-          : <Image
-              display={{ base: "none", lg: "block" }}
+            : <Image
+              display={{base: "none", lg: "block"}}
               src="/images/logo.png"
               alt="Passcode Image"
               maxWidth="500px"

@@ -56,6 +56,8 @@ export default function Footer () {
           {/* Quick Links */}
           <VStack align="start" gap={4}>
             <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Quick Navigation</Heading>
+            <UnderLine />
+
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/about">About Me</FooterLink>
             <FooterLink href="/services">Our Services</FooterLink>
@@ -66,6 +68,8 @@ export default function Footer () {
           {/* Services */}
           <VStack align="start" gap={4}>
             <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Core Services</Heading>
+            <UnderLine />
+
             <FooterLink href="/build?type=portfolio">Portfolio Design</FooterLink>
             <FooterLink href="/build?type=business" >Business Solutions</FooterLink>
             <FooterLink href="/build?type=e-commerce">E-Commerce Systems</FooterLink>
@@ -76,6 +80,7 @@ export default function Footer () {
           {/* Newsletter/Contact */}
           <VStack align="start" gap={4}>
             <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Stay Connected</Heading>
+            <UnderLine/>
             <Text fontSize="sm">Got a project in mind? Let&apos;s talk about it.</Text>
             <Box w="full">
               <HStack
@@ -107,8 +112,8 @@ export default function Footer () {
             </Box>
             <VStack gap={2} align="start">
               <Box flexDirection="row" direction={'row'} width={'full'} gap={1} mb={2.5}>
-                <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} />
-                <Text fontSize="xs" maxWidth={'fit-content'}>Located</Text>
+                <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} width={'fit-content'}/>
+                <Text fontSize="xs" maxWidth={'fit-content'} as='span'>Located</Text>
               </Box>
 
               <Text fontWeight="bolder" fontSize="sm" mb={-1}> Calabar, Nigeria</Text>
@@ -133,7 +138,7 @@ export default function Footer () {
   );
 }
 
-function FooterLink ({href, children, ...props}: {href: string, children: React.ReactNode, [key: string]: unknown;}) {
+export function FooterLink ({href, children, ...props}: {href: string, children: React.ReactNode, [key: string]: unknown;}) {
   return (
     <Link
       href={href}
@@ -145,4 +150,10 @@ function FooterLink ({href, children, ...props}: {href: string, children: React.
       {children}
     </Link>
   );
+}
+
+export function UnderLine ({maxWidth = 350}: {maxWidth?: string | number;}) {
+  return(
+    <Box height={5} background={'brandGreen.500'} borderRadius={'full'} width='85%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-1} />
+  )
 }

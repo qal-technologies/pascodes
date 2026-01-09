@@ -13,6 +13,7 @@ import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import "@/styles/loading.css";
 import {toaster} from "@/components/ui/toaster";
+import {SITE_CONFIG} from "@/lib/site-config";
 
 
 // Interface for Build Data
@@ -186,10 +187,10 @@ export default function AdminDashboard () {
             <Container maxW="container.xl">
                 <Flex justify="space-between" align="center" mb={10} wrap={'wrap'} gap={3}>
                     <VStack align="start" gap={1}>
-                        <Heading color="brandGreen.500" size="2xl" fontSize={{base: 20, md: 25}}>
-                            Admin <Text as="span" color="foreground" fontSize={{base: 20, md: 25}}>Dashboard</Text>
+                        <Heading color="brandGreen.500" size="2xl" fontSize={{base: 24, md: 25}} fontFamily={'PoppinsSemi'}>
+                            Admin <Text as="span" color="foreground" fontSize={{base: 24, md: 25}} fontFamily={'PoppinsSemi'} >Dashboard</Text>
                         </Heading>
-                        <Text color="gray.500" fontSize={{base: 18, md: 20}}>Welcome back, {user?.email}</Text>
+                        <Text color="gray.500" fontSize={{base: 18, md: 20}}>Welcome back, Admin</Text>
                     </VStack>
 
                     <HStack gap={2}>
@@ -265,7 +266,7 @@ export default function AdminDashboard () {
                                                 build.status === 'complete' ? 'green' :
                                                     build.status === 'progress' ? 'yellow' :
                                                         build.status === 'cancelled' ? 'red' : 'gray'
-                                            }>{build.status || 'NEW'}</Badge>
+                                            } padding={2} paddingInline={4}>{build.status || 'NEW'}</Badge>
                                             <Text fontSize="xs" color="gray.500">{build.buildId}</Text>
                                         </HStack>
                                         <Heading size="md" mb={1}>{build.title}</Heading>
@@ -278,7 +279,7 @@ export default function AdminDashboard () {
                             <Box bg="gray.800" p={8} borderRadius="xl" border="1px solid white" borderColor="whiteAlpha.200">
                                 {selectedBuild ? (
                                     <VStack align="stretch" gap={6}>
-                                        <Heading size="lg">{selectedBuild.title}</Heading>
+                                        <Heading size="lg" fontFamily={'PoppinsSemi'}>{selectedBuild.title}</Heading>
 
                                         <SimpleGrid columns={2} gap={4}>
                                             <Box>
@@ -305,7 +306,7 @@ export default function AdminDashboard () {
                                             </Box>
                                             <Box>
                                                 <Text color="gray.500" fontSize="sm">Pages</Text>
-                                                <Text fontWeight="bold">{selectedBuild?.pages}</Text>
+                                                <Text fontWeight="bold">{selectedBuild?.pages || '4'}</Text>
                                             </Box>
                                         </SimpleGrid>
 
@@ -315,12 +316,14 @@ export default function AdminDashboard () {
                                             </Text>
                                         </Box>
 
-                                        <Heading size="sm" mt={4}>Actions</Heading>
-                                        <SimpleGrid columns={2} gap={4}>
+                                        <Heading size="sm" mt={4} >Actions</Heading>
+                                        <HStack gap={4} flexWrap={'wrap'} wrap={'wrap'} justify="center" >
                                             <Button
                                                 colorPalette="green"
                                                 onClick={() => handleUpdateStatus(selectedBuild, "progress")}
                                                 disabled={selectedBuild.status === 'progress'}
+                                                padding={2}
+                                                paddingInline={5}
                                             >
                                                 Start Progress
                                             </Button>
@@ -328,6 +331,8 @@ export default function AdminDashboard () {
                                                 colorPalette="blue"
                                                 onClick={() => handleUpdateStatus(selectedBuild, "complete")}
                                                 disabled={selectedBuild.status === 'complete'}
+                                                padding={2}
+                                                paddingInline={5}
                                             >
                                                 Mark Complete
                                             </Button>
@@ -337,6 +342,8 @@ export default function AdminDashboard () {
                                                     const reason = prompt("Enter cancellation reason:");
                                                     if(reason) handleUpdateStatus(selectedBuild, "cancelled", {reason});
                                                 }}
+                                                padding={2}
+                                                paddingInline={5}
                                             >
                                                 Cancel Build
                                             </Button>
@@ -346,16 +353,23 @@ export default function AdminDashboard () {
                                                     const message = prompt("Enter update message:");
                                                     if(message) handleUpdateStatus(selectedBuild, "issue", {message});
                                                 }}
+                                                padding={2}
+                                                paddingInline={5}
                                             >
                                                 Send Update
                                             </Button>
-                                        </SimpleGrid>
+                                        </HStack>
 
-                                        <HStack pt={6} justify="center">
-                                            <Button variant="ghost">
+                                        <HStack pt={6} justify="center" wrap={'wrap'}>
+                                            <Button variant="outline" colorPalette={'#00d435ff'} onClick={() => {
+                                                window.open(SITE_CONFIG.socials.whatsapp as string);
+                                            }}>
                                                 <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
                                             </Button>
-                                            <Button variant="ghost">
+
+                                            <Button variant="ghost" onClick={() => {
+                                                window.open(SITE_CONFIG.socials.email as string);
+                                            }}>
                                                 <FaEnvelope style={{marginRight: "8px"}} /> Email Client
                                             </Button>
                                         </HStack>
@@ -364,7 +378,7 @@ export default function AdminDashboard () {
                                 ) : (
                                     <Flex height="100%" align="center" justify="center" direction="column" color="gray.500">
                                         <FaSearch size={40} />
-                                        <Text mt={4}>Select a build to view details</Text>
+                                        <Text mt={5}>Select a build to view details</Text>
                                     </Flex>
                                 )}
                             </Box>
@@ -374,8 +388,8 @@ export default function AdminDashboard () {
                     <Tabs.Content value="blogs">
                         <VStack align="stretch" gap={6}>
                             <HStack justify="space-between">
-                                <Heading size="md" color="white">Blog Posts</Heading>
-                                <Button colorPalette="brandGreen" onClick={() => setIsBlogModalOpen(true)}>Add New Post</Button>
+                                <Heading size="md" color="white" fontFamily={'PoppinsSemi'}>Blog Posts</Heading>
+                                <Button colorPalette="brandGreen" onClick={() => setIsBlogModalOpen(true)} padding={2} paddingInline={4}>Add New Post</Button>
                             </HStack>
 
                             <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
