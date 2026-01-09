@@ -154,6 +154,6 @@ export function FooterLink ({href, children, ...props}: {href: string, children:
 
 export function UnderLine ({maxWidth = 150}: {maxWidth?: string | number;}) {
   return(
-    <Box height={1} background={'brandGreen.500'} borderRadius={'full'} width='60%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-4} />
+    <Box height={1} background={'brandGreen.500'} borderRadius={'full'} width='60%' maxWidth={maxWidth} className="neon-glow-primary" mb={2} mt={-4} />
   )
 }
