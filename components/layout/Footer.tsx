@@ -111,9 +111,9 @@ export default function Footer () {
               </HStack>
             </Box>
             <VStack gap={2} align="start">
-              <Box flexDirection="row" direction={'row'} width={'full'} gap={1} mb={2.5}>
+              <Box flexDirection="row" direction={'row'} width={'full'} gap={2} mb={1}>
                 <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} width={'fit-content'}/>
-                <Text fontSize="xs" maxWidth={'fit-content'} as='span'>Located</Text>
+                <Text fontSize="xs" maxWidth={'fit-content'} as='span' ml={2}>Located</Text>
               </Box>
 
               <Text fontWeight="bolder" fontSize="sm" mb={-1}> Calabar, Nigeria</Text>
@@ -152,8 +152,8 @@ export function FooterLink ({href, children, ...props}: {href: string, children:
   );
 }
 
-export function UnderLine ({maxWidth = 350}: {maxWidth?: string | number;}) {
+export function UnderLine ({maxWidth = 200}: {maxWidth?: string | number;}) {
   return(
-    <Box height={5} background={'brandGreen.500'} borderRadius={'full'} width='85%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-1} />
+    <Box height={2} background={'brandGreen.500'} borderRadius={'full'} width='80%' maxWidth={maxWidth} className="neon-glow-primary" mb={5} mt={-5} />
   )
 }

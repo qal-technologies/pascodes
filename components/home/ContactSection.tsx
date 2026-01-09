@@ -68,7 +68,9 @@ export default function ContactSection () {
                 <SimpleGrid columns={{base: 1, md: 2}} gap={16}>
                     <Box>
                         <Reveal>
-                            <Heading color="foreground" mb={6} size="xl" fontSize={{base: 22, md: 30}}>
+                            <Heading color="foreground" mb={6} size="xl" fontSize={{base: 22, md: 30}}
+                                fontFamily="PoppinsSemi"
+                            >
                                 Let&apos;s Build <br />
                                 <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: 20, md: 28}}>Something Amazing</Text>
                             </Heading>

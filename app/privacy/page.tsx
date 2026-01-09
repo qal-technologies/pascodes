@@ -1,4 +1,4 @@
-import {Box, Container, Heading, Text, VStack, Link, Flex} from "@chakra-ui/react";
+import {Box, Container, Heading, Text, VStack, Link, Flex, HStack} from "@chakra-ui/react";
 import Navbar from "@/components/layout/Navbar";
 import {Reveal} from "@/components/utils/Reveal";
 import {SITE_CONFIG} from "@/lib/site-config";
@@ -19,7 +19,7 @@ export default function PrivacyPage () {
                     <Reveal>
                         <VStack align="start" gap={8}>
                             <Heading size="3xl" color="brandGreen.500" className="neon-text" fontFamily={'PoppinsSemi'} fontSize={22}>Privacy Policy</Heading>
-                            <Text color="gray.400">Last Updated: January 2026</Text>
+                            <Text color="gray.400" mt={-5}>Last Updated: January 2026</Text>
 
                             <VStack align="start" gap={4}>
                                 <Heading size="lg" color="foreground">1. Introduction</Heading>
@@ -106,10 +106,10 @@ export function MiniFooter ({focus}: {focus: string;}) {
         }
     ];
     return (
-        <Flex width='full' p={5} pt={10} borderTop={'1px solid gray'} wrap={'wrap'} gap={2} color={'gray.400'}>
+        <Flex width='full' p={5} mt={10} borderTop={'1px solid gray'} wrap={'wrap'} gap={2} color={'gray.400'}>
 
 
-            <Box w={'full'} gap={2} flexDirection={'row'} flexWrap={'wrap'} mb={2}>
+            <HStack w={'full'} gap={5} wrap={'wrap'} mb={2} justify={'center'} align={'center'}>
                 {
                     arrays.map(({link, name, focus: myFocus}, index) => {
                         return <FooterLink href={link as string} key={index} fontSize="xs" color={myFocus === focus as string ? 'brandGreen.500' : 'gray.400'}>
@@ -117,9 +117,9 @@ export function MiniFooter ({focus}: {focus: string;}) {
                         </FooterLink>;
                     })
                 }
-            </Box>
+            </HStack>
 
-            <Text fontSize="sm">
+            <Text fontSize="sm" textAlign={'center'} mt={2}>
                 &copy; {currentYear} PasCodez.
             </Text>
         </Flex>

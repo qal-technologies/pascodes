@@ -19,7 +19,7 @@ export default function TermsPage () {
                     <Reveal>
                         <VStack align="start" gap={8}>
                             <Heading size="3xl" color="brandGreen.500" className="neon-text" fontFamily={'PoppinsSemi'} fontSize={22}>Terms of Service</Heading>
-                            <Text color="gray.400">Last Updated: January 2026</Text>
+                            <Text color="gray.400" mt={-5}>Last Updated: January 2026</Text>
 
                             <VStack align="start" gap={4}>
                                 <Heading size="lg" color="foreground">1. Terms</Heading>

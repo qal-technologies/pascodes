@@ -3,7 +3,7 @@
 import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
-import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp} from "firebase/firestore";
+import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc} from "firebase/firestore";
 import {sendBuildStatusEmail} from "@/lib/email-service";
 import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload, FaGlobe} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
@@ -61,7 +61,8 @@ export default function AdminDashboard () {
     const [selectedBuild, setSelectedBuild] = useState<BuildData | null>(null);
     const [selectedContact, setSelectedContact] = useState<ContactData | null>(null);
     const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
-    const [newBlog, setNewBlog] = useState({title: "", excerpt: "", slug: "", image: ""});
+    const [newBlog, setNewBlog] = useState<BlogPost | null>(null);
+    const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
     const router = useRouter();
@@ -75,7 +76,11 @@ export default function AdminDashboard () {
             const storageRef = ref(storage, `blogs/${Date.now()}_${file.name}`);
             await uploadBytes(storageRef, file);
             const url = await getDownloadURL(storageRef);
-            setNewBlog(prev => ({...prev, image: url}));
+            if (selectedBlog) {
+                setSelectedBlog({...selectedBlog, image: url});
+            } else if (newBlog){
+                setNewBlog({...newBlog, image: url});
+            }
             alert("Image uploaded successfully!");
         } catch(error) {
             console.error("Upload error:", error);
@@ -121,6 +126,29 @@ export default function AdminDashboard () {
         return unsubscribe;
     };
 
+    const generateBlogId = () => {
+        const randomString = Math.random().toString(36).substring(2, 8);
+        const timestamp = Date.now().toString().substring(7);
+        return `${randomString}-${timestamp}`;
+    };
+
+    const deleteBlog = async (id: string) => {
+        try {
+            await deleteDoc(doc(db, "blogs", id));
+            setBlogs(prev => prev.filter(blog => blog.id !== id));
+        } catch (error) {
+            console.error("Error deleting blog:", error);
+        }
+    };
+
+    const updateBlog = async (id: string, updatedData: Partial<BlogPost>) => {
+        try {
+            await updateDoc(doc(db, "blogs", id), updatedData);
+            setBlogs(prev => prev.map(blog => blog.id === id ? {...blog, ...updatedData} : blog));
+        } catch (error) {
+            console.error("Error updating blog:", error);
+        }
+    };
     useEffect(() => {
         let unsubBuilds: (() => void) | undefined;
         let unsubContacts: (() => void) | undefined;
@@ -278,10 +306,10 @@ export default function AdminDashboard () {
                             {/* Detail Column */}
                             <Box bg="gray.800" p={8} borderRadius="xl" border="1px solid white" borderColor="whiteAlpha.200">
                                 {selectedBuild ? (
-                                    <VStack align="stretch" gap={6}>
+                                    <VStack align="stretch" gap={5} overflowY="auto" maxH="80vh">
                                         <Heading size="lg" fontFamily={'PoppinsSemi'}>{selectedBuild.title}</Heading>
 
-                                        <SimpleGrid columns={2} gap={4}>
+                                        <HStack gap={4} wrap={'wrap'} align={'center'} justify={'center'}>
                                             <Box>
                                                 <Text color="gray.500" fontSize="sm">Client</Text>
                                                 <Text fontWeight="bold">{selectedBuild.name}</Text>
@@ -308,7 +336,7 @@ export default function AdminDashboard () {
                                                 <Text color="gray.500" fontSize="sm">Pages</Text>
                                                 <Text fontWeight="bold">{selectedBuild?.pages || '4'}</Text>
                                             </Box>
-                                        </SimpleGrid>
+                                        </HStack>
 
                                         <Box bg="blackAlpha.500" p={4} borderRadius="md">
                                             <Text fontStyle="italic" color="gray.300">
@@ -324,6 +352,7 @@ export default function AdminDashboard () {
                                                 disabled={selectedBuild.status === 'progress'}
                                                 padding={2}
                                                 paddingInline={5}
+                                                borderRadius={'md'}
                                             >
                                                 Start Progress
                                             </Button>
@@ -333,42 +362,47 @@ export default function AdminDashboard () {
                                                 disabled={selectedBuild.status === 'complete'}
                                                 padding={2}
                                                 paddingInline={5}
+                                                borderRadius={'md'}
                                             >
                                                 Mark Complete
                                             </Button>
                                             <Button
-                                                colorPalette="red" variant="outline"
+                                                colorPalette="red" variant="solid"
                                                 onClick={() => {
                                                     const reason = prompt("Enter cancellation reason:");
                                                     if(reason) handleUpdateStatus(selectedBuild, "cancelled", {reason});
                                                 }}
                                                 padding={2}
                                                 paddingInline={5}
+                                                borderRadius={'md'}
                                             >
                                                 Cancel Build
                                             </Button>
                                             <Button
-                                                colorPalette="yellow" variant="outline"
+                                                colorPalette="yellow" variant="subtle"
                                                 onClick={() => {
                                                     const message = prompt("Enter update message:");
                                                     if(message) handleUpdateStatus(selectedBuild, "issue", {message});
                                                 }}
                                                 padding={2}
                                                 paddingInline={5}
+                                                borderRadius={'md'}
                                             >
                                                 Send Update
                                             </Button>
                                         </HStack>
 
                                         <HStack pt={6} justify="center" wrap={'wrap'}>
-                                            <Button variant="outline" colorPalette={'#00d435ff'} onClick={() => {
-                                                window.open(SITE_CONFIG.socials.whatsapp as string);
+                                            <Button variant="outline" colorPalette={'#00d435'} onClick={() => {
+                                                if(!selectedBuild.phone) return;
+                                                window.open('https://wa.me/' + selectedBuild.phone);
                                             }}>
                                                 <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
                                             </Button>
 
                                             <Button variant="ghost" onClick={() => {
-                                                window.open(SITE_CONFIG.socials.email as string);
+                                                if(!selectedBuild.email) return;
+                                                window.open('mailto:' + selectedBuild.email);
                                             }}>
                                                 <FaEnvelope style={{marginRight: "8px"}} /> Email Client
                                             </Button>
@@ -401,6 +435,10 @@ export default function AdminDashboard () {
                                         borderRadius="xl"
                                         border="1px solid"
                                         borderColor="whiteAlpha.100"
+                                        onClick={() => {
+                                            setSelectedBlog(post);
+                                            setIsBlogModalOpen(true);
+                                        }}
                                     >
                                         <HStack justify="space-between" mb={3}>
                                             <Badge colorPalette="gray">{post.slug}</Badge>
@@ -411,8 +449,13 @@ export default function AdminDashboard () {
                                         <Heading size="sm" mb={2} color="white">{post.title}</Heading>
                                         <Text color="gray.400" fontSize="sm" lineClamp={2}>{post.excerpt}</Text>
                                         <HStack mt={4} gap={4}>
-                                            <Button size="xs" variant="outline">Edit</Button>
-                                            <Button size="xs" variant="ghost" colorPalette="red">Delete</Button>
+                                            <Button size="xs" variant="outline" onClick={() => {
+                                                setIsBlogModalOpen(true);
+                                                setSelectedBlog(post);
+                                            }}>Edit</Button>
+                                            <Button size="xs" variant="ghost" colorPalette="red" onClick={() => {
+                                                deleteBlog(post.id);
+                                            }}>Delete</Button>
                                         </HStack>
                                     </Box>
                                 ))}
@@ -562,16 +605,28 @@ export default function AdminDashboard () {
                         <VStack gap={4}>
                             <Input
                                 placeholder="Title"
-                                value={newBlog.title}
-                                onChange={e => setNewBlog({...newBlog, title: e.target.value})}
+                                value={selectedBlog ? selectedBlog.title : newBlog?.title}
+                                onChange={e => {
+                                    if (selectedBlog) {
+                                        setSelectedBlog({...selectedBlog, title: e.target.value});
+                                    } else if (newBlog) {
+                                        setNewBlog({...newBlog, title: e.target.value});
+                                    }
+                                }}
                                 bg="black"
                                 style={{padding: 10, borderRadius: '12px'}}
 
                             />
                             <Input
                                 placeholder="Slug (e.g. future-of-web)"
-                                value={newBlog.slug}
-                                onChange={e => setNewBlog({...newBlog, slug: e.target.value})}
+                                value={selectedBlog ? selectedBlog.slug : newBlog?.slug}
+                                onChange={e => {
+                                    if (selectedBlog) {
+                                        setSelectedBlog({...selectedBlog, slug: e.target.value});
+                                    } else if (newBlog) {
+                                        setNewBlog({...newBlog, slug: e.target.value});
+                                    }
+                                }}
                                 bg="black"
                                 style={{padding: 10, borderRadius: '12px'}}
                             />
@@ -580,8 +635,14 @@ export default function AdminDashboard () {
                                 <HStack>
                                     <Input
                                         placeholder="Image URL"
-                                        value={newBlog.image}
-                                        onChange={e => setNewBlog({...newBlog, image: e.target.value})}
+                                        value={selectedBlog ? selectedBlog.image : newBlog?.image}
+                                        onChange={e => {
+                                            if (selectedBlog) {
+                                                setSelectedBlog({...selectedBlog, image: e.target.value});
+                                            } else if (newBlog) {
+                                                setNewBlog({...newBlog, image: e.target.value});
+                                            }
+                                        }}
                                         bg="black"
                                         flex={1}
                                         style={{padding: 10, borderRadius: '12px'}}
@@ -609,26 +670,50 @@ export default function AdminDashboard () {
                             </Box>
                             <Textarea
                                 placeholder="Excerpt"
-                                value={newBlog.excerpt}
-                                onChange={e => setNewBlog({...newBlog, excerpt: e.target.value})}
+                                value={selectedBlog ? selectedBlog.excerpt : newBlog?.excerpt}
+                                onChange={e => {
+                                    if (selectedBlog) {
+                                        setSelectedBlog({...selectedBlog, excerpt: e.target.value});
+                                    } else if (newBlog) {
+                                        setNewBlog({...newBlog, excerpt: e.target.value});
+                                    }
+                                }}
                                 bg="black"
                                 rows={4}
                                 style={{padding: 10, borderRadius: '12px'}}
 
                             />
                             <HStack w="full" gap={4} pt={4}>
-                                <Button flex={1} variant="outline" onClick={() => setIsBlogModalOpen(false)}>Cancel</Button>
+                                <Button flex={1} variant="outline" onClick={() => {
+                                    if (selectedBlog) {
+                                        setSelectedBlog(null);
+                                    } else if (newBlog) {
+                                        setNewBlog(null);
+                                    }
+                                    setIsBlogModalOpen(false);
+                                }
+                                }>Cancel</Button>
                                 <Button
                                     flex={1}
                                     colorPalette="brandGreen"
                                     onClick={async () => {
                                         try {
-                                            await addDoc(collection(db, "blogs"), {
-                                                ...newBlog,
-                                                date: serverTimestamp()
-                                            });
+                                            if(selectedBlog) {
+                                                const blogId = selectedBlog.id || generateBlogId();
+                                                await updateDoc(doc(db, "blogs", blogId), {
+                                                    ...selectedBlog,
+                                                    ...newBlog,
+                                                    date: serverTimestamp()
+                                                });
+                                            } else {
+                                                const blogId = newBlog?.id || generateBlogId();
+                                                await addDoc(collection(db, "blogs", blogId), {
+                                                    ...newBlog,
+                                                    date: serverTimestamp() 
+                                                });
+                                            }
                                             setIsBlogModalOpen(false);
-                                            setNewBlog({title: "", excerpt: "", slug: "", image: ""});
+                                            setNewBlog(null);
                                             toaster.create({
                                                 title: 'Blog Post',
                                                 type: 'success',
@@ -642,7 +727,7 @@ export default function AdminDashboard () {
                                             });
                                         }
                                     }}
-                                >Create Post</Button>
+                                >{selectedBlog ? 'Update Post' : 'Create Post'}</Button>
                             </HStack>
                         </VStack>
                     </Box>

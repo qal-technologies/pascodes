@@ -26,8 +26,8 @@ export default function BlogSection () {
                 id: doc.id,
                 ...doc.data()
             })) as BlogPost[];
-            // setPosts(data);
-            // setLoading(false);
+            setPosts(data);
+            setLoading(false);
         });
         return () => unsubscribe();
     }, []);

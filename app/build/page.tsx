@@ -152,7 +152,7 @@ function BuildPageContent () {
   };
 
   const handleFinishBuild = async () => {
-    const buildId = Math.random().toString(36).substring(2, 15);
+    const buildId = Math.random().toString(36).substring(2, 15).toUpperCase();
     try {
       await addDoc(collection(db, "builds"), {
         ...build,
@@ -162,7 +162,7 @@ function BuildPageContent () {
         buildId,
         priceBreakdown,
         status: "pending",
-        createdAt: new Date().toISOString(), // Or serverTimestamp if imported
+        createdAt: new Date().toISOString(),
       });
 
       const message = `
