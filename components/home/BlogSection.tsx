@@ -39,7 +39,8 @@ export default function BlogSection () {
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <VStack align="start" gap={8} mb={12}>
                     <Reveal>
-                        <Heading color="white" fontWeight="bold" textAlign={'center'} fontSize={{base: "2xl", md: "3xl"}}>Latest From <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>The Blog</Text></Heading>
+                        <Heading color="white" fontWeight="bold" textAlign={'center'} fontSize={{base: "2xl", md: "3xl"}}>Latest From
+                            <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>The Blog</Text></Heading>
                     </Reveal>
                     <Reveal delay={0.4}>
                         <Text color="gray.400" maxW="2xl" textAlign={'center'}>

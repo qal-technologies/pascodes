@@ -30,6 +30,20 @@ export default function PartnershipSection () {
     return (
         <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" >
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
+                <Box
+                    width={'60%'}
+                    height={'40%'}
+                    maxW={'300px'}
+                    maxH='400px'
+                    background={'brandGreen.500'}
+                    position='absolute'
+                    top={-12}
+                    left={-50}
+                    opacity={.3}
+                    filter={'blur(160px)'}
+                    borderRadius={'50%'}
+                />
+
                 <SimpleGrid columns={{base: 1, md: 2}} gap={10}>
                     <Reveal delay={0.2} glow>
                         <VStack
@@ -109,6 +123,20 @@ export default function PartnershipSection () {
                         </VStack>
                     </Reveal>
                 </SimpleGrid>
+
+                <Box
+                    width={'66%'}
+                    height={'50%'}
+                    maxW={'300px'}
+                    maxH='400px'
+                    background={'primary'}
+                    position='absolute'
+                    bottom={-20}
+                    right={-10}
+                    opacity={.35}
+                    filter={'blur(120px)'}
+                    borderRadius={'50%'}
+                />
             </Container>
 
             {/* Modal Overlay */}

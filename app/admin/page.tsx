@@ -362,8 +362,8 @@ export default function AdminDashboard () {
                     </HStack>
                 </Flex>
 
-                <Tabs.Root defaultValue="builds">
-                    <Tabs.List mb={6} gap={4}>
+                <Tabs.Root defaultValue="builds" colorPalette={'brandGreen.500'} position={'sticky'} top={0}>
+                    <Tabs.List mb={6} gap={4} accentColor={'brandGreen.500'}>
                         <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'}>Builds</Tabs.Trigger>
                         <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'}>Blogs</Tabs.Trigger>
                         <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'}>Contacts</Tabs.Trigger>
@@ -419,7 +419,7 @@ export default function AdminDashboard () {
                                                 <Text color="gray.500" fontSize="sm" textAlign={{base: 'center', md: 'left'}}>Email</Text>
                                                 {selectedBuild.email ? (
                                                     <HStack>
-                                                        <Text fontWeight="bold" lineClamp={1}>{selectedBuild.email}</Text>
+                                                        <Text fontWeight="bold" lineClamp={1} maxW={'95%'} textWrap={'stable'} overflow='hidden'>{selectedBuild.email}</Text>
                                                         <FaCheckCircle color="green" />
                                                     </HStack>
                                                 ) : (
@@ -492,12 +492,12 @@ export default function AdminDashboard () {
                                         <HStack pt={6} justify="center" wrap={'wrap'}>
                                             {selectedBuild.phone &&
                                                 (
-                                                <Button variant="outline" colorPalette={'#00d435'} onClick={() => {
-                                                    if(!selectedBuild.phone) return;
-                                                    window.open('https://wa.me/' + selectedBuild.phone);
-                                                }}>
-                                                    <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
-                                                </Button>
+                                                    <Button variant="outline" colorPalette={'#00d435'} onClick={() => {
+                                                        if(!selectedBuild.phone) return;
+                                                        window.open('https://wa.me/' + selectedBuild.phone);
+                                                    }}>
+                                                        <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
+                                                    </Button>
                                                 )}
 
                                             <Button variant="ghost" onClick={() => {
@@ -565,7 +565,7 @@ export default function AdminDashboard () {
 
                     <Tabs.Content value="contacts">
                         <VStack align="stretch" gap={4}>
-                            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
+                            <Box bg="whiteAlpha.50" borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
                                 <Input
                                     placeholder="Search contacts..."
                                     value={searchTerm}
@@ -595,11 +595,11 @@ export default function AdminDashboard () {
                                             _hover={{bg: "whiteAlpha.100"}}
                                         >
                                             <HStack justify="space-between" mb={3}>
-                                                <Badge colorPalette={contact.status === 'read' ? 'gray' : 'green'}>
+                                                <Badge colorPalette={contact.status === 'read' ? 'gray' : 'green'} p={2} px={4}>
                                                     {contact.status}
                                                 </Badge>
                                                 <Text fontSize="xs" color="gray.500">
-                                                    {contact.createdAt?.toString() ? contact.createdAt?.toString() : 'Just now'}
+                                                    {contact.createdAt?.toString() ? new Date(contact.createdAt?.seconds || contact.createdAt?.nanoseconds).toISOString() : 'Just now'}
                                                 </Text>
                                             </HStack>
                                             <Heading size="sm" mb={1} color="white">{contact.name}</Heading>
@@ -641,7 +641,7 @@ export default function AdminDashboard () {
                                 <Heading size="lg" color="white">{selectedContact.name}</Heading>
                                 <Text color="brandGreen.500">{selectedContact.email}</Text>
                             </VStack>
-                            <Button size="sm" onClick={() => setSelectedContact(null)}>Close</Button>
+                            <Button size="sm" onClick={() => setSelectedContact(null)} p={2} px={4}>Close</Button>
                         </HStack>
 
                         <VStack align="stretch" gap={6}>
@@ -663,6 +663,7 @@ export default function AdminDashboard () {
                                         await updateDoc(doc(db, "contacts", selectedContact.id), {status: "read"});
                                         setSelectedContact(null);
                                     }}
+                                    p={2} px={4}
                                 >
                                     Mark as Read
                                 </Button>
@@ -800,8 +801,8 @@ export default function AdminDashboard () {
                                     onClick={async () => {
                                         try {
                                             if(selectedBlog) {
-                                                const blogId = selectedBlog.id || generateBlogId();
-                                                await updateDoc(doc(db, "blogs", blogId), {
+                                                const blogId = selectedBlog?.id || generateBlogId();
+                                                await addDoc(collection(db, "blogs", blogId), {
                                                     ...selectedBlog,
                                                     ...newBlog,
                                                     date: serverTimestamp()

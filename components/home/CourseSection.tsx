@@ -62,7 +62,8 @@ export default function CourseSection () {
                         fontWeight="bold"
                         fontSize={{base: "3xl", md: "5xl"}}
                     >
-                        Learn with <Text as="span" color="brandGreen.500" className="neon-text">PasCodez</Text>
+                        Learn with <Text as="span" color="brandGreen.500" className="neon-text"
+                        fontSize={{base: "2xl", md: "3xl"}}>PasCodez</Text>
                     </Heading>
                     <Text color="gray.400" fontSize="lg">
                         Elevate your skills with premium, industry-standard courses.
@@ -75,7 +76,7 @@ export default function CourseSection () {
                     overflow="hidden"
                     border="1px solid"
                     borderColor="whiteAlpha.200"
-                    width="full"
+                    width="90%"
                     maxW="5xl"
                     position="relative"
                     boxShadow="2xl"
@@ -103,8 +104,8 @@ export default function CourseSection () {
                             {/* Decorative Background Icons */}
                             <Box position="absolute" inset={0} opacity={0.1} zIndex={0}>
                                 <SimpleGrid columns={4} gap={4} p={4}>
-                                    {Array(16).fill(0).map((_, i) => (
-                                        <Box key={i} bg="white" w="full" h="20px" borderRadius="sm" />
+                                    {Array(26).fill(0).map((_, i) => (
+                                        <Box key={i} bg="white" w="full" h={ i * 1.5 + 10} borderRadius="md" />
                                     ))}
                                 </SimpleGrid>
                             </Box>
@@ -160,7 +161,7 @@ export default function CourseSection () {
                             </Text>
 
                             {/* Details Grid */}
-                            <SimpleGrid columns={2} gap={6} mb={8}>
+                            <SimpleGrid columns={{sm: 1, base: 2}} gap={6} mb={8}>
                                 <Box>
                                     <HStack color="brandGreen.400" mb={1}><FaClock /> <Text fontWeight="bold">Duration</Text></HStack>
                                     <Text color="gray.300">{courseData.duration}</Text>
@@ -175,8 +176,8 @@ export default function CourseSection () {
                                 </Box>
                                 <Box>
                                     <HStack color="brandGreen.400" mb={1}><FaVideo /> <Text fontWeight="bold">Progress</Text></HStack>
-                                    <Progress.Root value={courseData.progress} width="100%" colorPalette="green" size="sm" mt={1}>
-                                        <Progress.Track bg="gray.700">
+                                    <Progress.Root value={courseData.progress} width="100%" colorPalette="brandGreen.500" size="sm" mt={1} borderRadius={'md'}>
+                                        <Progress.Track bg="gray.600" >
                                             <Progress.Range />
                                         </Progress.Track>
                                     </Progress.Root>

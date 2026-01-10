@@ -31,7 +31,7 @@ export default function Services () {
             </Reveal>
 
             <Reveal width="100%">
-                <TestimonialSection />
+                <TestimonialSection page="service"/>
             </Reveal>
 
             <Separator borderColor="whiteAlpha.100" />

@@ -32,7 +32,7 @@ export default function ProjectsSection () {
                         textAlign="center"
                         color="white"
                     >
-                        Interactive <Text as="span" color="brandGreen.500" className="neon-text">Demos</Text>
+                        Interactive <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>Demos</Text>
                     </Heading>
                     <Text color="gray.400" maxW="2xl" textAlign="center" fontSize="lg">
                         Explore these fully functional mini-applications built with React and Chakra UI.
@@ -80,9 +80,10 @@ export default function ProjectsSection () {
                         className="hover-lift"
                         px={10}
                         py={7}
+                        variant={'outline'}
                         onClick={() => window.open("https://github.com/pascodez", "_blank")}
                     >
-                        <FaGithub style={{marginRight: '10px', fontSize: '1.2em'}} /> View More on GitHub
+                        <FaGithub style={{marginRight: '10px', fontSize: '1.2em'}} color="white"/> View More on GitHub
                     </Button>
                 </Box>
             </Container>

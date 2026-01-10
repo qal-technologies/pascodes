@@ -38,7 +38,7 @@ const testimonials = [
     },
 ];
 
-export default function TestimonialSection () {
+export default function TestimonialSection ({page}: {page?: string;}) {
     return (
         <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden">
             <Box
@@ -67,33 +67,36 @@ export default function TestimonialSection () {
                             fontWeight="bold"
                             lineHeight="shorter"
                         >
-                            Building <Text as="span" color="brandGreen.500" className="neon-text">Relationships</Text>, Not Just Code.
+                            Building <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>Relationships</Text>, Not Just Code.
                         </Heading>
                         <Text color="gray.400" fontSize="lg" lineHeight="tall">
                             We don&apos;t just deliver projects; we build long-term partnerships rooted in transparency, quality, and mutual growth.
                             Our clients&apos; success is our ultimate benchmark.
                         </Text>
 
-                        <Link
-                            as="a"
-                            href="/services"
-                            variant="plain"
-                            color="white"
-                            _hover={{color: "brandGreen.500", transform: "translateX(5px)"}}
-                            transition="all 0.3s"
-                            fontSize="md"
-                            fontWeight="bold"
-                            gap={2}
-                            display="inline-flex"
-                            alignItems="center"
-                        >
-                            Explore Our Services
-                            <FaArrowRight />
-                        </Link>
+                        {
+                            page !== 'service' &&
+                            <Link
+                                as="a"
+                                href="/services"
+                                variant="plain"
+                                color="brandGreen.500"
+                                _hover={{color: "brandGreen.300", transform: "translateX(5px)"}}
+                                transition="all 0.3s"
+                                fontSize="md"
+                                fontWeight="bold"
+                                gap={2}
+                                display="inline-flex"
+                                alignItems="center"
+                            >
+                                Explore Our Services
+                                <FaArrowRight />
+                            </Link>
+                        }
                     </VStack>
                 </Reveal>
 
-                <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={8}>
+                <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={8} p={2}>
                     {testimonials.map((t, i) => (
                         <Reveal key={i} delay={0.1 * i}>
                             <Box
