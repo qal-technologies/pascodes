@@ -705,20 +705,26 @@ export default function AdminDashboard () {
                                                     ...newBlog,
                                                     date: serverTimestamp()
                                                 });
+                                                toaster.create({
+                                                    title: 'Blog Update',
+                                                    type: 'success',
+                                                    description: `Update successful!`
+                                                });
                                             } else {
                                                 const blogId = newBlog?.id || generateBlogId();
                                                 await addDoc(collection(db, "blogs", blogId), {
                                                     ...newBlog,
                                                     date: serverTimestamp() 
                                                 });
+                                                toaster.create({
+                                                    title: 'Blog Post',
+                                                    type: 'success',
+                                                    description: `You just created a blog post!`
+                                                });
                                             }
                                             setIsBlogModalOpen(false);
                                             setNewBlog(null);
-                                            toaster.create({
-                                                title: 'Blog Post',
-                                                type: 'success',
-                                                description: `You just created a blog post!`
-                                            });
+                                            
                                         } catch(err) {
                                             toaster.create({
                                                 title: 'Blog Post Error',
