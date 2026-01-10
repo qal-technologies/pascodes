@@ -362,7 +362,7 @@ export default function AdminDashboard () {
                     </HStack>
                 </Flex>
 
-                <Tabs.Root defaultValue="builds" colorPalette={'brandGreen.500'} position={'sticky'} top={0}>
+                <Tabs.Root defaultValue="builds" colorPalette={'brandGreen.500'} position={'sticky'} top={0} maxH={'100vh'}>
                     <Tabs.List mb={6} gap={4} accentColor={'brandGreen.500'}>
                         <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'}>Builds</Tabs.Trigger>
                         <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'}>Blogs</Tabs.Trigger>
@@ -599,7 +599,7 @@ export default function AdminDashboard () {
                                                     {contact.status}
                                                 </Badge>
                                                 <Text fontSize="xs" color="gray.500">
-                                                    {contact.createdAt?.toString() ? new Date(contact.createdAt?.seconds || contact.createdAt?.nanoseconds).toISOString() : 'Just now'}
+                                                    {contact.createdAt?.toString() ? new Date(contact.createdAt?.seconds || contact.createdAt?.nanoseconds).toUTCString() : 'Just now'}
                                                 </Text>
                                             </HStack>
                                             <Heading size="sm" mb={1} color="white">{contact.name}</Heading>

@@ -24,7 +24,7 @@ export default function SkillsSection () {
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <VStack gap={4} mb={12} textAlign="center">
                     <Text
-                        fontSize={{base: "3xl", md: "4xl"}}
+                        fontSize={{base: "3xl", md: "5xl"}}
                         fontWeight="bold"
                         color="brandGreen.500"
                         fontFamily="PoppinsSemi"

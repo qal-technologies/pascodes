@@ -62,17 +62,20 @@ export default function ContactSection () {
     };
 
     return (
-        <Box py={{base: 20, md: 40}}
-            padding={6} bg="background" id="contact">
+        <Box py={{base: 20, md: 32}} px={10}
+             bg="background" id="contact">
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <SimpleGrid columns={{base: 1, md: 2}} gap={16}>
                     <Box>
                         <Reveal>
-                            <Heading color="foreground" mb={6} size="xl" fontSize={{base: 22, md: 30}}
+                            <Heading color="foreground" mb={6} size="xl" fontSize={{base: "3xl", md: "5xl"}}
+
                                 fontFamily="PoppinsSemi"
                             >
                                 Let&apos;s Build <br />
-                                <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: 20, md: 28}}>Something Amazing</Text>
+                                <Text as="span" color="brandGreen.500" className="neon-text" 
+                                    fontSize={{base: "2xl", md: "4xl"}}
+                                    fontFamily='PoppinsSemi'>Something Amazing</Text>
                             </Heading>
                         </Reveal>
                         <Reveal delay={0.3}>

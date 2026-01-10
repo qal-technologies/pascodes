@@ -45,17 +45,17 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                 width={'600px'}
                 height={'600px'}
                 bgGradient="to-tr"
-                gradientFrom={'brandGreen.900/40'}
-                gradientTo={'transparent'}
+                gradientFrom={'brandGreen.400/40'}
+                gradientTo={'darkcyan/30'}
                 position='absolute'
-                bottom={-200}
+                top={-200}
                 left={-200}
-                opacity={0.4}
-                filter={'blur(120px)'}
+                opacity={0.34}
+                filter={'blur(50px)'}
                 zIndex={0}
             />
 
-            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={1} position="relative">
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={11} position="relative">
                 <Reveal width="100%">
                     <VStack mb={20} gap={6} textAlign="center" maxW="3xl" mx="auto">
                         <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase">
@@ -66,10 +66,13 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                             color="white"
                             fontWeight="bold"
                             lineHeight="shorter"
+                            px={2}
+                            fontFamily='PoppinsSemi'
                         >
-                            Building <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>Relationships</Text>, Not Just Code.
+                            Building <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "5xl"}}
+                                fontFamily='PoppinsSemi'>Relationships</Text>, Not Just Code.
                         </Heading>
-                        <Text color="gray.400" fontSize="lg" lineHeight="tall">
+                        <Text color="gray.400" fontSize="lg" lineHeight="tall" px={2}>
                             We don&apos;t just deliver projects; we build long-term partnerships rooted in transparency, quality, and mutual growth.
                             Our clients&apos; success is our ultimate benchmark.
                         </Text>
@@ -81,7 +84,7 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                                 href="/services"
                                 variant="plain"
                                 color="brandGreen.500"
-                                _hover={{color: "brandGreen.300", transform: "translateX(5px)"}}
+                                _hover={{color: "brandGreen.300", transform: "translateX(5px)", textDecoration: 'underline'}}
                                 transition="all 0.3s"
                                 fontSize="md"
                                 fontWeight="bold"
@@ -96,7 +99,7 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                     </VStack>
                 </Reveal>
 
-                <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={8} p={2}>
+                <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={8} p={4} zIndex={2}>
                     {testimonials.map((t, i) => (
                         <Reveal key={i} delay={0.1 * i}>
                             <Box
@@ -145,6 +148,6 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                     ))}
                 </SimpleGrid>
             </Container>
-        </Box>
+        </Box >
     );
 }

@@ -138,10 +138,9 @@ export default function AdminLoginPage () {
                                 </Button>
 
                                 <Box position="relative" w="full" py={3}>
-                                    <Text fontSize="sm" color="gray.500" bg="background" px={2} position="relative" zIndex={1}>
+                                    <Text fontSize="sm" color="gray.500" px={2} position="relative" zIndex={1}>
                                         Or continue with email
                                     </Text>
-                                    <Box position="absolute" top="50%" left={0} w="full" h="1px" bg="whiteAlpha.200" />
                                 </Box>
 
                                 <Field.Root>
@@ -155,7 +154,7 @@ export default function AdminLoginPage () {
                                         borderColor="border"
                                         size="lg"
                                         required
-                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
                                         style={{padding: 10, borderRadius: '12px'}}
 
                                     />
@@ -171,7 +170,7 @@ export default function AdminLoginPage () {
                                         borderColor="border"
                                         size="lg"
                                         required
-                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500}"}}
+                                        _focus={{borderColor: "brandGreen.500", boxShadow: "0 0 10px {colors.brandGreen.500/40}"}}
                                         style={{padding: 10, borderRadius: '12px'}}
 
                                     />

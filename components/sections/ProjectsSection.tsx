@@ -11,36 +11,41 @@ export default function ProjectsSection () {
     return (
         <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden">
             {/* Background Accents */}
+
+            <Container position="relative" zIndex={1} alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'}>
             <Box
-                width={'500px'}
+                width={'80vw'}
                 height={'500px'}
                 bgGradient="to-br"
-                gradientFrom={'brandGreen.900'}
-                gradientTo={'transparent'}
+                gradientFrom={'red'}
+                gradientTo={'gold'}
                 position='absolute'
-                top={-100}
-                left={-200}
-                opacity={0.3}
+                top={20}
+                left={0}
+                right={0}
+                opacity={0.25}
                 filter={'blur(120px)'}
                 zIndex={0}
             />
-
-            <Container maxW="container.xl" position="relative" zIndex={1}>
                 <VStack mb={16} gap={4}>
                     <Heading
                         fontSize={{base: "3xl", md: "5xl"}}
                         textAlign="center"
                         color="white"
+
+                        fontFamily='PoppinsSemi'
                     >
-                        Interactive <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "2xl", md: "3xl"}}>Demos</Text>
+                        Interactive <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "5xl"}}
+
+                            fontFamily='PoppinsSemi'>Demos</Text>
                     </Heading>
-                    <Text color="gray.400" maxW="2xl" textAlign="center" fontSize="lg">
+                    <Text color="gray.400" maxW="2xl" textAlign="center" fontSize="lg" px={2}>
                         Explore these fully functional mini-applications built with React and Chakra UI.
                         Test them out right here!
                     </Text>
                 </VStack>
 
-                <SimpleGrid columns={{base: 1, md: 3}} gap={8} mb={16}>
+                <SimpleGrid columns={{base: 1, md: 3}} gap={10} mb={16} justifyContent={'space-evenly'}>
                     <Reveal delay={0.1}>
                         <Box>
                             <Text color="white" mb={4} textAlign="center" fontWeight="bold">Neon Calculator</Text>

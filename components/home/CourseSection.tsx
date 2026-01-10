@@ -45,9 +45,9 @@ export default function CourseSection () {
                 gradientTo={'transparent'}
                 position='absolute'
                 top={-100}
-                right={-100}
+                left={-100}
                 opacity={0.3}
-                filter={'blur(100px)'}
+                filter={'blur(50px)'}
                 zIndex={0}
             />
 
@@ -63,7 +63,8 @@ export default function CourseSection () {
                         fontSize={{base: "3xl", md: "5xl"}}
                     >
                         Learn with <Text as="span" color="brandGreen.500" className="neon-text"
-                        fontSize={{base: "2xl", md: "3xl"}}>PasCodez</Text>
+                            fontSize={{base: "3xl", md: "5xl"}}
+                            fontFamily='PoppinsSemi'>PasCodez</Text>
                     </Heading>
                     <Text color="gray.400" fontSize="lg">
                         Elevate your skills with premium, industry-standard courses.
@@ -103,9 +104,9 @@ export default function CourseSection () {
                             />
                             {/* Decorative Background Icons */}
                             <Box position="absolute" inset={0} opacity={0.1} zIndex={0}>
-                                <SimpleGrid columns={4} gap={4} p={4}>
-                                    {Array(26).fill(0).map((_, i) => (
-                                        <Box key={i} bg="white" w="full" h={ i * 1.5 + 10} borderRadius="md" />
+                                <SimpleGrid columns={5} gap={4} p={4} flexWrap='wrap'>
+                                    {Array(60).fill(0).map((_, i) => (
+                                        <Box key={i} bg="white" w={i + 0.2 + 0.8 * i} h={i * 1.5 + 10 / i % 5} borderRadius="full" rotate={(-i * 2.9 / i - 2) as any} opacity={ i - 0.5 + 1.5} />
                                     ))}
                                 </SimpleGrid>
                             </Box>
@@ -176,9 +177,9 @@ export default function CourseSection () {
                                 </Box>
                                 <Box>
                                     <HStack color="brandGreen.400" mb={1}><FaVideo /> <Text fontWeight="bold">Progress</Text></HStack>
-                                    <Progress.Root value={courseData.progress} width="100%" colorPalette="brandGreen.500" size="sm" mt={1} borderRadius={'md'}>
-                                        <Progress.Track bg="gray.600" >
-                                            <Progress.Range />
+                                    <Progress.Root value={courseData.progress} width="100%"  size="sm" mt={1}>
+                                        <Progress.Track bg="gray.600" borderRadius={'md'}>
+                                            <Progress.Range borderRadius={'md'} colorPalette="brandGreen.500" bgColor={'brandGreen.400'} />
                                         </Progress.Track>
                                     </Progress.Root>
                                     <Text fontSize="xs" color="gray.500" mt={1}>{courseData.progress}% recorded</Text>

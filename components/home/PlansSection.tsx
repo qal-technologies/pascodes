@@ -105,9 +105,9 @@ export default function PlansSection () {
                 height={'30vh'}
                 background={'purple'}
                 position='absolute'
-                top={-10}
+                top={-12}
                 right={-12}
-                opacity={.25}
+                opacity={.35}
                 filter={'blur(100px) brightness(110%)'}
                 rotate={'40deg'}
                 borderRadius={'50%'}
@@ -129,7 +129,7 @@ export default function PlansSection () {
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Reveal width='100%'>
                     <Text
-                        fontSize={{base: "3xl", md: "4xl"}}
+                        fontSize={{base: "3xl", md: "5xl"}}
                         fontWeight="bold"
                         color="brandGreen.500"
                         fontFamily="PoppinsSemi"

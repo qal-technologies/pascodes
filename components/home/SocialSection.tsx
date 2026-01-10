@@ -26,10 +26,12 @@ export default function SocialSection () {
                 <Reveal>
                     <VStack gap={4} mb={12}>
                         <Heading
-                            fontSize={{base: "3xl", md: "4xl"}}
+                            fontSize={{base: "3xl", md: "5xl"}}
                             fontWeight="bold"
                             color="foreground"
                             className="neon-text"
+
+                            fontFamily='PoppinsSemi'
                         >
                             Let's Connect
                         </Heading>

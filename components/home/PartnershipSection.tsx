@@ -1,4 +1,4 @@
-import {Box, Button, Container, Heading, SimpleGrid, Text, VStack, HStack, IconButton} from "@chakra-ui/react";
+import {Box, Button, Container, Heading, SimpleGrid, Text, VStack, HStack, IconButton, Portal} from "@chakra-ui/react";
 import {FaHandshake, FaProjectDiagram, FaWhatsapp, FaEnvelope, FaTimes} from "react-icons/fa";
 import {Reveal} from "../utils/Reveal";
 import {useState} from "react";
@@ -31,14 +31,14 @@ export default function PartnershipSection () {
         <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" >
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Box
-                    width={'60%'}
-                    height={'40%'}
+                    width={'60vw'}
+                    height={'40vh'}
                     maxW={'300px'}
                     maxH='400px'
                     background={'brandGreen.500'}
                     position='absolute'
                     top={-12}
-                    left={-50}
+                    left={-20}
                     opacity={.3}
                     filter={'blur(160px)'}
                     borderRadius={'50%'}
@@ -141,85 +141,91 @@ export default function PartnershipSection () {
 
             {/* Modal Overlay */}
             {isModalOpen && (
-                <Box
-                    position="fixed"
-                    top={0}
-                    left={0}
-                    right={0}
-                    bottom={0}
-                    width="100vw"
-                    height="100vh"
-                    inset={0}
-                    bg="blackAlpha.800/30"
-                    backdropFilter="blur(20px)"
-                    zIndex={9999}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflowY="auto"
-                    p={4}
-                    onClick={() => setIsModalOpen(false)}
-                >
+                <Portal>
                     <Box
-                        bg="blackAlpha.900"
-                        p={8}
-                        borderRadius="2xl"
-                        maxW="400px"
-                        w="full"
-                        onClick={(e) => e.stopPropagation()}
-                        border="1px solid"
-                        borderColor="brandGreen.500"
-                        position="relative"
-                        m="auto"
-                        className="neon-glow-accent"
+                        position="fixed"
+                        top={0}
+                        left={0}
+                        right={0}
+                        bottom={0}
+                        width="100vw"
+                        height="100vh"
+                        inset={0}
+                        bg="blackAlpha.800/30"
+                        backdropFilter="blur(20px)"
+                        zIndex={9999}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        overflowY="auto"
+                        p={4}
+                        onClick={() => setIsModalOpen(false)}
                     >
-                        <IconButton
-                            onClick={() => setIsModalOpen(false)}
-                            aria-label="Close modal"
-                            size="sm"
-                            variant="ghost"
-                            position="absolute"
-                            top={4}
-                            right={4}
-                            color="brandGreen.500"
+                        <Box
+                            bg="blackAlpha.900"
+                            p={8}
+                            borderRadius="2xl"
+                            maxW="400px"
+                            w="full"
+                            onClick={(e) => e.stopPropagation()}
+                            border="1px solid"
+                            borderColor="brandGreen.500"
+                            position="relative"
+                            m="auto"
+                            className="neon-glow-accent"
                         >
-                            <FaTimes />
-                        </IconButton>
-
-
-                        <Heading size="lg" fontSize={20} color="white" mb={1} textAlign="center" fontWeight={'bolder'} fontFamily={'PoppinsSemi'}>
-                            {contactType === "partnership" ? "Partnership" : "Collaboration"}
-                        </Heading>
-                        <Text color="gray.400" textAlign="center" fontSize={16} mb={6}>
-                            Choose your preferred way to connect
-                        </Text>
-
-                        <VStack gap={4} width="100%">
-                            <Button
-                                width="100%"
-                                size="lg"
-                                colorPalette="green"
-                                borderRadius='18px'
-                                fontFamily={'PoppinsSemi'}
-                                onClick={() => handleContact("whatsapp")}
-                                gap={10}
+                            <IconButton
+                                onClick={() => setIsModalOpen(false)}
+                                aria-label="Close modal"
+                                size="sm"
+                                variant="ghost"
+                                position="absolute"
+                                top={4}
+                                right={4}
+                                color="brandGreen.500"
                             >
-                                <FaWhatsapp style={{marginRight: '8px'}} /> WhatsApp
-                            </Button>
-                            <Button
-                                width="100%"
-                                size="lg"
-                                variant="outline"
-                                borderRadius='18px'
-                                fontFamily={'PoppinsSemi'}
-                                gap={10}
-                                onClick={() => handleContact("email")}
-                            >
-                                <FaEnvelope style={{marginRight: '8px'}} /> Email
-                            </Button>
-                        </VStack>
+                                <FaTimes />
+                            </IconButton>
+
+
+                            <Heading size="lg" fontSize={20} color="white" mb={1} textAlign="center" fontWeight={'bolder'} fontFamily={'PoppinsSemi'}>
+                                {contactType === "partnership" ? "Partnership" : "Collaboration"}
+                            </Heading>
+                            <Text color="gray.400" textAlign="center" fontSize={16} mb={6}>
+                                Choose your preferred way to connect
+                            </Text>
+
+                            <HStack gap={5} width="100%" wrap={'wrap'} align='center'
+                                alignItems='center'
+                                justifyContent='center'>
+                                <Button
+                                    size="lg"
+                                    borderRadius='full'
+                                    fontFamily={'PoppinsSemi'}
+                                    color='black'
+                                    colorPalette="brandGreen.500"
+                                    onClick={() => handleContact("whatsapp")}
+                                    gap={10}
+                                    _hover={{bg: 'brandGreen.500'}}
+                                >
+                                    <FaWhatsapp/>
+                                </Button>
+                                <Button
+                                    size="lg"
+                                    borderRadius='full'
+                                    color='black'
+                                    colorPalette="brandGreen.500"
+                                    fontFamily={'PoppinsSemi'}
+                                    gap={10}
+                                    onClick={() => handleContact("email")}
+                                    _hover={{bg:'brandGreen.500'}}
+                                >
+                                    <FaEnvelope/>
+                                </Button>
+                            </HStack>
+                        </Box>
                     </Box>
-                </Box>
+                </Portal>
             )}
         </Box>
     );
