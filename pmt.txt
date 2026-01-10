@@ -1,0 +1,30 @@
+New tasks that nust be done without errors and complications.
+
+1. Fix the partnership modal to cover up the entire screen and not move on scroll or just relative to the partnership section.
+2. Create a projects sections just after nmySkill section. create 3-6 workbale mindblowing demos that can be tested, add placeholder images (I'll add screenshot images of the qwebsite I have worked on there) and at the bottom the section add my github link to let people see what i am about.
+3. create a section in the admin panel where i can control course upload, title, description, steps, videos, asignments, pricing and see who's bought and their progress.
+4. In the admin section too, add a tab for making posts (not blogs), these posts appear on the what's going on section in the about page. 
+5. Create a new section for the general website, this section starts at the top of all pages and is visible only when we have an announcement. This section handles announcing new launches, versions, discount, and it's visibility is countroled by a tab in the admin panel. This section should have a predesign and if it matches either announcemnet or discount or other type of announcement, it takes the extra data abnd add into thr design instead.
+6. New section for news (not blogs), this section would be inside the banner and directly under the blogsection. This section is slim and small height, but displays information in a horizontal line (animating like that of news in tv). This is visible only when a news has beem added by the admin in the admin panel.
+7. In the What is going on sections add new tabs: News, Lifestyle, Videos, Career, and these tabs are only visible if there's a post (from the admin) with their tag (add tag on admin panel post tab and defaults to news if not set).
+8. currently now viewing blog (by slug) doesnt work, and returns error, fix that.
+9. Create independent and subjective Banner section for all nav pages (services, courses, blogs, skip about), these banners talks about that nav page in summary and provide few cta buttons to easily access what that page is bout. Just like the banner in the home page. It'll include catchy titles, illustrative icons at the side (flexible - wrap), some writeups, btns and the news section (like the tv news type inmentioned).
+10. Unless the home page, the planSection to be in service page would be very detailed and even have dropdowns in the plans to see more and read all it's about.
+11. The services page would contain other services sections like web3 - blockchain, ai, link to course (mentorship as a service), auditing, debugging etc, each having detailed sections.
+12. In the home Page, add a button/section or squeeze into somewhere a button that links to the about page so they can see what i am about.(maybe in the home banner section??).
+13. each banner section of each nav page (except about) must have news bar (section) below.
+14. Make the waitlist in the home and course section work and add a section in the admin panel that reflects it.
+This waitlist is mostly for  course and new launches, and just show a modal that askes for their email and name, save and show. and in the admin panel, make the mailing waitlisters easy by using a email provider and mapuing through al their emails and send the desired message one by one.
+15. Make a component for testimonials and a file for the message, name, position, image and link, the array of these testimonials are iterated and the made component is used to render, if a link exists, when the particular testimonial is clicked it redirects to the link added, if no image, use the initials in the name.
+16. The testimonial section looks scanty, make a small write up before showing the testimonials, and dont use client stories, rather use something more catchym, that talks about trust and commitment, and a link to the service page, this tell them if they want to witness too they can use our servuces.
+17. Go through the usage and integration of rhe entire codebase and website and know what we do and how we do it, then update the terms and privacy policy pages to be very detailed and well structured legally and itherwise.
+18. create a sample-blogs.txt file and write like 3-4 tech, crypto and our service related blogs, with titles, slugs and detailed article, add all the necessary tags and parameter types for a blog. Add a tag type in the blog, that uses it to judge the next article or blogs to recommend and also links in seo. redesign the slug to recommend related blogs at the end of each read. and partnership and collaboration section too.
+19. In the course section and page, make the waiting and coming soon look more attractive and compelling, with things like languages touched, outlines, duration, target audeince, how long the recording would take, and in status show progress like: Recording in progress, not just coming soon. add expected launch too. And all rhese can be changed or controlled by the admin pabnel, sjhow my state in the course progress, the languages, create a system in the section and pages that in the languages used in a course, i dont need to add the icon, but it checks the languagaes used and inherently displays with the icon (conditional rendering).
+20. Make the about section be more like a web-based resume and cv and talks more about me and highlight all the hirers would need. This would be better.
+21. check all data taken that needs to be accounted for, and make justice to it in the legal pages(terms, privacy).
+22. after most of the things, look into the layout page that handles the seo and meta and head data and optimize it very very good thst i have more advantage in crawlers and web bots.
+
+
+Do all cautiouly without errors, categorize and do them iin phases and task queues.
+No rush.
+Always run a lint check before marking any task as complete, to avoid errors.

@@ -114,7 +114,7 @@ export default function PartnershipSection () {
             {/* Modal Overlay */}
             {isModalOpen && (
                 <Box
-                    position="absolute"
+                    position="fixed"
                     top={0}
                     left={0}
                     right={0}
@@ -124,15 +124,16 @@ export default function PartnershipSection () {
                     inset={0}
                     bg="blackAlpha.800/30"
                     backdropFilter="blur(20px)"
-                    zIndex={'modal'}
+                    zIndex={9999}
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
-                    p={6}
+                    overflowY="auto"
+                    p={4}
                     onClick={() => setIsModalOpen(false)}
                 >
                     <Box
-                        bg="blackAlpha.800"
+                        bg="blackAlpha.900"
                         p={8}
                         borderRadius="2xl"
                         maxW="400px"
@@ -141,6 +142,7 @@ export default function PartnershipSection () {
                         border="1px solid"
                         borderColor="brandGreen.500"
                         position="relative"
+                        m="auto"
                         className="neon-glow-accent"
                     >
                         <IconButton

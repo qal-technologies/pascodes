@@ -51,11 +51,12 @@ export default function AdminLoginPage () {
                 type: "success"
             });
             router.replace("/admin");
-        } catch(error: any) {
+        } catch(error: unknown) {
             console.error("Google Login error:", error);
+            const errorMessage = error instanceof Error ? error.message : "Failed to sign in with Google.";
             toaster.create({
                 title: "Login Failed",
-                description: error.message || "Failed to sign in with Google.",
+                description: errorMessage,
                 type: "error"
             });
         } finally {

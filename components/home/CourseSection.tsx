@@ -1,91 +1,226 @@
-import {Box, Button, Container, Heading, SimpleGrid, Text, Badge} from "@chakra-ui/react";
+import {Box, Button, Container, Heading, SimpleGrid, Text, Badge, HStack, Progress, Icon, Card} from "@chakra-ui/react";
+import {useState} from "react";
+import WaitlistModal from "../ui/WaitlistModal";
+import {FaReact, FaJs, FaHtml5, FaCss3, FaNodeJs, FaVideo, FaClock, FaUserGraduate, FaCalendarAlt} from "react-icons/fa";
+import {SiNextdotjs, SiTypescript} from "react-icons/si";
+
+// Mock data - eventually from Admin
+const courseData = {
+    title: "Master Modern Web Development",
+    description: "From Zero to Full Stack Hero. Learn React, Next.js, TypeScript and more in this comprehensive course designed for 2026. comprehensive curriculum covering the latest tech stack.",
+    status: "Recording in Progress",
+    progress: 65,
+    launchDate: "March 2026",
+    duration: "40+ Hours",
+    audience: "Beginner to Intermediate",
+    languages: ["React", "Next.js", "TypeScript", "JavaScript", "Node.js"],
+};
+
+const iconMap: Record<string, any> = {
+    "React": FaReact,
+    "Next.js": SiNextdotjs,
+    "TypeScript": SiTypescript,
+    "JavaScript": FaJs,
+    "Node.js": FaNodeJs,
+    "HTML": FaHtml5,
+    "CSS": FaCss3,
+};
 
 export default function CourseSection () {
+    const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+
     return (
-        <Box py={40} bg="black">
+        <Box py={40} bg="black" position="relative" overflow="hidden">
+            <WaitlistModal
+                isOpen={isWaitlistOpen}
+                onClose={() => setIsWaitlistOpen(false)}
+                title="Join Course Waitlist"
+                source="course_section"
+            />
             <Box
-                width={'350px'}
-                height={'34vh'}
+                width={'500px'}
+                height={'500px'}
                 bgGradient="to-tl"
-                gradientFrom={'brandGreen.500'}
-                gradientTo={'yellow.400'}
+                gradientFrom={'brandGreen.500/30'}
+                gradientTo={'transparent'}
                 position='absolute'
-                top={-30}
-                left={-22}
-                opacity={.26}
-                filter={'blur(100px) brightness(105%)'}
-                rotate={'125deg'}
+                top={-100}
+                right={-100}
+                opacity={0.3}
+                filter={'blur(100px)'}
+                zIndex={0}
             />
 
-            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={9}>
-                <Box>
+            <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={9} position="relative">
+                <Box mb={16} textAlign="center">
                     <Heading
                         color="white"
-                        textAlign="center"
                         fontFamily="PoppinsSemi"
                         maxW="4xl"
-                        mb={12}
-                        alignSelf='center'
-                        justifySelf={'center'}
+                        textAlign={'center'}
+                        mb={6}
                         fontWeight="bold"
-                        fontSize={{base: "3xl", md: "4xl"}}
+                        fontSize={{base: "3xl", md: "5xl"}}
                     >
-                        Learn with <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "4xl"}}>PasCodez</Text>
+                        Learn with <Text as="span" color="brandGreen.500" className="neon-text">PasCodez</Text>
                     </Heading>
-                    {/* <Text>Add </Text> */}
+                    <Text color="gray.400" fontSize="lg">
+                        Elevate your skills with premium, industry-standard courses.
+                    </Text>
                 </Box>
 
                 <Box
-                    bg="gray.900/90"
-                    backdropFilter={'blur(20px)'}
-                    borderRadius="2xl"
+                    bg="gray.900"
+                    borderRadius="3xl"
                     overflow="hidden"
                     border="1px solid"
-                    borderColor="whiteAlpha.100/90"
-                    width='90%'
-                    maxW="4xl"
-                    mx="auto"
+                    borderColor="whiteAlpha.200"
+                    width="full"
+                    maxW="5xl"
+                    position="relative"
+                    boxShadow="2xl"
                 >
-                    <SimpleGrid columns={{base: 1, md: 2}} gap={0}>
-                        <Box h={{base: '300px', md: "320px"}} bg="gray.800" position="relative">
-                            {/* Placeholder for Course Image */}
+                    <SimpleGrid columns={{base: 1, lg: 2}} gap={0}>
+                        {/* Left Side: Visual/Cover */}
+                        <Box
+                            minH={{base: '300px', lg: "auto"}}
+                            bg="gray.800"
+                            position="relative"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            overflow="hidden"
+                        >
                             <Box
                                 position="absolute"
                                 inset={0}
                                 bgGradient="to-br"
-                                gradientFrom="brandGreen.800"
+                                gradientFrom="brandGreen.900"
                                 gradientTo="black"
-                                opacity={0.6}
+                                opacity={0.8}
+                                zIndex={1}
                             />
-                            <Text
-                                position="absolute"
-                                top="50%"
-                                left="50%"
-                                transform="translate(-50%, -50%)"
-                                color="whiteAlpha.500"
-                                fontWeight="bold"
-                            >
-                                Course Cover
-                            </Text>
+                            {/* Decorative Background Icons */}
+                            <Box position="absolute" inset={0} opacity={0.1} zIndex={0}>
+                                <SimpleGrid columns={4} gap={4} p={4}>
+                                    {Array(16).fill(0).map((_, i) => (
+                                        <Box key={i} bg="white" w="full" h="20px" borderRadius="sm" />
+                                    ))}
+                                </SimpleGrid>
+                            </Box>
+
+                            <Box zIndex={2} textAlign="center" p={8}>
+                                <Box
+                                    bg="blackAlpha.600"
+                                    backdropFilter="blur(10px)"
+                                    p={6}
+                                    borderRadius="2xl"
+                                    border="1px solid"
+                                    borderColor="brandGreen.500/50"
+                                >
+                                    <Heading size="2xl" color="white" mb={2}>JS</Heading>
+                                    <Heading size="2xl" color="brandGreen.400">Mastery</Heading>
+                                </Box>
+                            </Box>
                         </Box>
-                        <Box p={10} display="flex" flexDirection="column" justifyContent="center">
-                            <Badge colorPalette="green" mb={4} alignSelf="start" padding={1} px={2} borderRadius={10}>Coming Soon</Badge>
-                            <Heading size="lg" color="white" mb={4}>Master Modern Web Development</Heading>
-                            <Text color="gray.400" mb={8}>
-                                From Zero to Full Stack Hero. Learn React, Next.js, TypeScript and more in this comprehensive course designed for 2026.
+
+                        {/* Right Side: Content */}
+                        <Box p={{base: 8, md: 12}} display="flex" flexDirection="column" justifyContent="center">
+                            <HStack mb={6} gap={4} wrap="wrap">
+                                <Badge
+                                    colorPalette="green"
+                                    variant="solid"
+                                    size="lg"
+                                    px={3}
+                                    py={1}
+                                    borderRadius="full"
+                                >
+                                    Coming Soon
+                                </Badge>
+                                <Badge
+                                    colorPalette="blue"
+                                    variant="subtle"
+                                    size="lg"
+                                    px={3}
+                                    py={1}
+                                    borderRadius="full"
+                                >
+                                    <HStack gap={2}>
+                                        <FaVideo /> {courseData.status}
+                                    </HStack>
+                                </Badge>
+                            </HStack>
+
+                            <Heading size="2xl" color="white" mb={4} lineHeight="short">
+                                {courseData.title}
+                            </Heading>
+
+                            <Text color="gray.400" mb={8} fontSize="lg" lineHeight="tall">
+                                {courseData.description}
                             </Text>
+
+                            {/* Details Grid */}
+                            <SimpleGrid columns={2} gap={6} mb={8}>
+                                <Box>
+                                    <HStack color="brandGreen.400" mb={1}><FaClock /> <Text fontWeight="bold">Duration</Text></HStack>
+                                    <Text color="gray.300">{courseData.duration}</Text>
+                                </Box>
+                                <Box>
+                                    <HStack color="brandGreen.400" mb={1}><FaUserGraduate /> <Text fontWeight="bold">Level</Text></HStack>
+                                    <Text color="gray.300">{courseData.audience}</Text>
+                                </Box>
+                                <Box>
+                                    <HStack color="brandGreen.400" mb={1}><FaCalendarAlt /> <Text fontWeight="bold">Launch</Text></HStack>
+                                    <Text color="gray.300">{courseData.launchDate}</Text>
+                                </Box>
+                                <Box>
+                                    <HStack color="brandGreen.400" mb={1}><FaVideo /> <Text fontWeight="bold">Progress</Text></HStack>
+                                    <Progress.Root value={courseData.progress} width="100%" colorPalette="green" size="sm" mt={1}>
+                                        <Progress.Track bg="gray.700">
+                                            <Progress.Range />
+                                        </Progress.Track>
+                                    </Progress.Root>
+                                    <Text fontSize="xs" color="gray.500" mt={1}>{courseData.progress}% recorded</Text>
+                                </Box>
+                            </SimpleGrid>
+
+                            {/* Tech Stack */}
+                            <Box mb={10}>
+                                <Text fontWeight="bold" color="white" mb={3} fontSize="sm" textTransform="uppercase" letterSpacing="wider">Tech Stack</Text>
+                                <HStack gap={3} wrap="wrap">
+                                    {courseData.languages.map(lang => {
+                                        const IconComp = iconMap[lang];
+                                        return (
+                                            <Box
+                                                key={lang}
+                                                p={2}
+                                                bg="gray.800"
+                                                borderRadius="lg"
+                                                color="gray.300"
+                                                title={lang}
+                                                _hover={{color: "brandGreen.400", bg: "gray.700", transform: "scale(1.1)"}}
+                                                transition="all 0.2s"
+                                            >
+                                                {IconComp ? <IconComp size={24} /> : <Text fontSize="xs" fontWeight="bold">{lang}</Text>}
+                                            </Box>
+                                        );
+                                    })}
+                                </HStack>
+                            </Box>
+
                             <Button
-                                variant="subtle"
-                                borderColor="brandGreen.500"
-                                color="brandGreen.500"
-                                colorPalette={'brandGreen.500'}
-                                _hover={{bg: "brandGreen.500", color: "black", fontWeight: 'bolder'}}
-                                size="lg"
-                                border='2px solid '
-                                borderRadius='16px'
-                                fontFamily="PoppinsSemi"
+                                size="xl"
+                                colorPalette="green"
+                                bg="brandGreen.500"
+                                color="black"
+                                _hover={{bg: "brandGreen.400", transform: "translateY(-2px)", boxShadow: "0 0 20px rgba(0, 255, 128, 0.4)"}}
+                                onClick={() => setIsWaitlistOpen(true)}
+                                borderRadius="xl"
+                                fontWeight="bold"
+                                fontSize="lg"
+                                width="full"
                             >
-                                Join Waitlist
+                                Get Early Access &rarr;
                             </Button>
                         </Box>
                     </SimpleGrid>

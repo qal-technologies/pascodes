@@ -117,7 +117,7 @@ export default function Pricing() {
                   defaultValue={[4]}
                   min={4}
                   max={100}
-                  onValueChange={(value: number | any) => handleSliderChange(value, tier.id)}
+                    onValueChange={(details) => handleSliderChange(details.value[0], tier.id)}
                 >
                   <Slider.Control>
                     <Slider.Track>

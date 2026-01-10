@@ -7,6 +7,7 @@ import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
 import {FaRocket, FaCode, FaLightbulb} from "react-icons/fa";
 import Footer from "@/components/layout/Footer";
+import ProjectsSection from "@/components/sections/ProjectsSection";
 
 export default function AboutPage () {
   return (
@@ -65,6 +66,10 @@ export default function AboutPage () {
                 />
               </Box>
             </SimpleGrid>
+
+            <Separator borderColor="whiteAlpha.100" />
+
+            <ProjectsSection />
 
             <Separator borderColor="whiteAlpha.100" />
 

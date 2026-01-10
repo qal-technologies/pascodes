@@ -17,13 +17,16 @@ export default function PrivacyPage () {
             <Box pt={32} pb={20} px={10}>
                 <Container maxW="container.md">
                     <Reveal>
-                        <VStack align="start" gap={8}>
-                            <Heading size="3xl" color="brandGreen.500" className="neon-text" fontFamily={'PoppinsSemi'} fontSize={22}>Privacy Policy</Heading>
-                            <Text color="gray.400" mt={-5}>Last Updated: January 2026</Text>
+                        <VStack align="start" gap={10}>
+                            <Box>
+                                <Heading size="xl" color="brandGreen.500" className="neon-text" fontFamily={'PoppinsSemi'} fontSize={25}>Privacy Policy</Heading>
+                                <Text color="gray.400" >Last Updated: January 2026</Text>
+                            </Box>
 
                             <VStack align="start" gap={4}>
-                                <Heading size="lg" color="foreground">1. Introduction</Heading>
-                                <UnderLine />
+                                <Heading size="lg" color="foreground">1. Introduction
+                                    <UnderLine />
+                                </Heading>
 
                                 <Text color="gray.300">
                                     Welcome to PasCodez. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights.
@@ -31,8 +34,9 @@ export default function PrivacyPage () {
                             </VStack>
 
                             <VStack align="start" gap={4}>
-                                <Heading size="lg" color="foreground">2. Data We Collect</Heading>
-                                <UnderLine />
+                                <Heading size="lg" color="foreground">2. Data We Collect
+                                    <UnderLine />
+                                </Heading>
 
                                 <Text color="gray.300">
                                     We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
@@ -45,8 +49,9 @@ export default function PrivacyPage () {
                             </VStack>
 
                             <VStack align="start" gap={4}>
-                                <Heading size="lg" color="foreground">3. How We Use Your Data</Heading>
-                                <UnderLine />
+                                <Heading size="lg" color="foreground">3. How We Use Your Data
+                                    <UnderLine />
+                                </Heading>
 
                                 <Text color="gray.300">
                                     We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to provide services to you, to manage our relationship with you, and to improve our website.
@@ -54,8 +59,9 @@ export default function PrivacyPage () {
                             </VStack>
 
                             <VStack align="start" gap={4}>
-                                <Heading size="lg" color="foreground">4. Data Security</Heading>
-                                <UnderLine />
+                                <Heading size="lg" color="foreground">4. Data Security
+                                    <UnderLine />
+                                </Heading>
 
                                 <Text color="gray.300">
                                     We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed.
@@ -63,8 +69,9 @@ export default function PrivacyPage () {
                             </VStack>
 
                             <VStack align="start" gap={4}>
-                                <Heading size="lg" color="foreground">5. Contact Us</Heading>
-                                <UnderLine />
+                                <Heading size="lg" color="foreground">5. Contact Us
+                                    <UnderLine />
+                                </Heading>
 
                                 <Text color="gray.300">
                                     If you have any questions about this privacy policy or our privacy practices, please contact us at:
@@ -112,14 +119,14 @@ export function MiniFooter ({focus}: {focus: string;}) {
             <HStack w={'full'} gap={5} wrap={'wrap'} mb={2} justify={'center'} align={'center'}>
                 {
                     arrays.map(({link, name, focus: myFocus}, index) => {
-                        return <FooterLink href={link as string} key={index} fontSize="xs" color={myFocus === focus as string ? 'brandGreen.500' : 'gray.400'}>
+                        return <FooterLink href={link as string} key={index} fontSize="xs" color={myFocus === focus as string ? 'brandGreen.500' : 'gray.400'} className='hover-lift' fontWeight={myFocus === focus ? 'bold' : 'normal'}>
                             {name}
                         </FooterLink>;
                     })
                 }
             </HStack>
 
-            <Text fontSize="sm" textAlign={'center'} mt={2}>
+            <Text fontSize="sm" textAlign={'center'} mt={2} alignSelf='center' width='full'>
                 &copy; {currentYear} PasCodez.
             </Text>
         </Flex>

@@ -13,7 +13,6 @@ import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import "@/styles/loading.css";
 import {toaster} from "@/components/ui/toaster";
-import {SITE_CONFIG} from "@/lib/site-config";
 
 
 // Interface for Build Data
@@ -23,6 +22,7 @@ interface BuildData {
     title: string;
     name: string;
     email?: string;
+    phone?: string | number;
     projectType: string;
     pages?: number;
     status?: "pending" | "progress" | "complete" | "cancelled";
@@ -49,6 +49,40 @@ interface BlogPost {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     date: number | any;
     slug: string;
+    category?: string;
+    content?: string;
+}
+
+interface CourseData {
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    progress: number;
+    launchDate: string;
+    duration: string;
+    audience: string;
+    languages: string[];
+}
+
+interface AnnouncementData {
+    id: string;
+    content: string;
+    isActive: boolean;
+    type: "info" | "warning" | "success";
+}
+
+interface NewsTickerData {
+    id: string;
+    items: string[];
+}
+
+interface WaitlistEntry {
+    id: string;
+    name: string;
+    email: string;
+    source: string;
+    createdAt: any;
 }
 
 export default function AdminDashboard () {
@@ -56,13 +90,34 @@ export default function AdminDashboard () {
     const [builds, setBuilds] = useState<BuildData[]>([]);
     const [contacts, setContacts] = useState<ContactData[]>([]);
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
+    const [courses, setCourses] = useState<CourseData[]>([]);
+    const [announcements, setAnnouncements] = useState<AnnouncementData[]>([]);
+    const [newsTicker, setNewsTicker] = useState<NewsTickerData | null>(null);
+    const [waitlist, setWaitlist] = useState<WaitlistEntry[]>([]);
+
     const [, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedBuild, setSelectedBuild] = useState<BuildData | null>(null);
     const [selectedContact, setSelectedContact] = useState<ContactData | null>(null);
+
+    // Modals & New Items
     const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
     const [newBlog, setNewBlog] = useState<BlogPost | null>(null);
     const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+
+    const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
+    const [newCourse, setNewCourse] = useState<Partial<CourseData>>({
+        title: "",
+        description: "",
+        status: "Recording",
+        progress: 0,
+        launchDate: "",
+        duration: "",
+        audience: "Beginner",
+        languages: []
+    });
+    const [selectedCourse, setSelectedCourse] = useState<CourseData | null>(null);
+
     const [uploadingImage, setUploadingImage] = useState(false);
 
     const router = useRouter();
@@ -76,9 +131,9 @@ export default function AdminDashboard () {
             const storageRef = ref(storage, `blogs/${Date.now()}_${file.name}`);
             await uploadBytes(storageRef, file);
             const url = await getDownloadURL(storageRef);
-            if (selectedBlog) {
+            if(selectedBlog) {
                 setSelectedBlog({...selectedBlog, image: url});
-            } else if (newBlog){
+            } else if(newBlog) {
                 setNewBlog({...newBlog, image: url});
             }
             alert("Image uploaded successfully!");
@@ -126,6 +181,51 @@ export default function AdminDashboard () {
         return unsubscribe;
     };
 
+    const fetchCourses = () => {
+        const q = query(collection(db, "courses"), orderBy("title", "asc"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as CourseData[];
+            setCourses(data);
+        });
+        return unsubscribe;
+    };
+
+    const fetchWaitlist = () => {
+        const q = query(collection(db, "waitlist"), orderBy("createdAt", "desc"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as WaitlistEntry[];
+            setWaitlist(data);
+        });
+        return unsubscribe;
+    };
+
+    const fetchAnnouncements = () => {
+        const q = query(collection(db, "announcements"));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as AnnouncementData[];
+            setAnnouncements(data);
+        });
+        return unsubscribe;
+    };
+
+    const fetchNewsTicker = () => {
+        const unsubscribe = onSnapshot(doc(db, "settings", "news_ticker"), (doc) => {
+            if(doc.exists()) {
+                setNewsTicker({id: doc.id, ...doc.data()} as NewsTickerData);
+            }
+        });
+        return unsubscribe;
+    };
+
     const generateBlogId = () => {
         const randomString = Math.random().toString(36).substring(2, 8);
         const timestamp = Date.now().toString().substring(7);
@@ -136,19 +236,12 @@ export default function AdminDashboard () {
         try {
             await deleteDoc(doc(db, "blogs", id));
             setBlogs(prev => prev.filter(blog => blog.id !== id));
-        } catch (error) {
+        } catch(error) {
             console.error("Error deleting blog:", error);
         }
     };
 
-    const updateBlog = async (id: string, updatedData: Partial<BlogPost>) => {
-        try {
-            await updateDoc(doc(db, "blogs", id), updatedData);
-            setBlogs(prev => prev.map(blog => blog.id === id ? {...blog, ...updatedData} : blog));
-        } catch (error) {
-            console.error("Error updating blog:", error);
-        }
-    };
+
     useEffect(() => {
         let unsubBuilds: (() => void) | undefined;
         let unsubContacts: (() => void) | undefined;
@@ -158,6 +251,10 @@ export default function AdminDashboard () {
             unsubBuilds = fetchBuilds();
             unsubContacts = fetchContacts();
             unsubBlogs = fetchBlogs();
+            fetchCourses();
+            fetchWaitlist();
+            fetchAnnouncements();
+            fetchNewsTicker();
             setLoading(false);
         };
 
@@ -309,20 +406,20 @@ export default function AdminDashboard () {
                                     <VStack align="stretch" gap={5} overflowY="auto" maxH="80vh">
                                         <Heading size="lg" fontFamily={'PoppinsSemi'}>{selectedBuild.title}</Heading>
 
-                                        <HStack gap={4} wrap={'wrap'} align={'center'} justify={'center'}>
+                                        <HStack gap={4} wrap={'wrap'} align="stretch" justify={'center'}>
                                             <Box>
-                                                <Text color="gray.500" fontSize="sm">Client</Text>
+                                                <Text color="gray.500" fontSize="sm" textAlign={{base: 'center', md: 'left'}}>Client</Text>
                                                 <Text fontWeight="bold">{selectedBuild.name}</Text>
                                             </Box>
                                             <Box>
-                                                <Text color="gray.500" fontSize="sm">Type</Text>
+                                                <Text color="gray.500" fontSize="sm" textAlign={{base: 'center', md: 'left'}}>Type</Text>
                                                 <Text fontWeight="bold">{selectedBuild.projectType}</Text>
                                             </Box>
                                             <Box>
-                                                <Text color="gray.500" fontSize="sm">Email</Text>
+                                                <Text color="gray.500" fontSize="sm" textAlign={{base: 'center', md: 'left'}}>Email</Text>
                                                 {selectedBuild.email ? (
                                                     <HStack>
-                                                        <Text fontWeight="bold">{selectedBuild.email}</Text>
+                                                        <Text fontWeight="bold" lineClamp={1}>{selectedBuild.email}</Text>
                                                         <FaCheckCircle color="green" />
                                                     </HStack>
                                                 ) : (
@@ -333,7 +430,7 @@ export default function AdminDashboard () {
                                                 )}
                                             </Box>
                                             <Box>
-                                                <Text color="gray.500" fontSize="sm">Pages</Text>
+                                                <Text color="gray.500" fontSize="sm" textAlign={{base: 'center', md: 'left'}}>Pages</Text>
                                                 <Text fontWeight="bold">{selectedBuild?.pages || '4'}</Text>
                                             </Box>
                                         </HStack>
@@ -393,12 +490,15 @@ export default function AdminDashboard () {
                                         </HStack>
 
                                         <HStack pt={6} justify="center" wrap={'wrap'}>
-                                            <Button variant="outline" colorPalette={'#00d435'} onClick={() => {
-                                                if(!selectedBuild.phone) return;
-                                                window.open('https://wa.me/' + selectedBuild.phone);
-                                            }}>
-                                                <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
-                                            </Button>
+                                            {selectedBuild.phone &&
+                                                (
+                                                <Button variant="outline" colorPalette={'#00d435'} onClick={() => {
+                                                    if(!selectedBuild.phone) return;
+                                                    window.open('https://wa.me/' + selectedBuild.phone);
+                                                }}>
+                                                    <FaWhatsapp style={{marginRight: "8px"}} /> Chat on WhatsApp
+                                                </Button>
+                                                )}
 
                                             <Button variant="ghost" onClick={() => {
                                                 if(!selectedBuild.email) return;
@@ -471,6 +571,7 @@ export default function AdminDashboard () {
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     bg="black"
+                                    style={{padding: '10px'}}
                                 />
                             </Box>
 
@@ -607,9 +708,9 @@ export default function AdminDashboard () {
                                 placeholder="Title"
                                 value={selectedBlog ? selectedBlog.title : newBlog?.title}
                                 onChange={e => {
-                                    if (selectedBlog) {
+                                    if(selectedBlog) {
                                         setSelectedBlog({...selectedBlog, title: e.target.value});
-                                    } else if (newBlog) {
+                                    } else if(newBlog) {
                                         setNewBlog({...newBlog, title: e.target.value});
                                     }
                                 }}
@@ -621,9 +722,9 @@ export default function AdminDashboard () {
                                 placeholder="Slug (e.g. future-of-web)"
                                 value={selectedBlog ? selectedBlog.slug : newBlog?.slug}
                                 onChange={e => {
-                                    if (selectedBlog) {
+                                    if(selectedBlog) {
                                         setSelectedBlog({...selectedBlog, slug: e.target.value});
-                                    } else if (newBlog) {
+                                    } else if(newBlog) {
                                         setNewBlog({...newBlog, slug: e.target.value});
                                     }
                                 }}
@@ -637,9 +738,9 @@ export default function AdminDashboard () {
                                         placeholder="Image URL"
                                         value={selectedBlog ? selectedBlog.image : newBlog?.image}
                                         onChange={e => {
-                                            if (selectedBlog) {
+                                            if(selectedBlog) {
                                                 setSelectedBlog({...selectedBlog, image: e.target.value});
-                                            } else if (newBlog) {
+                                            } else if(newBlog) {
                                                 setNewBlog({...newBlog, image: e.target.value});
                                             }
                                         }}
@@ -672,9 +773,9 @@ export default function AdminDashboard () {
                                 placeholder="Excerpt"
                                 value={selectedBlog ? selectedBlog.excerpt : newBlog?.excerpt}
                                 onChange={e => {
-                                    if (selectedBlog) {
+                                    if(selectedBlog) {
                                         setSelectedBlog({...selectedBlog, excerpt: e.target.value});
-                                    } else if (newBlog) {
+                                    } else if(newBlog) {
                                         setNewBlog({...newBlog, excerpt: e.target.value});
                                     }
                                 }}
@@ -685,9 +786,9 @@ export default function AdminDashboard () {
                             />
                             <HStack w="full" gap={4} pt={4}>
                                 <Button flex={1} variant="outline" onClick={() => {
-                                    if (selectedBlog) {
+                                    if(selectedBlog) {
                                         setSelectedBlog(null);
-                                    } else if (newBlog) {
+                                    } else if(newBlog) {
                                         setNewBlog(null);
                                     }
                                     setIsBlogModalOpen(false);
@@ -714,7 +815,7 @@ export default function AdminDashboard () {
                                                 const blogId = newBlog?.id || generateBlogId();
                                                 await addDoc(collection(db, "blogs", blogId), {
                                                     ...newBlog,
-                                                    date: serverTimestamp() 
+                                                    date: serverTimestamp()
                                                 });
                                                 toaster.create({
                                                     title: 'Blog Post',
@@ -724,7 +825,7 @@ export default function AdminDashboard () {
                                             }
                                             setIsBlogModalOpen(false);
                                             setNewBlog(null);
-                                            
+
                                         } catch(err) {
                                             toaster.create({
                                                 title: 'Blog Post Error',

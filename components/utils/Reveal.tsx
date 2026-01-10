@@ -1,7 +1,7 @@
 "use client";
 
 
-/* eslint-disable react/no-unescaped-entities */
+ 
 import React, {useEffect, useRef} from "react";
 import {motion, useInView, useAnimation} from "framer-motion";
 import Section, {type SectionProp} from "./Section";

@@ -5,6 +5,7 @@ import Scrollable from "@/components/layout/Scrollable";
 import Banner from "./home/Banner";
 import QuoteSection from "@/components/home/QuoteSection";
 import SkillsSection from "@/components/home/SkillsSection";
+import ProjectsSection from "@/components/sections/ProjectsSection";
 import PlansSection from "@/components/home/PlansSection";
 import CourseSection from "@/components/home/CourseSection";
 import PartnershipSection from "@/components/home/PartnershipSection";
@@ -28,6 +29,10 @@ export default function HomePage () {
 
       <Reveal width="100%">
         <SkillsSection />
+      </Reveal>
+
+      <Reveal width="100%">
+        <ProjectsSection />
       </Reveal>
 
       <Reveal width="100%">

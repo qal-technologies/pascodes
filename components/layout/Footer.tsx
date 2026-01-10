@@ -55,8 +55,9 @@ export default function Footer () {
 
           {/* Quick Links */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Quick Navigation</Heading>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Quick Navigation
             <UnderLine />
+            </Heading>
 
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/about">About Me</FooterLink>
@@ -67,8 +68,9 @@ export default function Footer () {
 
           {/* Services */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Core Services</Heading>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Core Services
             <UnderLine />
+            </Heading>
 
             <FooterLink href="/build?type=portfolio">Portfolio Design</FooterLink>
             <FooterLink href="/build?type=business" >Business Solutions</FooterLink>
@@ -79,8 +81,9 @@ export default function Footer () {
 
           {/* Newsletter/Contact */}
           <VStack align="start" gap={4}>
-            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Stay Connected</Heading>
-            <UnderLine/>
+            <Heading size="sm" color="foreground" mb={1} fontFamily={'PoppinsSemi'}>Stay Connected
+              <UnderLine />
+            </Heading>
             <Text fontSize="sm">Got a project in mind? Let&apos;s talk about it.</Text>
             <Box w="full">
               <HStack
@@ -111,12 +114,12 @@ export default function Footer () {
               </HStack>
             </Box>
             <VStack gap={2} align="start">
-              <Box flexDirection="row" direction={'row'} width={'full'} gap={2} mb={1}>
-                <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} width={'fit-content'}/>
+              <Box flexDirection="row" direction={'row'} width={'full'} gap={2}>
+                <Icon color={'brandGreen.500'} as={FaMapMarkerAlt} size={'sm'} width={'fit-content'} />
                 <Text fontSize="xs" maxWidth={'fit-content'} as='span' ml={2}>Located</Text>
               </Box>
 
-              <Text fontWeight="bolder" fontSize="sm" mb={-1}> Calabar, Nigeria</Text>
+              <Text fontWeight="bolder" fontSize="sm" mb={-2}> Calabar, Nigeria</Text>
               <Text fontWeight="bold" fontSize="xs"> (Remotely Available)</Text>
             </VStack>
           </VStack>
@@ -153,7 +156,7 @@ export function FooterLink ({href, children, ...props}: {href: string, children:
 }
 
 export function UnderLine ({maxWidth = 150}: {maxWidth?: string | number;}) {
-  return(
-    <Box height={1} background={'brandGreen.500'} borderRadius={'full'} width='60%' maxWidth={maxWidth} className="neon-glow-primary" mb={2} mt={-4} />
-  )
+  return (
+    <Box height={'3px'} background={'brandGreen.500'} borderRadius={'full'} width='70%' maxWidth={maxWidth} className="neon-glow-primary" mb={2} mt={1} />
+  );
 }
