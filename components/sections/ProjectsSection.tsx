@@ -9,7 +9,7 @@ import {Reveal} from "../utils/Reveal";
 
 export default function ProjectsSection () {
     return (
-        <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden">
+        <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden" minW={'100vw'} placeSelf={'center'}>
             {/* Background Accents */}
 
             <Container position="relative" zIndex={1} alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'}>

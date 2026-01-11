@@ -45,14 +45,16 @@ export default function TestimonialSection ({page}: {page?: string;}) {
                 width={'600px'}
                 height={'600px'}
                 bgGradient="to-tr"
-                gradientFrom={'brandGreen.400/40'}
-                gradientTo={'darkcyan/30'}
+                gradientFrom={'orange.400/30'}
+                gradientVia={'purple.500/40'}
+                gradientTo={'darkcyan/35'}
                 position='absolute'
                 top={-200}
                 left={-200}
-                opacity={0.34}
-                filter={'blur(50px)'}
+                opacity={0.24}
+                filter={'blur(60px)'}
                 zIndex={0}
+                rotate={'-40'}
             />
 
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={11} position="relative">
