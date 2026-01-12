@@ -48,7 +48,6 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     date: any;
     slug: string;
     category?: string;
@@ -85,7 +84,6 @@ interface WaitlistEntry {
     name: string;
     email: string;
     source: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     createdAt: any;
 }
 
@@ -297,6 +295,28 @@ export default function AdminDashboard () {
         }
     };
 
+    const handleSaveBlog = async () => {
+        try {
+            if(selectedBlog) {
+                const {id, ...BlogPost} = selectedBlog;
+                await updateDoc(doc(db, "blogs", id), BlogPost);
+                toaster.create({title: "Blog Updated", type: "success"});
+            } else {
+                await addDoc(collection(db, "blogs"), {
+                    ...newBlog,
+                    createdAt: serverTimestamp()
+                });
+                toaster.create({title: "Blog Created", type: "success"});
+            }
+            setIsBlogModalOpen(false);
+            setSelectedBlog(null);
+            setNewBlog(null);
+        } catch(error) {
+            console.error("Error saving Blog:", error);
+            toaster.create({title: "Error saving Blog", type: "error"});
+        }
+    };
+
     const handleSaveCourse = async () => {
         try {
             if(selectedCourse) {
@@ -312,6 +332,16 @@ export default function AdminDashboard () {
             }
             setIsCourseModalOpen(false);
             setSelectedCourse(null);
+            setNewCourse({
+                title: "",
+                description: "",
+                status: "Recording",
+                progress: 0,
+                launchDate: "",
+                duration: "",
+                audience: "Beginner",
+                languages: []
+            });
         } catch(error) {
             console.error("Error saving course:", error);
             toaster.create({title: "Error saving course", type: "error"});
@@ -441,7 +471,7 @@ export default function AdminDashboard () {
 
                         <Tabs.Trigger value='posts' fontFamily='PoppinsSemi' gap={2}><BiPen /> Posts</Tabs.Trigger>
                         <Tabs.Trigger value='courses' fontFamily='PoppinsSemi' gap={2}><BiSolidGraduation /> Courses</Tabs.Trigger>
-                        <Tabs.Trigger value='waitlist' fontFamily='PoppinsSemi' gap={2}><FaLink/> Waitlist</Tabs.Trigger>
+                        <Tabs.Trigger value='waitlist' fontFamily='PoppinsSemi' gap={2}><FaLink /> Waitlist</Tabs.Trigger>
                         <Tabs.Trigger value='settings' fontFamily='PoppinsSemi' gap={2}><LuSettings /> Settings</Tabs.Trigger>
                         <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'} gap={2}> <LuUser /> Contacts</Tabs.Trigger>
                     </Tabs.List>
@@ -766,8 +796,8 @@ export default function AdminDashboard () {
                                         _hover={{borderColor: "brandGreen.500"}}
                                     >
                                         <HStack justify="space-between" mb={3}>
-                                            <Badge colorPalette={course.status === 'Live' ? 'green' : 'yellow'}>{course.status}</Badge>
-                                            <Text fontSize="xs" color="gray.500">{course.duration}</Text>
+                                            <Badge colorPalette={course.status === 'Live' ? 'green' : 'yellow'} px={2} borderRadius='full'>{course.status}</Badge>
+                                            <Text fontSize="xs" color="gray.500">{course.duration}hrs</Text>
                                         </HStack>
                                         <Heading size="sm" mb={2} color="white">{course.title}</Heading>
                                         <Text color="gray.400" fontSize="sm" mb={4} lineClamp={2}>{course.description}</Text>
@@ -788,13 +818,13 @@ export default function AdminDashboard () {
                         <VStack align="stretch" gap={6}>
                             <HStack justify="space-between">
                                 <Heading size="md" color="white" fontFamily={'PoppinsSemi'}>Waitlist Management</Heading>
-                                <Button colorPalette="blue" onClick={handleExportCSV} padding={2} paddingInline={4}>
+                                <Button colorPalette="cyan" onClick={handleExportCSV} padding={2} paddingInline={4} borderRadius="xl">
                                     <FaDownload style={{marginRight: '8px'}} /> Export CSV
                                 </Button>
                             </HStack>
-                            <Box bg="whiteAlpha.50" borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100" overflow="hidden">
-                                <Table.Root size="sm" variant="line">
-                                    <Table.Header bg="whiteAlpha.100">
+                            <Box bg="whiteAlpha.50" borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100" overflow="hidden" p={2}>
+                                <Table.Root size="sm" variant="line" gap={3} colorPalette='cyan'>
+                                    <Table.Header bg="transparent">
                                         <Table.Row>
                                             <Table.ColumnHeader color="gray.400">Name</Table.ColumnHeader>
                                             <Table.ColumnHeader color="gray.400">Email</Table.ColumnHeader>
@@ -803,18 +833,22 @@ export default function AdminDashboard () {
                                             <Table.ColumnHeader color="gray.400">Actions</Table.ColumnHeader>
                                         </Table.Row>
                                     </Table.Header>
-                                    <Table.Body>
+                                    <Table.Body mt={2}>
                                         {waitlist.map((entry) => (
-                                            <Table.Row key={entry.id} _hover={{bg: "whiteAlpha.50"}}>
+                                            <Table.Row key={entry.id} _hover={{bg: "whiteAlpha.50"}} padding={4}>
+                                                
                                                 <Table.Cell color="white" fontWeight="medium">{entry.name || 'N/A'}</Table.Cell>
                                                 <Table.Cell color="gray.300">{entry.email}</Table.Cell>
+
                                                 <Table.Cell>
                                                     <Badge size="xs" colorPalette="brandGreen">{entry.source}</Badge>
                                                 </Table.Cell>
+
                                                 <Table.Cell color="gray.400">
                                                     {entry.createdAt?.toDate ? entry.createdAt.toDate().toLocaleString() :
                                                         entry.createdAt?.toDate ? entry.createdAt.toDate().toLocaleString() : 'Recent'}
                                                 </Table.Cell>
+
                                                 <Table.Cell>
                                                     <Button size="xs" variant="ghost" colorPalette="red" onClick={() => {
                                                         if(confirm("Delete this entry?")) deleteDoc(doc(db, "waitlist", entry.id));
@@ -848,7 +882,7 @@ export default function AdminDashboard () {
                                                     <Text color="gray.500" fontSize="xs">ID: {ann.id}</Text>
                                                 </HStack>
                                                 <Switch.Root
-                                                    colorPalette="brandGreen"
+                                                    colorPalette="cyan"
                                                     checked={ann.isActive}
                                                     onCheckedChange={({checked}) => handleSaveAnnouncement(ann.id, ann.content, checked)}
                                                 >
@@ -897,7 +931,7 @@ export default function AdminDashboard () {
                                         <HStack justify="space-between">
                                             <Text color="gray.400" fontSize="sm">Ticker Visibility</Text>
                                             <Switch.Root
-                                                colorPalette="brandGreen"
+                                                colorPalette="cyan"
                                                 checked={newsTicker?.isActive || false}
                                                 onCheckedChange={async ({checked}) => {
                                                     if(newsTicker) {
@@ -1210,46 +1244,7 @@ export default function AdminDashboard () {
                                         bgColor='brandGreen.500'
                                         borderRadius='xl'
                                         _hover={{opacity: .8}}
-                                        onClick={async () => {
-                                            try {
-                                                if(selectedBlog) {
-                                                    const blogId: string = selectedBlog?.id;
-                                                    await setDoc(doc(db, "blogs", blogId),
-                                                        {
-                                                            ...selectedBlog,
-                                                            date: serverTimestamp(),
-                                                        }
-                                                    );
-
-                                                    toaster.create({
-                                                        title: 'Blog Update',
-                                                        type: 'success',
-                                                        description: `Update successful!`
-                                                    });
-                                                } else {
-                                                    const blogId: string = newBlog?.id || generateBlogId();
-                                                    await setDoc(doc(db, "blogs", blogId), {
-                                                        id: blogId,
-                                                        ...newBlog,
-                                                        date: serverTimestamp(),
-                                                    });
-                                                    toaster.create({
-                                                        title: 'Blog Post',
-                                                        type: 'success',
-                                                        description: `You just created a blog post!`
-                                                    });
-                                                }
-                                                setIsBlogModalOpen(false);
-                                                setNewBlog(null);
-
-                                            } catch(err) {
-                                                toaster.create({
-                                                    title: 'Blog Post Error',
-                                                    type: 'error',
-                                                    description: `You encountered an error while uploading - ${err ? `- ${err}` : ""}`
-                                                });
-                                            }
-                                        }}
+                                        onClick={handleSaveBlog}
                                     >{selectedBlog ? 'Update Post' : 'Create Post'}</Button>
                                 </HStack>
                             </VStack>
@@ -1356,6 +1351,19 @@ export default function AdminDashboard () {
                                             onChange={e => {
                                                 if(selectedCourse) setSelectedCourse({...selectedCourse, audience: e.target.value});
                                                 else setNewCourse({...newCourse, audience: e.target.value});
+                                            }}
+                                            bg="black"
+                                            style={{padding: 10, borderRadius: '12px'}}
+                                        />
+                                    </VStack>
+
+                                    <VStack align="start" flex={1}>
+                                        <Text fontSize="xs" color="gray.500">Launch Date</Text>
+                                        <Input
+                                            value={selectedCourse ? selectedCourse.launchDate : newCourse.launchDate}
+                                            onChange={e => {
+                                                if(selectedCourse) setSelectedCourse({...selectedCourse, launchDate: e.target.value});
+                                                else setNewCourse({...newCourse, launchDate: e.target.value});
                                             }}
                                             bg="black"
                                             style={{padding: 10, borderRadius: '12px'}}
