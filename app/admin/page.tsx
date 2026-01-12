@@ -1,11 +1,11 @@
 "use client";
 
-import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton} from "@chakra-ui/react";
+import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton, Switch, Table} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
-import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc} from "firebase/firestore";
+import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, setDoc} from "firebase/firestore";
 import {sendBuildStatusEmail} from "@/lib/email-service";
-import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload, FaGlobe, FaTimes, FaPlus} from "react-icons/fa";
+import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload, FaGlobe, FaTimes, FaPlus, FaDownload, FaTools, FaNewspaper, FaLink} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
 import {signOut} from "firebase/auth";
 import {useRouter} from "next/navigation";
@@ -13,6 +13,8 @@ import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import "@/styles/loading.css";
 import {toaster} from "@/components/ui/toaster";
+import {LuSettings, LuUser} from "react-icons/lu";
+import {BiPen, BiSolidGraduation} from "react-icons/bi";
 
 
 // Interface for Build Data
@@ -26,7 +28,7 @@ interface BuildData {
     projectType: string;
     pages?: number;
     status?: "pending" | "progress" | "complete" | "cancelled";
-    createdAt?: {seconds: number; nanoseconds: number;};
+    createdAt?: any;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
@@ -38,7 +40,7 @@ interface ContactData {
     subject: string;
     message: string;
     status: "unread" | "read";
-    createdAt?: {seconds: number; nanoseconds: number;};
+    createdAt?: any;
 }
 
 interface BlogPost {
@@ -47,7 +49,7 @@ interface BlogPost {
     excerpt: string;
     image: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    date: number | any;
+    date: any;
     slug: string;
     category?: string;
     content?: string;
@@ -75,6 +77,7 @@ interface AnnouncementData {
 interface NewsTickerData {
     id: string;
     items: string[];
+    isActive: boolean;
 }
 
 interface WaitlistEntry {
@@ -82,6 +85,7 @@ interface WaitlistEntry {
     name: string;
     email: string;
     source: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     createdAt: any;
 }
 
@@ -95,7 +99,6 @@ export default function AdminDashboard () {
     const [newsTicker, setNewsTicker] = useState<NewsTickerData | null>(null);
     const [waitlist, setWaitlist] = useState<WaitlistEntry[]>([]);
 
-    const [, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedBuild, setSelectedBuild] = useState<BuildData | null>(null);
     const [selectedContact, setSelectedContact] = useState<ContactData | null>(null);
@@ -260,7 +263,6 @@ export default function AdminDashboard () {
             fetchWaitlist();
             fetchAnnouncements();
             fetchNewsTicker();
-            setLoading(false);
         };
 
         init();
@@ -293,6 +295,59 @@ export default function AdminDashboard () {
         } else {
             alert(`Email sent regarding issue.`);
         }
+    };
+
+    const handleSaveCourse = async () => {
+        try {
+            if(selectedCourse) {
+                const {id, ...courseData} = selectedCourse;
+                await updateDoc(doc(db, "courses", id), courseData);
+                toaster.create({title: "Course Updated", type: "success"});
+            } else {
+                await addDoc(collection(db, "courses"), {
+                    ...newCourse,
+                    createdAt: serverTimestamp()
+                });
+                toaster.create({title: "Course Created", type: "success"});
+            }
+            setIsCourseModalOpen(false);
+            setSelectedCourse(null);
+        } catch(error) {
+            console.error("Error saving course:", error);
+            toaster.create({title: "Error saving course", type: "error"});
+        }
+    };
+
+    const handleSaveAnnouncement = async (id: string, content: string, isActive: boolean) => {
+        try {
+            await updateDoc(doc(db, "announcements", id), {content, isActive});
+            toaster.create({title: "Announcement Saved", type: "success"});
+        } catch(error) {
+            console.error("Error saving announcement:", error);
+            toaster.create({title: "Error saving announcement", type: "error"});
+        }
+    };
+
+    const handleExportCSV = () => {
+        if(waitlist.length === 0) return;
+        const headers = ["Email", "Joined Date"];
+        const csvContent = [
+            headers.join(","),
+            ...waitlist.map(entry => {
+                const date = entry.createdAt?.toDate ? entry.createdAt.toDate().toLocaleDateString() : 'N/A';
+                return `"${entry.email}","${date}"`;
+            })
+        ].join("\n");
+
+        const blob = new Blob([csvContent], {type: "text/csv;charset=utf-8;"});
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "waitlist.csv");
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     if(authLoading) {
@@ -380,10 +435,15 @@ export default function AdminDashboard () {
                         overflowY: 'auto',
                     }}
                 >
-                    <Tabs.List mb={6} gap={4} position='sticky' top={0} bg="background/70" backdropFilter='blur(10px) brightness(80%)' pt={3} pb={1}>
-                        <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'}>Builds</Tabs.Trigger>
-                        <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'}>Blogs</Tabs.Trigger>
-                        <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'}>Contacts</Tabs.Trigger>
+                    <Tabs.List mb={6} gap={5} position='sticky' top={0} bg="background/70" backdropFilter='blur(10px) brightness(80%)' pt={3} pb={1}>
+                        <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'} gap={2}> <FaTools /> Builds</Tabs.Trigger>
+                        <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'} gap={2}><FaNewspaper /> Blogs</Tabs.Trigger>
+
+                        <Tabs.Trigger value='posts' fontFamily='PoppinsSemi' gap={2}><BiPen /> Posts</Tabs.Trigger>
+                        <Tabs.Trigger value='courses' fontFamily='PoppinsSemi' gap={2}><BiSolidGraduation /> Courses</Tabs.Trigger>
+                        <Tabs.Trigger value='waitlist' fontFamily='PoppinsSemi' gap={2}><FaLink/> Waitlist</Tabs.Trigger>
+                        <Tabs.Trigger value='settings' fontFamily='PoppinsSemi' gap={2}><LuSettings /> Settings</Tabs.Trigger>
+                        <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'} gap={2}> <LuUser /> Contacts</Tabs.Trigger>
                     </Tabs.List>
 
                     <Tabs.Content value="builds">
@@ -534,52 +594,6 @@ export default function AdminDashboard () {
                                             <FaSearch size={40} />
                                             <Text mt={5}>Select a build to view details</Text>
                                         </Flex>
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
-
-
-                                        <Flex height="100%" align="center" justify="center" direction="column" color="gray.500" p={4} gap={4}>
-                                            <FaSearch size={40} />
-                                            <Text mt={5}>Select a build to view details</Text>
-                                        </Flex>
                                     </>
                                 )}
                             </Box>
@@ -593,7 +607,19 @@ export default function AdminDashboard () {
                                 <Button
                                     bgColor="brandGreen.500"
                                     color='black'
-                                    onClick={() => setIsBlogModalOpen(true)}
+                                    onClick={() => {
+                                        setSelectedBlog(null);
+                                        setNewBlog({
+                                            id: "",
+                                            title: "",
+                                            excerpt: "",
+                                            image: "",
+                                            date: null,
+                                            slug: "",
+                                            category: "Blog"
+                                        });
+                                        setIsBlogModalOpen(true);
+                                    }}
                                     padding={2}
                                     borderRadius={'full'}
                                     _hover={{opacity: .7}}
@@ -605,7 +631,7 @@ export default function AdminDashboard () {
                             </HStack>
 
                             <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
-                                {blogs.map(post => (
+                                {blogs.filter(p => !p.category || p.category === 'Blog').map(post => (
                                     <Box
                                         key={post.id}
                                         bg="whiteAlpha.50"
@@ -617,6 +643,8 @@ export default function AdminDashboard () {
                                             setSelectedBlog(post);
                                             setIsBlogModalOpen(true);
                                         }}
+                                        cursor="pointer"
+                                        _hover={{borderColor: "brandGreen.500"}}
                                     >
                                         <HStack justify="space-between" mb={3}>
                                             <Badge colorPalette="gray">{post.slug}</Badge>
@@ -627,17 +655,284 @@ export default function AdminDashboard () {
                                         <Heading size="sm" mb={2} color="white">{post.title}</Heading>
                                         <Text color="gray.400" fontSize="sm" lineClamp={2}>{post.excerpt}</Text>
                                         <HStack mt={4} gap={4}>
-                                            <Button size="xs" variant="outline" onClick={() => {
-                                                setIsBlogModalOpen(true);
+                                            <Button size="xs" variant="outline" onClick={(e) => {
+                                                e.stopPropagation();
                                                 setSelectedBlog(post);
+                                                setIsBlogModalOpen(true);
                                             }}>Edit</Button>
-                                            <Button size="xs" variant="ghost" colorPalette="red" onClick={() => {
-                                                deleteBlog(post.id);
+                                            <Button size="xs" variant="ghost" colorPalette="red" onClick={(e) => {
+                                                e.stopPropagation();
+                                                if(confirm("Delete this blog?")) deleteBlog(post.id);
                                             }}>Delete</Button>
                                         </HStack>
                                     </Box>
                                 ))}
                             </SimpleGrid>
+                        </VStack>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="posts">
+                        <VStack align="stretch" gap={6}>
+                            <HStack justify="space-between">
+                                <Heading size="md" color="white" fontFamily={'PoppinsSemi'}>General Posts</Heading>
+                                <Button
+                                    bgColor="brandGreen.500"
+                                    color='black'
+                                    onClick={() => {
+                                        setSelectedBlog(null);
+                                        setNewBlog({
+                                            id: "",
+                                            title: "",
+                                            excerpt: "",
+                                            image: "",
+                                            date: null,
+                                            slug: "",
+                                            category: "Lifestyle"
+                                        });
+                                        setIsBlogModalOpen(true);
+                                    }}
+                                    padding={2}
+                                    borderRadius={'full'}
+                                    _hover={{opacity: .7}}
+                                    className='hover-lift'
+                                    size={'sm'}
+                                >
+                                    <FaPlus />
+                                </Button>
+                            </HStack>
+
+                            <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
+                                {blogs.filter(p => p.category && p.category !== 'Blog').map(post => (
+                                    <Box
+                                        key={post.id}
+                                        bg="whiteAlpha.50"
+                                        p={6}
+                                        borderRadius="xl"
+                                        border="1px solid"
+                                        borderColor="whiteAlpha.100"
+                                        onClick={() => {
+                                            setSelectedBlog(post);
+                                            setIsBlogModalOpen(true);
+                                        }}
+                                        cursor="pointer"
+                                        _hover={{borderColor: "brandGreen.500"}}
+                                    >
+                                        <HStack justify="space-between" mb={3}>
+                                            <Badge colorPalette="blue">{post.category}</Badge>
+                                            <Text fontSize="xs" color="gray.500">
+                                                {post.date?.toDate ? post.date.toDate().toLocaleDateString() : 'Draft'}
+                                            </Text>
+                                        </HStack>
+                                        <Heading size="sm" mb={2} color="white">{post.title}</Heading>
+                                        <Text color="gray.400" fontSize="sm" lineClamp={2}>{post.excerpt}</Text>
+                                        <HStack mt={4} gap={4}>
+                                            <Button size="xs" variant="outline" onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedBlog(post);
+                                                setIsBlogModalOpen(true);
+                                            }} px={2}>Edit</Button>
+                                            <Button size="xs" variant="ghost" colorPalette="red" onClick={(e) => {
+                                                e.stopPropagation();
+                                                if(confirm("Delete this post?")) deleteBlog(post.id);
+                                            }} px={2}>Delete</Button>
+                                        </HStack>
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
+                        </VStack>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="courses">
+                        <VStack align="stretch" gap={6}>
+                            <HStack justify="space-between">
+                                <Heading size="md" color="white" fontFamily={'PoppinsSemi'}>Courses Management</Heading>
+                                <Button colorPalette="brandGreen" onClick={() => setIsCourseModalOpen(true)} padding={2} paddingInline={4}>Add New Course</Button>
+                            </HStack>
+
+                            <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
+                                {courses.map(course => (
+                                    <Box
+                                        key={course.id}
+                                        bg="whiteAlpha.50"
+                                        p={6}
+                                        borderRadius="xl"
+                                        border="1px solid"
+                                        borderColor="whiteAlpha.100"
+                                        onClick={() => {
+                                            setSelectedCourse(course);
+                                            setIsCourseModalOpen(true);
+                                        }}
+                                        cursor="pointer"
+                                        _hover={{borderColor: "brandGreen.500"}}
+                                    >
+                                        <HStack justify="space-between" mb={3}>
+                                            <Badge colorPalette={course.status === 'Live' ? 'green' : 'yellow'}>{course.status}</Badge>
+                                            <Text fontSize="xs" color="gray.500">{course.duration}</Text>
+                                        </HStack>
+                                        <Heading size="sm" mb={2} color="white">{course.title}</Heading>
+                                        <Text color="gray.400" fontSize="sm" mb={4} lineClamp={2}>{course.description}</Text>
+                                        <HStack justify="space-between">
+                                            <Text fontSize="xs" color="brandGreen.400">{course.progress}% Complete</Text>
+                                            <Button size="xs" variant="ghost" colorPalette="red" onClick={(e) => {
+                                                e.stopPropagation();
+                                                if(confirm("Delete this course?")) deleteDoc(doc(db, "courses", course.id));
+                                            }}>Delete</Button>
+                                        </HStack>
+                                    </Box>
+                                ))}
+                            </SimpleGrid>
+                        </VStack>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="waitlist">
+                        <VStack align="stretch" gap={6}>
+                            <HStack justify="space-between">
+                                <Heading size="md" color="white" fontFamily={'PoppinsSemi'}>Waitlist Management</Heading>
+                                <Button colorPalette="blue" onClick={handleExportCSV} padding={2} paddingInline={4}>
+                                    <FaDownload style={{marginRight: '8px'}} /> Export CSV
+                                </Button>
+                            </HStack>
+                            <Box bg="whiteAlpha.50" borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100" overflow="hidden">
+                                <Table.Root size="sm" variant="line">
+                                    <Table.Header bg="whiteAlpha.100">
+                                        <Table.Row>
+                                            <Table.ColumnHeader color="gray.400">Name</Table.ColumnHeader>
+                                            <Table.ColumnHeader color="gray.400">Email</Table.ColumnHeader>
+                                            <Table.ColumnHeader color="gray.400">Source</Table.ColumnHeader>
+                                            <Table.ColumnHeader color="gray.400">Joined At</Table.ColumnHeader>
+                                            <Table.ColumnHeader color="gray.400">Actions</Table.ColumnHeader>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        {waitlist.map((entry) => (
+                                            <Table.Row key={entry.id} _hover={{bg: "whiteAlpha.50"}}>
+                                                <Table.Cell color="white" fontWeight="medium">{entry.name || 'N/A'}</Table.Cell>
+                                                <Table.Cell color="gray.300">{entry.email}</Table.Cell>
+                                                <Table.Cell>
+                                                    <Badge size="xs" colorPalette="brandGreen">{entry.source}</Badge>
+                                                </Table.Cell>
+                                                <Table.Cell color="gray.400">
+                                                    {entry.createdAt?.toDate ? entry.createdAt.toDate().toLocaleString() :
+                                                        entry.createdAt?.toDate ? entry.createdAt.toDate().toLocaleString() : 'Recent'}
+                                                </Table.Cell>
+                                                <Table.Cell>
+                                                    <Button size="xs" variant="ghost" colorPalette="red" onClick={() => {
+                                                        if(confirm("Delete this entry?")) deleteDoc(doc(db, "waitlist", entry.id));
+                                                    }}>Delete</Button>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        ))}
+                                    </Table.Body>
+                                </Table.Root>
+                                {waitlist.length === 0 && (
+                                    <Box p={10} textAlign="center">
+                                        <Text color="gray.500">No entries yet.</Text>
+                                    </Box>
+                                )}
+                            </Box>
+                        </VStack>
+                    </Tabs.Content>
+
+                    <Tabs.Content value="settings">
+                        <VStack align="stretch" gap={8}>
+                            <Box>
+                                <Heading size="md" mb={4} color="white" fontFamily={'PoppinsSemi'}>Global Announcements</Heading>
+                                <VStack gap={4} align="stretch">
+                                    {announcements.map(ann => (
+                                        <Box key={ann.id} bg="whiteAlpha.50" p={4} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
+                                            <HStack justify="space-between" mb={3}>
+                                                <HStack>
+                                                    <Badge colorPalette={ann.isActive ? 'green' : 'gray'}>
+                                                        {ann.isActive ? 'Active' : 'Inactive'}
+                                                    </Badge>
+                                                    <Text color="gray.500" fontSize="xs">ID: {ann.id}</Text>
+                                                </HStack>
+                                                <Switch.Root
+                                                    colorPalette="brandGreen"
+                                                    checked={ann.isActive}
+                                                    onCheckedChange={({checked}) => handleSaveAnnouncement(ann.id, ann.content, checked)}
+                                                >
+                                                    <Switch.Control>
+                                                        <Switch.Thumb />
+                                                    </Switch.Control>
+                                                </Switch.Root>
+                                            </HStack>
+                                            <Textarea
+                                                defaultValue={ann.content}
+                                                bg="black"
+                                                color="white"
+                                                fontSize="sm"
+                                                borderRadius="lg"
+                                                p={3}
+                                                onBlur={(e) => {
+                                                    if(e.target.value !== ann.content) {
+                                                        handleSaveAnnouncement(ann.id, e.target.value, ann.isActive);
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
+                                    ))}
+                                    {announcements.length === 0 && (
+                                        <Button
+                                            variant="outline"
+                                            colorPalette="brandGreen"
+                                            onClick={async () => {
+                                                await addDoc(collection(db, "announcements"), {
+                                                    content: "New Announcement!",
+                                                    isActive: false,
+                                                    createdAt: serverTimestamp()
+                                                });
+                                            }}
+                                        >
+                                            Create First Announcement
+                                        </Button>
+                                    )}
+                                </VStack>
+                            </Box>
+
+                            <Box>
+                                <Heading size="md" mb={4} color="white" fontFamily={'PoppinsSemi'}>News Ticker</Heading>
+                                <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
+                                    <VStack align="stretch" gap={4}>
+                                        <HStack justify="space-between">
+                                            <Text color="gray.400" fontSize="sm">Ticker Visibility</Text>
+                                            <Switch.Root
+                                                colorPalette="brandGreen"
+                                                checked={newsTicker?.isActive || false}
+                                                onCheckedChange={async ({checked}) => {
+                                                    if(newsTicker) {
+                                                        await setDoc(doc(db, "news_ticker", "global"), {isActive: checked}, {merge: true});
+                                                        toaster.create({title: "News Ticker Status Updated", type: "success"});
+                                                    } else {
+                                                        await setDoc(doc(db, "news_ticker", "global"), {text: "", isActive: checked});
+                                                    }
+                                                }}
+                                            >
+                                                <Switch.Control>
+                                                    <Switch.Thumb />
+                                                </Switch.Control>
+                                            </Switch.Root>
+                                        </HStack>
+                                        <Box>
+                                            <Text color="gray.400" fontSize="sm" mb={2}>Ticker Text (Separate items with | )</Text>
+                                            <Input
+                                                placeholder="Enter news ticker text..."
+                                                defaultValue={newsTicker?.items.join(" | ") || ""}
+                                                bg="black"
+                                                color="white"
+                                                onBlur={async (e) => {
+                                                    if(e.target.value !== (newsTicker?.items.join(" | ") || "")) {
+                                                        await setDoc(doc(db, "news_ticker", "global"), {
+                                                            items: e.target.value.split(" | "),
+                                                        }, {merge: true});
+                                                        toaster.create({title: "News Ticker Text Updated", type: "success"});
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
+                                    </VStack>
+                                </Box>
+                            </Box>
                         </VStack>
                     </Tabs.Content>
 
@@ -677,7 +972,7 @@ export default function AdminDashboard () {
                                                     {contact.status}
                                                 </Badge>
                                                 <Text fontSize="xs" color="gray.500">
-                                                    {contact.createdAt?.toString() ? new Date(contact.createdAt?.seconds || contact.createdAt?.nanoseconds).toDateString() : 'Just now'}
+                                                    {contact.createdAt?.toString() ? (contact.createdAt?.toDate()).toLocaleDateString() : 'Just now'}
                                                 </Text>
                                             </HStack>
                                             <Heading size="sm" mb={1} color="white">{contact.name}</Heading>
@@ -691,194 +986,216 @@ export default function AdminDashboard () {
                 </Tabs.Root>
             </Container>
 
-            {(selectedContact?.name && selectedContact?.email) || isBlogModalOpen && (
-                <Container p={8} position='relative' minWidth='100%'>
-                    {/* Contact Details Modal Placeholder - For brevity using a simple overlay */}
-                    {selectedContact && selectedContact !== null && (
+            {/* {(selectedContact?.name && selectedContact?.email) || isBlogModalOpen && ( */}
+            <Container p={8} position='relative' minWidth='100%'>
+                {/* Contact Details Modal Placeholder - For brevity using a simple overlay */}
+                {selectedContact && selectedContact !== null && (
+                    <Box
+                        position="fixed"
+                        inset={0}
+                        bg="blackAlpha.800"
+                        backdropFilter="blur(10px)"
+                        zIndex={1000}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        p={6}
+                        onClick={() => setSelectedContact(null)}
+                    >
                         <Box
-                            position="fixed"
-                            inset={0}
-                            bg="blackAlpha.800"
-                            backdropFilter="blur(10px)"
-                            zIndex={1000}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                            p={6}
-                            onClick={() => setSelectedContact(null)}
+                            bg="gray.900"
+                            p={8}
+                            borderRadius="2xl"
+                            maxW="600px"
+                            w="full"
+                            onClick={(e) => e.stopPropagation()}
+                            border="1px solid"
+                            borderColor="whiteAlpha.200"
+                            position='relative'
                         >
-                            <Box
-                                bg="gray.900"
-                                p={8}
-                                borderRadius="2xl"
-                                maxW="600px"
-                                w="full"
-                                onClick={(e) => e.stopPropagation()}
-                                border="1px solid"
-                                borderColor="whiteAlpha.200"
-                            >
-                                <HStack justify="space-between" mb={6}>
-                                    <VStack align="start" gap={1}>
-                                        <Heading size="lg" color="white">{selectedContact.name}</Heading>
-                                        <Text color="brandGreen.500">{selectedContact.email}</Text>
-                                    </VStack>
-                                    <IconButton
-                                        onClick={() => setSelectedContact(null)}
-                                        aria-label="Close Contact"
-                                        size="sm"
-                                        variant="ghost"
-                                        position="absolute"
-                                        top={4}
-                                        right={4}
-                                        color="brandGreen.500"
-                                    >
-                                        <FaTimes />
-                                    </IconButton>
-                                </HStack>
-
-                                <VStack align="stretch" gap={6}>
-                                    <Box>
-                                        <Text color="gray.500" fontSize="xs" textTransform="uppercase" fontWeight="bold" mb={2}>Subject</Text>
-                                        <Text color="white" fontSize="lg">{selectedContact.subject}</Text>
-                                    </Box>
-
-                                    <Box>
-                                        <Text color="gray.500" fontSize="xs" textTransform="uppercase" fontWeight="bold" mb={2}>Message</Text>
-                                        <Text color="gray.300" whiteSpace="pre-wrap">{selectedContact?.message}</Text>
-                                    </Box>
-
-                                    <HStack gap={4} pt={4}>
-                                        <Button
-                                            colorPalette="brandGreen"
-                                            flex={1}
-                                            onClick={async () => {
-                                                await updateDoc(doc(db, "contacts", selectedContact?.id), {status: "read"});
-                                                setSelectedContact(null);
-                                            }}
-                                            p={2} px={4}
-                                        >
-                                            Mark as Read
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            flex={1}
-                                            onClick={() => window.location.href = `mailto:${selectedContact?.email}?subject=Re: ${selectedContact?.subject}`}
-                                        >
-                                            Reply via Email
-                                        </Button>
-                                    </HStack>
+                            <HStack justify="space-between" mb={6} justifyContent='space-between'>
+                                <VStack align="start" gap={1}>
+                                    <Heading size="lg" color="white">{selectedContact.name}</Heading>
+                                    <Text color="brandGreen.500" fontSize='sm'>{selectedContact.email}</Text>
                                 </VStack>
-                            </Box>
+                                <IconButton
+                                    onClick={() => setSelectedContact(null)}
+                                    aria-label="Close Contact"
+                                    size="sm"
+                                    variant="ghost"
+                                    color="brandGreen.500"
+                                >
+                                    <FaTimes />
+                                </IconButton>
+                            </HStack>
+
+                            <VStack align="stretch" gap={6}>
+                                <Box>
+                                    <Text color="gray.500" fontSize="xs" textTransform="uppercase" fontWeight="bold" mb={2}>Subject</Text>
+                                    <Text color="white" fontSize="lg">{selectedContact.subject}</Text>
+                                </Box>
+
+                                <Box>
+                                    <Text color="gray.500" fontSize="xs" textTransform="uppercase" fontWeight="bold" mb={2}>Message</Text>
+                                    <Text color="gray.300" whiteSpace="pre-wrap">{selectedContact?.message}</Text>
+                                </Box>
+
+                                <HStack gap={4} pt={4} wrap='wrap'>
+                                    <Button
+                                        colorPalette="brandGreen"
+                                        flex={1}
+                                        onClick={async () => {
+                                            await updateDoc(doc(db, "contacts", selectedContact?.id), {status: "read"});
+                                            setSelectedContact(null);
+                                        }}
+                                        p={2} px={4}
+                                    >
+                                        Mark as Read
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        flex={1}
+                                        onClick={() => window.location.href = `mailto:${selectedContact?.email}?subject=Re: ${selectedContact?.subject}`}
+                                    >
+                                        Reply via Email
+                                    </Button>
+                                </HStack>
+                            </VStack>
                         </Box>
-                    )}
-                    {/* Blog Post Modal */}
-                    {isBlogModalOpen && (
+                    </Box>
+                )}
+                {/* Blog Post Modal */}
+                {isBlogModalOpen && (
+                    <Box
+                        position="fixed"
+                        inset={0}
+                        bg="blackAlpha.800"
+                        backdropFilter="blur(10px)"
+                        zIndex={1000}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        p={6}
+                        onClick={() => setIsBlogModalOpen(false)}
+                    >
                         <Box
-                            position="fixed"
-                            inset={0}
-                            bg="blackAlpha.800"
-                            backdropFilter="blur(10px)"
-                            zIndex={1000}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                            p={6}
-                            onClick={() => setIsBlogModalOpen(false)}
+                            bg="gray.900"
+                            p={8}
+                            borderRadius="2xl"
+                            maxW="600px"
+                            w="full"
+                            onClick={(e) => e.stopPropagation()}
+                            border="1px solid"
+                            borderColor="whiteAlpha.200"
                         >
-                            <Box
-                                bg="gray.900"
-                                p={8}
-                                borderRadius="2xl"
-                                maxW="600px"
-                                w="full"
-                                onClick={(e) => e.stopPropagation()}
-                                border="1px solid"
-                                borderColor="whiteAlpha.200"
-                            >
-                                <Heading size="lg" color="white" mb={6}>Create New Post</Heading>
-                                <VStack gap={4}>
-                                    <Input
-                                        placeholder="Title"
-                                        value={selectedBlog ? selectedBlog.title : newBlog?.title}
-                                        onChange={e => {
-                                            if(selectedBlog) {
-                                                setSelectedBlog({...selectedBlog, title: e.target.value});
-                                            } else if(newBlog) {
-                                                setNewBlog({...newBlog, title: e.target.value});
-                                            }
-                                        }}
-                                        bg="black"
-                                        style={{padding: 10, borderRadius: '12px'}}
+                            <Heading size="lg" color="white" mb={6}>Create New Post</Heading>
+                            <VStack gap={4}>
+                                <Input
+                                    placeholder="Title"
+                                    value={selectedBlog ? selectedBlog.title : newBlog?.title}
+                                    onChange={e => {
+                                        if(selectedBlog) {
+                                            setSelectedBlog({...selectedBlog, title: e.target.value});
+                                        } else if(newBlog) {
+                                            setNewBlog({...newBlog, title: e.target.value});
+                                        }
+                                    }}
+                                    bg="black"
+                                    style={{padding: 10, borderRadius: '12px'}}
 
-                                    />
-                                    <Input
-                                        placeholder="Slug (e.g. future-of-web)"
-                                        value={selectedBlog ? selectedBlog.slug : newBlog?.slug}
-                                        onChange={e => {
-                                            if(selectedBlog) {
-                                                setSelectedBlog({...selectedBlog, slug: e.target.value});
-                                            } else if(newBlog) {
-                                                setNewBlog({...newBlog, slug: e.target.value});
-                                            }
-                                        }}
-                                        bg="black"
-                                        style={{padding: 10, borderRadius: '12px'}}
-                                    />
-                                    <Box w="full">
-                                        <Text color="gray.400" mb={2} fontSize="sm">Blog Cover Image</Text>
-                                        <HStack>
-                                            <Input
-                                                placeholder="Image URL"
-                                                value={selectedBlog ? selectedBlog.image : newBlog?.image}
-                                                onChange={e => {
-                                                    if(selectedBlog) {
-                                                        setSelectedBlog({...selectedBlog, image: e.target.value});
-                                                    } else if(newBlog) {
-                                                        setNewBlog({...newBlog, image: e.target.value});
-                                                    }
+                                />
+                                <Input
+                                    placeholder="Slug (e.g. future-of-web)"
+                                    value={selectedBlog ? selectedBlog.slug : newBlog?.slug}
+                                    onChange={e => {
+                                        if(selectedBlog) {
+                                            setSelectedBlog({...selectedBlog, slug: e.target.value});
+                                        } else if(newBlog) {
+                                            setNewBlog({...newBlog, slug: e.target.value});
+                                        }
+                                    }}
+                                    bg="black"
+                                    style={{padding: 10, borderRadius: '12px'}}
+                                />
+                                <Box w="full">
+                                    <Text color="gray.400" mb={2} fontSize="sm">Category</Text>
+                                    <HStack gap={2} flexWrap="wrap">
+                                        {["Blog", "Lifestyle", "News", "Announcement"].map(cat => (
+                                            <Button
+                                                key={cat}
+                                                size="xs"
+                                                variant={((selectedBlog?.category || newBlog?.category) === cat) ? "solid" : "outline"}
+                                                colorPalette="brandGreen"
+                                                onClick={() => {
+                                                    if(selectedBlog) setSelectedBlog({...selectedBlog, category: cat});
+                                                    else if(newBlog) setNewBlog({...newBlog, category: cat});
                                                 }}
-                                                bg="black"
-                                                flex={1}
-                                                style={{padding: 10, borderRadius: '12px'}}
+                                                px={2}
+                                                borderRadius="md"
+                                            >
+                                                {cat}
+                                            </Button>
+                                        ))}
+                                    </HStack>
+                                </Box>
+                                <Box w="full">
+                                    <Text color="gray.400" mb={2} fontSize="sm">Blog Cover Image</Text>
+                                    <HStack>
+                                        <Input
+                                            placeholder="Image URL"
+                                            value={selectedBlog ? selectedBlog.image : newBlog?.image}
+                                            onChange={e => {
+                                                if(selectedBlog) {
+                                                    setSelectedBlog({...selectedBlog, image: e.target.value});
+                                                } else if(newBlog) {
+                                                    setNewBlog({...newBlog, image: e.target.value});
+                                                }
+                                            }}
+                                            bg="black"
+                                            flex={1}
+                                            style={{padding: 10, borderRadius: '12px'}}
 
+                                        />
+                                        <Box position="relative">
+                                            <Button
+                                                size="md"
+                                                colorPalette="brandNavy"
+                                                loading={uploadingImage}
+                                                onClick={() => document.getElementById('blog-image')?.click()}
+                                            >
+                                                <FaUpload />
+                                            </Button>
+
+                                            <input
+                                                type="file"
+                                                id="blog-image"
+                                                accept="image/*"
+                                                style={{display: 'none'}}
+                                                onChange={handleImageUpload}
                                             />
-                                            <Box position="relative">
-                                                <Button
-                                                    size="md"
-                                                    colorPalette="brandNavy"
-                                                    loading={uploadingImage}
-                                                    onClick={() => document.getElementById('blog-image')?.click()}
-                                                >
-                                                    <FaUpload style={{marginRight: '8px'}} />
-                                                </Button>
+                                        </Box>
+                                    </HStack>
+                                </Box>
+                                <Textarea
+                                    placeholder="Excerpt"
+                                    value={selectedBlog ? selectedBlog.excerpt : newBlog?.excerpt}
+                                    onChange={e => {
+                                        if(selectedBlog) {
+                                            setSelectedBlog({...selectedBlog, excerpt: e.target.value});
+                                        } else if(newBlog) {
+                                            setNewBlog({...newBlog, excerpt: e.target.value});
+                                        }
+                                    }}
+                                    bg="black"
+                                    rows={10}
+                                    style={{padding: 10, borderRadius: '12px'}}
 
-                                                <input
-                                                    type="file"
-                                                    id="blog-image"
-                                                    accept="image/*"
-                                                    style={{display: 'none'}}
-                                                    onChange={handleImageUpload}
-                                                />
-                                            </Box>
-                                        </HStack>
-                                    </Box>
-                                    <Textarea
-                                        placeholder="Excerpt"
-                                        value={selectedBlog ? selectedBlog.excerpt : newBlog?.excerpt}
-                                        onChange={e => {
-                                            if(selectedBlog) {
-                                                setSelectedBlog({...selectedBlog, excerpt: e.target.value});
-                                            } else if(newBlog) {
-                                                setNewBlog({...newBlog, excerpt: e.target.value});
-                                            }
-                                        }}
-                                        bg="black"
-                                        rows={4}
-                                        style={{padding: 10, borderRadius: '12px'}}
-
-                                    />
-                                    <HStack w="full" gap={4} pt={4}>
-                                        <Button flex={1} variant="outline" onClick={() => {
+                                />
+                                <HStack w="full" gap={4} pt={4}>
+                                    <Button flex={1} variant="outline" colorPalette='red'
+                                        borderRadius='xl'
+                                        _hover={{opacity: .8}}
+                                        onClick={() => {
                                             // if(selectedBlog) {
                                             //     setSelectedBlog(null);
                                             // } else if(newBlog) {
@@ -887,56 +1204,183 @@ export default function AdminDashboard () {
                                             setIsBlogModalOpen(false);
                                         }
                                         }>Cancel</Button>
-                                        <Button
-                                            flex={1}
-                                            colorPalette="brandGreen"
-                                            onClick={async () => {
-                                                try {
-                                                    if(selectedBlog) {
-                                                        const blogId: string = selectedBlog?.id || generateBlogId();
-                                                        await updateDoc(doc(db, "blogs", blogId), {
+                                    <Button
+                                        flex={1}
+                                        colorPalette="brandGreen.500"
+                                        bgColor='brandGreen.500'
+                                        borderRadius='xl'
+                                        _hover={{opacity: .8}}
+                                        onClick={async () => {
+                                            try {
+                                                if(selectedBlog) {
+                                                    const blogId: string = selectedBlog?.id;
+                                                    await setDoc(doc(db, "blogs", blogId),
+                                                        {
                                                             ...selectedBlog,
-                                                            ...newBlog,
                                                             date: serverTimestamp(),
-                                                        });
-                                                        toaster.create({
-                                                            title: 'Blog Update',
-                                                            type: 'success',
-                                                            description: `Update successful!`
-                                                        });
-                                                    } else {
-                                                        const blogId: string = newBlog?.id || generateBlogId();
-                                                        await addDoc(collection(db, "blogs"), {
-                                                            id: blogId,
-                                                            ...newBlog,
-                                                            date: serverTimestamp(),
-                                                        });
-                                                        toaster.create({
-                                                            title: 'Blog Post',
-                                                            type: 'success',
-                                                            description: `You just created a blog post!`
-                                                        });
-                                                    }
-                                                    setIsBlogModalOpen(false);
-                                                    setNewBlog(null);
+                                                        }
+                                                    );
 
-                                                } catch(err) {
                                                     toaster.create({
-                                                        title: 'Blog Post Error',
-                                                        type: 'error',
-                                                        description: `You encountered an error while uploading - ${err ? `- ${err}` : ""}`
+                                                        title: 'Blog Update',
+                                                        type: 'success',
+                                                        description: `Update successful!`
+                                                    });
+                                                } else {
+                                                    const blogId: string = newBlog?.id || generateBlogId();
+                                                    await setDoc(doc(db, "blogs", blogId), {
+                                                        id: blogId,
+                                                        ...newBlog,
+                                                        date: serverTimestamp(),
+                                                    });
+                                                    toaster.create({
+                                                        title: 'Blog Post',
+                                                        type: 'success',
+                                                        description: `You just created a blog post!`
                                                     });
                                                 }
-                                            }}
-                                        >{selectedBlog ? 'Update Post' : 'Create Post'}</Button>
-                                    </HStack>
-                                </VStack>
-                            </Box>
+                                                setIsBlogModalOpen(false);
+                                                setNewBlog(null);
+
+                                            } catch(err) {
+                                                toaster.create({
+                                                    title: 'Blog Post Error',
+                                                    type: 'error',
+                                                    description: `You encountered an error while uploading - ${err ? `- ${err}` : ""}`
+                                                });
+                                            }
+                                        }}
+                                    >{selectedBlog ? 'Update Post' : 'Create Post'}</Button>
+                                </HStack>
+                            </VStack>
                         </Box>
-                    )}
-                </Container>
-            )
-            }
+                    </Box>
+                )}
+
+                {/* Course Modal */}
+                {isCourseModalOpen && (
+                    <Box
+                        position="fixed"
+                        inset={0}
+                        bg="blackAlpha.800"
+                        backdropFilter="blur(10px)"
+                        zIndex={1000}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        p={6}
+                        onClick={() => {
+                            setIsCourseModalOpen(false);
+                            setSelectedCourse(null);
+                        }}
+                    >
+                        <Box
+                            bg="gray.900"
+                            p={8}
+                            borderRadius="2xl"
+                            maxW="600px"
+                            w="full"
+                            onClick={(e) => e.stopPropagation()}
+                            border="1px solid"
+                            borderColor="whiteAlpha.200"
+                            maxH="90vh"
+                            overflowY="auto"
+                        >
+                            <Heading size="lg" color="white" mb={6}>{selectedCourse ? 'Edit Course' : 'Create New Course'}</Heading>
+                            <VStack gap={4}>
+                                <Input
+                                    placeholder="Course Title"
+                                    value={selectedCourse ? selectedCourse.title : newCourse.title}
+                                    onChange={e => {
+                                        if(selectedCourse) setSelectedCourse({...selectedCourse, title: e.target.value});
+                                        else setNewCourse({...newCourse, title: e.target.value});
+                                    }}
+                                    bg="black"
+                                    style={{padding: 10, borderRadius: '12px'}}
+                                />
+                                <Textarea
+                                    placeholder="Description"
+                                    value={selectedCourse ? selectedCourse.description : newCourse.description}
+                                    onChange={e => {
+                                        if(selectedCourse) setSelectedCourse({...selectedCourse, description: e.target.value});
+                                        else setNewCourse({...newCourse, description: e.target.value});
+                                    }}
+                                    bg="black"
+                                    rows={3}
+                                    style={{padding: 10, borderRadius: '12px'}}
+                                />
+                                <HStack w="full">
+                                    <VStack align="start" flex={1}>
+                                        <Text fontSize="xs" color="gray.500">Status</Text>
+                                        <Input
+                                            value={selectedCourse ? selectedCourse.status : newCourse.status}
+                                            onChange={e => {
+                                                if(selectedCourse) setSelectedCourse({...selectedCourse, status: e.target.value});
+                                                else setNewCourse({...newCourse, status: e.target.value});
+                                            }}
+                                            bg="black"
+                                            style={{padding: 10, borderRadius: '12px'}}
+                                        />
+                                    </VStack>
+                                    <VStack align="start" flex={1}>
+                                        <Text fontSize="xs" color="gray.500">Progress (%)</Text>
+                                        <Input
+                                            type="number"
+                                            value={selectedCourse ? selectedCourse.progress : newCourse.progress}
+                                            onChange={e => {
+                                                if(selectedCourse) setSelectedCourse({...selectedCourse, progress: parseInt(e.target.value)});
+                                                else setNewCourse({...newCourse, progress: parseInt(e.target.value)});
+                                            }}
+                                            bg="black"
+                                            style={{padding: 10, borderRadius: '12px'}}
+                                        />
+                                    </VStack>
+                                </HStack>
+                                <HStack w="full">
+                                    <VStack align="start" flex={1}>
+                                        <Text fontSize="xs" color="gray.500">Duration</Text>
+                                        <Input
+                                            value={selectedCourse ? selectedCourse.duration : newCourse.duration}
+                                            onChange={e => {
+                                                if(selectedCourse) setSelectedCourse({...selectedCourse, duration: e.target.value});
+                                                else setNewCourse({...newCourse, duration: e.target.value});
+                                            }}
+                                            bg="black"
+                                            style={{padding: 10, borderRadius: '12px'}}
+                                        />
+                                    </VStack>
+                                    <VStack align="start" flex={1}>
+                                        <Text fontSize="xs" color="gray.500">Audience</Text>
+                                        <Input
+                                            value={selectedCourse ? selectedCourse.audience : newCourse.audience}
+                                            onChange={e => {
+                                                if(selectedCourse) setSelectedCourse({...selectedCourse, audience: e.target.value});
+                                                else setNewCourse({...newCourse, audience: e.target.value});
+                                            }}
+                                            bg="black"
+                                            style={{padding: 10, borderRadius: '12px'}}
+                                        />
+                                    </VStack>
+                                </HStack>
+
+                                <HStack w="full" gap={4} pt={4}>
+                                    <Button flex={1} variant="outline" onClick={() => {
+                                        setIsCourseModalOpen(false);
+                                        setSelectedCourse(null);
+                                    }}>Cancel</Button>
+                                    <Button
+                                        flex={1}
+                                        colorPalette="brandGreen"
+                                        onClick={handleSaveCourse}
+                                    >{selectedCourse ? 'Update Course' : 'Create Course'}</Button>
+                                </HStack>
+                            </VStack>
+                        </Box>
+                    </Box>
+                )}
+            </Container>
+            {/* )
+            } */}
         </Box>
     );
 }

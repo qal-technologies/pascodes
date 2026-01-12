@@ -41,7 +41,7 @@ export default function SocialSection () {
                     </VStack>
                 </Reveal>
 
-                <SimpleGrid columns={{base: 2, sm: 3, md: 5}} gap={8}>
+                <SimpleGrid columns={{base: 2, sm: 3, md: 6}} gap={8}>
                     {socialPlatforms.map((platform, index) => (
                         <Reveal key={platform.name} delay={0.1 * index}>
                             <Link

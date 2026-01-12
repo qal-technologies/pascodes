@@ -8,16 +8,7 @@ import { Box, Heading, VStack, Tab, TabList, TabPanel, Tabs } from "@chakra-ui/r
 /*import {View, Text} from 'react-native';*/
 
 
-export default function CoursePage() {
-  
-  const course = {
-    title: "",
-    videoSrc: "",
-    resources: [],
-    assignments: [],
-    tests: [],
-  };
-
+export default function CoursePage () {
   return (
        <p>Course slug</p>
   );

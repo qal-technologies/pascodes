@@ -1,4 +1,4 @@
-import {Box, Container, Heading, Text, SimpleGrid, Avatar, Button, VStack, Link} from "@chakra-ui/react";
+import {Box, Container, Heading, Text, SimpleGrid, Avatar, VStack, Link} from "@chakra-ui/react";
 import {Reveal} from "../utils/Reveal";
 import {FaQuoteLeft, FaExternalLinkAlt, FaArrowRight} from "react-icons/fa";
 

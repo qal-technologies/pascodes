@@ -39,7 +39,7 @@ export default function ContactSection () {
             await addDoc(collection(db, "contacts"), {
                 ...formData,
                 status: "unread",
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
             });
 
             toaster.create({

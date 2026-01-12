@@ -42,7 +42,7 @@ export default function BlogSection () {
                         <Heading color="white" fontWeight="bold" textAlign={'center'} fontSize={{base: "3xl", md: "5xl"}}
                             fontFamily='PoppinsSemi'>Latest From
                             <Text as="span" color="brandGreen.500" className="neon-text" fontSize={{base: "3xl", md: "5xl"}}
-                                fontFamily='PoppinsSemi'>The Blog</Text></Heading>
+                                fontFamily='PoppinsSemi'> The Blog</Text></Heading>
                     </Reveal>
                     <Reveal delay={0.4}>
                         <Text color="gray.400" maxW="2xl" textAlign={'center'}>
