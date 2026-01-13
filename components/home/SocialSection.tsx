@@ -1,7 +1,7 @@
 "use client";
 
 import {Box, Container, Heading, SimpleGrid, Link, VStack, Text} from "@chakra-ui/react";
-import {FaGithub, FaLinkedin, FaYoutube, FaTwitter, FaInstagram, FaWhatsapp, FaFacebook, FaStackOverflow, FaReddit} from "react-icons/fa";
+import {FaGithub, FaLinkedin, FaYoutube, FaTwitter, FaInstagram, FaWhatsapp} from "react-icons/fa";
 import {SITE_CONFIG} from "@/lib/site-config";
 import {Reveal} from "../utils/Reveal";
 
@@ -33,7 +33,7 @@ export default function SocialSection () {
 
                             fontFamily='PoppinsSemi'
                         >
-                            Let's Connect
+                            Let&apos;s Connect
                         </Heading>
                         <Text fontSize="lg" color="gray.200" maxW="2xl">
                             Follow my journey, check out my code, and stay updated with the latest in tech.

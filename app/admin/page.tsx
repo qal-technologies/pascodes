@@ -5,7 +5,7 @@ import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
 import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, setDoc} from "firebase/firestore";
 import {sendBuildStatusEmail} from "@/lib/email-service";
-import {FaWhatsapp, FaEnvelope, FaSearch, FaCheckCircle, FaSignOutAlt, FaUpload, FaGlobe, FaTimes, FaPlus, FaDownload, FaTools, FaNewspaper, FaLink} from "react-icons/fa";
+import {FaPlus, FaSave, FaTrash, FaSignOutAlt, FaVideo, FaCog, FaNewspaper, FaBullhorn, FaUsers, FaUpload, FaTools, FaGraduationCap, FaUser, FaGlobe, FaSearch, FaCheckCircle, FaWhatsapp, FaEnvelope, FaDownload, FaTimes} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
 import {signOut} from "firebase/auth";
 import {useRouter} from "next/navigation";
@@ -13,7 +13,7 @@ import {auth, storage} from "@/lib/firebase";
 import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import "@/styles/loading.css";
 import {toaster} from "@/components/ui/toaster";
-import {LuSettings, LuUser} from "react-icons/lu";
+import {LuLayoutDashboard, LuBookOpen, LuSettings} from "react-icons/lu";
 import {BiPen, BiSolidGraduation} from "react-icons/bi";
 
 
@@ -21,6 +21,7 @@ import {BiPen, BiSolidGraduation} from "react-icons/bi";
 interface BuildData {
     id: string; // Firestore Doc ID
     buildId: string;
+    description: string;
     title: string;
     name: string;
     email?: string;
@@ -28,9 +29,7 @@ interface BuildData {
     projectType: string;
     pages?: number;
     status?: "pending" | "progress" | "complete" | "cancelled";
-    createdAt?: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
+    createdAt?: {toDate: () => Date;} | null;
 }
 
 interface ContactData {
@@ -40,7 +39,7 @@ interface ContactData {
     subject: string;
     message: string;
     status: "unread" | "read";
-    createdAt?: any;
+    createdAt?: {toDate: () => Date;} | null;
 }
 
 interface BlogPost {
@@ -48,7 +47,7 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
-    date: any;
+    date: {toDate: () => Date;} | null;
     slug: string;
     category?: string;
     content?: string;
@@ -84,7 +83,7 @@ interface WaitlistEntry {
     name: string;
     email: string;
     source: string;
-    createdAt: any;
+    createdAt: {toDate: () => Date;} | null;
 }
 
 export default function AdminDashboard () {
@@ -105,6 +104,7 @@ export default function AdminDashboard () {
     const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
     const [newBlog, setNewBlog] = useState<BlogPost | null>(null);
     const [selectedBlog, setSelectedBlog] = useState<BlogPost | null>(null);
+
 
     const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
     const [newCourse, setNewCourse] = useState<Partial<CourseData>>({
@@ -162,8 +162,8 @@ export default function AdminDashboard () {
         const q = query(collection(db, "contacts"), orderBy("createdAt", "desc"));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const data = snapshot.docs.map((doc) => ({
-                id: doc.id,
                 ...doc.data(),
+                id: doc.id,
             })) as ContactData[];
             setContacts(data);
         });
@@ -397,8 +397,18 @@ export default function AdminDashboard () {
         return null;
     }
 
+    const tabs = [
+        {name: 'Builds', icon: <FaTools />},
+        {name: 'Blogs', icon: <FaNewspaper />},
+        {name: 'Courses', icon: <FaGraduationCap />},
+        {name: 'Posts', icon: <BiPen />},
+        {name: 'Waitlist', icon: <FaUsers />},
+        {name: 'Contacts', icon: <FaUser />},
+        {name: 'Settings', icon: <LuSettings />},
+    ];
+
     return (
-        <Box maxH="100vh" overflow='hidden' bg="background" color="foreground" minWidth='full'>
+        <Box minH="100vh" overflow='hidden' bg="background" color="foreground" minWidth='full'>
             <Container position={'relative'} minWidth='100%' p={8} >
                 <Flex justify="space-between" align="center" mb={10} wrap={'wrap'} gap={3} width='full' mt={4}>
                     <VStack align="start" gap={1}>
@@ -459,24 +469,22 @@ export default function AdminDashboard () {
 
                 <Tabs.Root
                     defaultValue="builds"
-                    style={{
-                        position: 'relative',
-                        height: '100vh',
-                        overflowY: 'auto',
-                    }}
+                    position='relative'
+                    maxHeight='100vh'
+                    overflowY='auto'
+                    pb={'10px'}
                 >
-                    <Tabs.List mb={6} gap={5} position='sticky' top={0} bg="background/70" backdropFilter='blur(10px) brightness(80%)' pt={3} pb={1}>
-                        <Tabs.Trigger value="builds" fontFamily={'PoppinsSemi'} gap={2}> <FaTools /> Builds</Tabs.Trigger>
-                        <Tabs.Trigger value="blogs" fontFamily={'PoppinsSemi'} gap={2}><FaNewspaper /> Blogs</Tabs.Trigger>
-
-                        <Tabs.Trigger value='posts' fontFamily='PoppinsSemi' gap={2}><BiPen /> Posts</Tabs.Trigger>
-                        <Tabs.Trigger value='courses' fontFamily='PoppinsSemi' gap={2}><BiSolidGraduation /> Courses</Tabs.Trigger>
-                        <Tabs.Trigger value='waitlist' fontFamily='PoppinsSemi' gap={2}><FaLink /> Waitlist</Tabs.Trigger>
-                        <Tabs.Trigger value='settings' fontFamily='PoppinsSemi' gap={2}><LuSettings /> Settings</Tabs.Trigger>
-                        <Tabs.Trigger value="contacts" fontFamily={'PoppinsSemi'} gap={2}> <LuUser /> Contacts</Tabs.Trigger>
+                    <Tabs.List mb={6} position='sticky' top={0} bg="background/70" backdropFilter='blur(10px) brightness(80%)' justifyContent='space-between' p={1} overflowX={'auto'} width='100%' scrollbarColor={'transparent'} alignItems='center' gap={10}>
+                        {
+                            tabs.map((tab, index) => {
+                                return <Tabs.Trigger value={tab.name.toLowerCase()} fontFamily={'PoppinsSemi'} gap={'6px'} _selected={{color: 'brandGreen.500', borderColor: 'brandGreen.500'}} key={index} colorPalette={'brandGreen.500'} m={0} p={0} minWidth='max-content' flexShrink={1}>
+                                    {tab.icon} {tab.name}
+                                </Tabs.Trigger>;
+                            })
+                        }
                     </Tabs.List>
 
-                    <Tabs.Content value="builds">
+                    <Tabs.Content value="builds" overflowY='auto' >
                         <SimpleGrid columns={{base: 1, lg: 2}} gap={8}>
                             {/* List Column */}
                             {filteredBuilds !== null && filteredBuilds.length > 0 &&
@@ -485,7 +493,7 @@ export default function AdminDashboard () {
                                         <Box
                                             key={build.id}
                                             p={4}
-                                            bg={selectedBuild?.id === build.id ? "brandGreen.900" : "gray.800"}
+                                            bg={selectedBuild?.id === build.id ? "brandGreen.900" : "gray.900"}
                                             borderRadius="xl"
                                             cursor="pointer"
                                             onClick={() => setSelectedBuild(build)}
@@ -836,7 +844,7 @@ export default function AdminDashboard () {
                                     <Table.Body mt={2}>
                                         {waitlist.map((entry) => (
                                             <Table.Row key={entry.id} _hover={{bg: "whiteAlpha.50"}} padding={4}>
-                                                
+
                                                 <Table.Cell color="white" fontWeight="medium">{entry.name || 'N/A'}</Table.Cell>
                                                 <Table.Cell color="gray.300">{entry.email}</Table.Cell>
 

@@ -224,6 +224,22 @@ export default function Banner() {
             return <ActionBtn key={btn} type={btn} />;
           })}
         </Flex>
+        
+        <Box p={'10px'} width='full' alignItems='center' justifyContent={{base:'center', md:'flex-start'}} mt={3}>
+          <Link
+            href="/about"
+            fontSize="md"
+            fontFamily='PoppinsSemi'
+            color="gray.400"
+            fontWeight="bold"
+            _hover={{color: "brandGreen.500", textDecoration: "underline"}}
+            transition="all 0.3s"
+            letterSpacing="0.5px"
+            className='hover-lift'
+          >
+            Learn more about me &rarr;
+          </Link>
+        </Box>
       </Box>
 
       <Box className="z-upper" display={{ base: "none", lg: "block" }}>

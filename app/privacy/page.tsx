@@ -42,9 +42,11 @@ export default function PrivacyPage () {
                                     We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
                                 </Text>
                                 <Text color="gray.300" ps={4}>
-                                    • Identity Data: name, username.<br />
-                                    • Contact Data: email address and phone numbers.<br />
-                                    • Technical Data: IP address, browser type and version, time zone setting and location.
+                                    • Identity Data: Name, username, and professional background.<br />
+                                    • Contact Data: Email address, phone numbers, and social media handles.<br />
+                                    • Technical Data: IP address, browser type and version, time zone setting, and location.<br />
+                                    • Project Data: Details provided in build requests, including project type, budget, and descriptions.<br />
+                                    • Marketing Data: Your preferences in receiving updates about our services and waitlist status.
                                 </Text>
                             </VStack>
 

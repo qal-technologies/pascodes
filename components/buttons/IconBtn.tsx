@@ -1,7 +1,7 @@
-import { Box, type BoxProps, type SystemStyleObject } from "@chakra-ui/react";
+import {Box, type BoxProps, type SystemStyleObject} from "@chakra-ui/react";
 import React from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import {useRouter} from "next/navigation";
+import {motion} from "framer-motion";
 
 const MotionBox = motion.create(Box);
 
@@ -18,10 +18,10 @@ interface iconBtnProps {
   bRadius?: number | string;
   mb?: number | string;
   mt?: number | string;
-  size?:'md'|'sm'|'lg'
+  size?: 'md' | 'sm' | 'lg';
 }
 
-export default function IconBtn({
+export default function IconBtn ({
   withLink,
   icon,
   animate,
@@ -33,15 +33,15 @@ export default function IconBtn({
   bRadius,
   mb,
   mt,
-  size ='md'
+  size = 'md'
 }: iconBtnProps) {
   const router = useRouter();
   const link = withLink ? withLink : null;
 
   const clickFunction = () => {
-    if (link) {
+    if(link) {
       router.push(link);
-    } else if (onClick) {
+    } else if(onClick) {
       onClick();
     }
   };
@@ -49,11 +49,10 @@ export default function IconBtn({
   const sizes = {
     "sm": '10px',
     "md": '15px',
-    "lg":'20px',
-  }
+    "lg": '20px',
+  };
 
   return (
-    // @ts-ignore
     <MotionBox
       aria-label={ariaLabel}
       onClick={() => clickFunction()}
@@ -69,14 +68,10 @@ export default function IconBtn({
       boxShadow="0px 0px 12px black"
       initial={animate ? {opacity: 0, scale: 0, y: 50} : undefined}
       animate={animate ? {opacity: 1, scale: 1, y: 0} : undefined}
-      exit={{ opacity: 0, scale: 0.8, y: 50 }}
-      transition={{
-        duration: 0.06,
-        type: 'spring'
-      } as any}
+      exit={{opacity: 0, scale: 0.8, y: 50}}
       mb={mb}
       mt={mt}
-      {...props}
+      {...props as any}
     >
       {icon}
       {children}

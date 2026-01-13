@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, HStack, IconButton, Input, Text, VStack } from "@chakra-ui/react";
+import {Button, HStack, IconButton, Input, Text, VStack} from "@chakra-ui/react";
 import { useState } from "react";
 import { FaTrash, FaCheck } from "react-icons/fa";
 

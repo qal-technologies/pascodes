@@ -2,20 +2,10 @@ import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import { Provider } from '@/components/ui/provider';
 import FloatingButtons from '@/components/layout/FloatingButtons';
-import Footer from '@/components/layout/Footer';
 import {Toaster} from "@/components/ui/toaster";
+import AnnouncementBar from '@/components/layout/AnnouncementBar';
 
 import "@/styles/globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const origin = process.env.SITE_URL || "http://localhost:3000";
 const imageUrl = `${origin}/images/logo.png`;
@@ -147,6 +137,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Provider>
+          <AnnouncementBar />
           {children}
           <FloatingButtons />
           <Toaster />

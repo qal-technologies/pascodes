@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 import { FaSync, FaCopy } from "react-icons/fa";
 
 export default function ColorGen() {
-  const [colors, setColors] = useState<string[]>([]);
+  const [colors, setColors] = useState<string[]>(() =>
+    Array(4).fill("").map(() =>
+      "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')
+    )
+  );
 
   const generateColors = () => {
     const newColors = Array(4).fill("").map(() => 
@@ -14,9 +18,7 @@ export default function ColorGen() {
     setColors(newColors);
   };
 
-  useEffect(() => {
-    generateColors();
-  }, []);
+
 
   return (
     <VStack 

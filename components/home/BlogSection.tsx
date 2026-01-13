@@ -11,7 +11,7 @@ interface BlogPost {
     title: string;
     excerpt: string;
     image: string;
-    date: any;
+    date: {toDate: () => Date;} | null;
     slug: string;
 }
 

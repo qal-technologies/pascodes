@@ -1,4 +1,4 @@
-import {Box, Button, Container, Heading, SimpleGrid, Text, Badge, HStack, Progress, Icon, Card} from "@chakra-ui/react";
+import {Box, Button, Container, Heading, SimpleGrid, Text, Badge, HStack, Progress} from "@chakra-ui/react";
 import {useState} from "react";
 import WaitlistModal from "../ui/WaitlistModal";
 import {FaReact, FaJs, FaHtml5, FaCss3, FaNodeJs, FaVideo, FaClock, FaUserGraduate, FaCalendarAlt} from "react-icons/fa";
@@ -16,7 +16,7 @@ const courseData = {
     languages: ["React", "Next.js", "TypeScript", "JavaScript", "Node.js"],
 };
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ComponentType<{size: number;}>> = {
     "React": FaReact,
     "Next.js": SiNextdotjs,
     "TypeScript": SiTypescript,
@@ -106,7 +106,7 @@ export default function CourseSection () {
                             <Box position="absolute" inset={0} opacity={0.1} zIndex={0}>
                                 <SimpleGrid columns={5} gap={4} p={4} flexWrap='wrap'>
                                     {Array(60).fill(0).map((_, i) => (
-                                        <Box key={i} bg="white" w={i + 0.2 + 0.8 * i} h={i * 1.5 + 10 / i % 5} borderRadius="full" rotate={(-i * 2.9 / i - 2) as any} opacity={ i - 0.5 + 1.5} />
+                                        <Box key={i} bg="white" w={i + 0.2 + 0.8 * i} h={i * 1.5 + 10 / i % 5} borderRadius="full" style={{transform: `rotate(${-i * 2.9 / (i || 1) - 2}deg)`}} opacity={i - 0.5 + 1.5} />
                                     ))}
                                 </SimpleGrid>
                             </Box>

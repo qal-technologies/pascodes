@@ -1,10 +1,9 @@
 "use client";
 
-import {Box, Button, Container, Flex, Heading, List, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Container, Flex, List, Text, VStack} from "@chakra-ui/react";
 import {FaCheckCircle} from "react-icons/fa";
 import {useRouter} from "next/navigation";
 import {Reveal} from "../utils/Reveal";
-import Section from "../utils/Section";
 
 const plans = [
     {
@@ -45,15 +44,10 @@ export default function PlansSection () {
         router.push(`/build?type=${plan.type}&pages=${plan.pages}`);
     };
 
-    type gettingColor = {
-        type?: 'border' | 'shadow' | 'background',
-        color: string,
-        fallback: string | any;
-        alpha?: number;
-    };
 
 
-    const getColor = (color?: string, type?: 'border' | 'shadow' | 'background', fallback?: string, alpha?: number): string | any => {
+
+    const getColor = (color?: string, type?: 'border' | 'shadow' | 'background', fallback?: string, alpha?: number): string | undefined => {
         if(!color) {
             if(fallback) return fallback;
             return;

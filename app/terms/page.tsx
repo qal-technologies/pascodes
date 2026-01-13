@@ -39,7 +39,7 @@ export default function TermsPage () {
                                 </Heading>
 
                                 <Text color="gray.300">
-                                    Permission is granted to temporarily download one copy of the materials on PasCodez&apos;s website for personal, non-commercial transitory viewing only.
+                                    Permission is granted to temporarily view the materials on PasCodez&apos;s website for personal, non-commercial transitory viewing. This includes brochures, service descriptions (Portfolio, Business, E-Commerce, Custom Web Apps), and pricing estimates which are subject to review based on individual project requirements.
                                 </Text>
                             </VStack>
 

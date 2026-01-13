@@ -1,30 +1,15 @@
-'use client';
+import {Metadata} from "next";
+import CoursesClient from "./CoursesClient";
 
-import CourseSection from "@/components/home/CourseSection";
-import PartnershipSection from "@/components/home/PartnershipSection";
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
-import Scrollable from "@/components/layout/Scrollable";
-import {Reveal} from "@/components/utils/Reveal";
-import {Box, Separator} from "@chakra-ui/react";
-import React from "react";
+export const metadata: Metadata = {
+    title: "Coding Courses ",
+    description: "Master modern web development with our comprehensive coding courses. Learn React, Next.js, and Full-Stack Engineering from industry experts.",
+    openGraph: {
+        title: "Learn to Code with PasCodez - Expert-Led Courses",
+        description: "From beginner basics to advanced masterclasses in software engineering.",
+    }
+};
 
-export default function Courses () {
-    return (
-        <Scrollable>
-            <Navbar />
-
-            <Box width={'100%'} padding={'11vh'} />
-
-            <Reveal width='100%'>
-                <CourseSection />
-            </Reveal>
-
-            <Reveal width="100%">
-                <PartnershipSection />
-            </Reveal>
-            <Separator borderColor="whiteAlpha.100" />
-            <Footer />
-        </Scrollable>
-    );
+export default function CoursesPage () {
+    return <CoursesClient />;
 }

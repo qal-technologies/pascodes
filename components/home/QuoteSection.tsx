@@ -1,6 +1,6 @@
 "use client";
 
-import {Box, Text, Container} from "@chakra-ui/react";
+import {Text, Container} from "@chakra-ui/react";
 import {Reveal} from "../utils/Reveal";
 import {TECH_QUOTES} from "@/lib/tech-quotes";
 import {useRef, useState, useEffect} from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, Image, Heading } from "@chakra-ui/react";
+import {Box, Image, Heading} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
 interface BlogPostProps {
