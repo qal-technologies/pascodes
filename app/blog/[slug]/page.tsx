@@ -5,6 +5,8 @@ import {Box, Container, Heading, Text, Image, VStack, Separator} from "@chakra-u
 import Navbar from "@/components/layout/Navbar";
 import {Reveal} from "@/components/utils/Reveal";
 import {notFound} from "next/navigation";
+import RelatedBlogs from "@/components/sections/RelatedBlogs";
+import Footer from "@/components/layout/Footer";
 
 interface BlogPost {
     title: string;
@@ -12,6 +14,7 @@ interface BlogPost {
     image: string;
     date: {seconds: number; nanoseconds: number;};
     content?: string;
+    category: string;
 }
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
@@ -90,10 +93,13 @@ export default async function BlogPostPage ({params}: {params: Promise<{slug: st
                                     {post.content || post.excerpt}
                                 </Text>
                             </Box>
+
+                            <RelatedBlogs category={post.category} currentSlug={slug} />
                         </VStack>
                     </Reveal>
                 </Container>
             </Box>
+            <Footer />
         </Box>
     );
 }

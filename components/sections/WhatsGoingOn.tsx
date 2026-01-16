@@ -71,7 +71,7 @@ export default function WhatsGoingOn () {
     const [category, setCategory] = useState("All");
 
     useEffect(() => {
-        const q = query(collection(db, "get_blogs"), orderBy("date", "desc"), limit(10));
+        const q = query(collection(db, "blogs"), orderBy("date", "desc"), limit(10));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
             if(!snapshot.empty) {

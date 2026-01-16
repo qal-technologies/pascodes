@@ -10,6 +10,7 @@ import PlansSection from "@/components/home/PlansSection";
 import CourseSection from "@/components/home/CourseSection";
 import PartnershipSection from "@/components/home/PartnershipSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
+import StatsSection from "@/components/sections/StatsSection";
 import BlogSection from "@/components/home/BlogSection";
 import ContactSection from "@/components/home/ContactSection";
 import SocialSection from "@/components/home/SocialSection";
@@ -49,6 +50,10 @@ export default function HomePage () {
 
       <Reveal width="100%">
         <TestimonialSection />
+      </Reveal>
+
+      <Reveal width="100%">
+        <StatsSection />
       </Reveal>
 
       <Reveal width="100%">

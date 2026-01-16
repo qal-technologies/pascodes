@@ -1,9 +1,10 @@
 "use client";
 
-import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton, Switch, Table} from "@chakra-ui/react";
+import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton, Switch, Table, Separator} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
-import {collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, serverTimestamp, deleteDoc, setDoc} from "firebase/firestore";
+import {collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot, serverTimestamp, setDoc} from "firebase/firestore";
+import BlogModal from "@/components/sections/BlogModal";
 import {sendBuildStatusEmail} from "@/lib/email-service";
 import {FaPlus, FaSave, FaTrash, FaSignOutAlt, FaVideo, FaCog, FaNewspaper, FaBullhorn, FaUsers, FaUpload, FaTools, FaGraduationCap, FaUser, FaGlobe, FaSearch, FaCheckCircle, FaWhatsapp, FaEnvelope, FaDownload, FaTimes} from "react-icons/fa";
 import {useAuth} from "@/hooks/useAuth";
@@ -53,6 +54,17 @@ interface BlogPost {
     content?: string;
 }
 
+interface CourseSection {
+    id: string;
+    title: string;
+    description: string;
+    videoUrl?: string;
+    videoType: 'upload' | 'youtube';
+    resources?: {title: string; url: string;}[];
+    quizzes?: {question: string; options: string[]; answer: string;}[];
+    assignments?: {title: string; description: string;}[];
+}
+
 interface CourseData {
     id: string;
     title: string;
@@ -64,6 +76,7 @@ interface CourseData {
     duration: string;
     audience: string;
     languages: string[];
+    sections?: CourseSection[];
 }
 
 interface AnnouncementData {
@@ -117,7 +130,8 @@ export default function AdminDashboard () {
         launchDate: "",
         duration: "",
         audience: "Beginner",
-        languages: []
+        languages: [],
+        sections: []
     });
     const [selectedCourse, setSelectedCourse] = useState<CourseData | null>(null);
 
@@ -249,6 +263,8 @@ export default function AdminDashboard () {
         }
     };
 
+    const formatSlug = (slug: string) => slug.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+
 
     useEffect(() => {
         let unsubBuilds: (() => void) | undefined;
@@ -301,9 +317,11 @@ export default function AdminDashboard () {
         try {
             if(selectedBlog) {
                 const {id, ...BlogPost} = selectedBlog;
+                if(BlogPost.slug) BlogPost.slug = formatSlug(BlogPost.slug);
                 await updateDoc(doc(db, "blogs", id), BlogPost);
                 toaster.create({title: "Blog Updated", type: "success"});
             } else {
+                if(newBlog && newBlog.slug) newBlog.slug = formatSlug(newBlog.slug);
                 await addDoc(collection(db, "blogs"), {
                     ...newBlog,
                     createdAt: serverTimestamp()
@@ -323,9 +341,11 @@ export default function AdminDashboard () {
         try {
             if(selectedCourse) {
                 const {id, ...courseData} = selectedCourse;
+                if(courseData.slug) courseData.slug = formatSlug(courseData.slug);
                 await updateDoc(doc(db, "courses", id), courseData);
                 toaster.create({title: "Course Updated", type: "success"});
             } else {
+                if(newCourse.slug) newCourse.slug = formatSlug(newCourse.slug);
                 await addDoc(collection(db, "courses"), {
                     ...newCourse,
                     createdAt: serverTimestamp()
@@ -343,7 +363,8 @@ export default function AdminDashboard () {
                 launchDate: "",
                 duration: "",
                 audience: "Beginner",
-                languages: []
+                languages: [],
+                sections: []
             });
         } catch(error) {
             console.error("Error saving course:", error);
@@ -454,7 +475,7 @@ export default function AdminDashboard () {
 
                     <Flex justify="space-between" gap={4} align="center" mt={4} minW='100%'>
                         <HStack width='full'>
-                            <Box bg="whiteAlpha.50" borderRadius="full" overflow='hidden' border="1px solid" borderColor="whiteAlpha.100" maxW='600px' width='full'>
+                            <Box bg="whiteAlpha.50" borderRadius="full" overflow='hidden' border="1px solid" borderColor="whiteAlpha.100" width={{base: 'full', lg: '60%'}}>
                                 <Input
                                     placeholder="Search Build ID or Client..."
                                     value={searchTerm}
@@ -946,10 +967,10 @@ export default function AdminDashboard () {
                                                 checked={newsTicker?.isActive || false}
                                                 onCheckedChange={async ({checked}) => {
                                                     if(newsTicker) {
-                                                        await setDoc(doc(db, "news_ticker", "global"), {isActive: checked}, {merge: true});
+                                                        await setDoc(doc(db, "settings", "news_ticker"), {isActive: checked}, {merge: true});
                                                         toaster.create({title: "News Ticker Status Updated", type: "success"});
                                                     } else {
-                                                        await setDoc(doc(db, "news_ticker", "global"), {text: "", isActive: checked});
+                                                        await setDoc(doc(db, "settings", "news_ticker"), {text: "", isActive: checked});
                                                     }
                                                 }}
                                             >
@@ -967,7 +988,7 @@ export default function AdminDashboard () {
                                                 color="white"
                                                 onBlur={async (e) => {
                                                     if(e.target.value !== (newsTicker?.items.join(" | ") || "")) {
-                                                        await setDoc(doc(db, "news_ticker", "global"), {
+                                                        await setDoc(doc(db, "settings", "news_ticker"), {
                                                             items: e.target.value.split(" | "),
                                                         }, {merge: true});
                                                         toaster.create({title: "News Ticker Text Updated", type: "success"});
@@ -1110,158 +1131,17 @@ export default function AdminDashboard () {
                     </Box>
                 )}
                 {/* Blog Post Modal */}
-                {isBlogModalOpen && (
-                    <Box
-                        position="fixed"
-                        inset={0}
-                        bg="blackAlpha.800"
-                        backdropFilter="blur(10px)"
-                        zIndex={1000}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        p={6}
-                        onClick={() => setIsBlogModalOpen(false)}
-                    >
-                        <Box
-                            bg="gray.900"
-                            p={8}
-                            borderRadius="2xl"
-                            maxW="600px"
-                            w="full"
-                            onClick={(e) => e.stopPropagation()}
-                            border="1px solid"
-                            borderColor="whiteAlpha.200"
-                        >
-                            <Heading size="lg" color="white" mb={6}>Create New Post</Heading>
-                            <VStack gap={4}>
-                                <Input
-                                    placeholder="Title"
-                                    value={selectedBlog ? selectedBlog.title : newBlog?.title}
-                                    onChange={e => {
-                                        if(selectedBlog) {
-                                            setSelectedBlog({...selectedBlog, title: e.target.value});
-                                        } else if(newBlog) {
-                                            setNewBlog({...newBlog, title: e.target.value});
-                                        }
-                                    }}
-                                    bg="black"
-                                    style={{padding: 10, borderRadius: '12px'}}
-
-                                />
-                                <Input
-                                    placeholder="Slug (e.g. future-of-web)"
-                                    value={selectedBlog ? selectedBlog.slug : newBlog?.slug}
-                                    onChange={e => {
-                                        if(selectedBlog) {
-                                            setSelectedBlog({...selectedBlog, slug: e.target.value});
-                                        } else if(newBlog) {
-                                            setNewBlog({...newBlog, slug: e.target.value});
-                                        }
-                                    }}
-                                    bg="black"
-                                    style={{padding: 10, borderRadius: '12px'}}
-                                />
-                                <Box w="full">
-                                    <Text color="gray.400" mb={2} fontSize="sm">Category</Text>
-                                    <HStack gap={2} flexWrap="wrap">
-                                        {["Blog", "Lifestyle", "News", "Announcement"].map(cat => (
-                                            <Button
-                                                key={cat}
-                                                size="xs"
-                                                variant={((selectedBlog?.category || newBlog?.category) === cat) ? "solid" : "outline"}
-                                                colorPalette="brandGreen"
-                                                onClick={() => {
-                                                    if(selectedBlog) setSelectedBlog({...selectedBlog, category: cat});
-                                                    else if(newBlog) setNewBlog({...newBlog, category: cat});
-                                                }}
-                                                px={2}
-                                                borderRadius="md"
-                                            >
-                                                {cat}
-                                            </Button>
-                                        ))}
-                                    </HStack>
-                                </Box>
-                                <Box w="full">
-                                    <Text color="gray.400" mb={2} fontSize="sm">Blog Cover Image</Text>
-                                    <HStack>
-                                        <Input
-                                            placeholder="Image URL"
-                                            value={selectedBlog ? selectedBlog.image : newBlog?.image}
-                                            onChange={e => {
-                                                if(selectedBlog) {
-                                                    setSelectedBlog({...selectedBlog, image: e.target.value});
-                                                } else if(newBlog) {
-                                                    setNewBlog({...newBlog, image: e.target.value});
-                                                }
-                                            }}
-                                            bg="black"
-                                            flex={1}
-                                            style={{padding: 10, borderRadius: '12px'}}
-
-                                        />
-                                        <Box position="relative">
-                                            <Button
-                                                size="md"
-                                                colorPalette="brandNavy"
-                                                loading={uploadingImage}
-                                                onClick={() => document.getElementById('blog-image')?.click()}
-                                            >
-                                                <FaUpload />
-                                            </Button>
-
-                                            <input
-                                                type="file"
-                                                id="blog-image"
-                                                accept="image/*"
-                                                style={{display: 'none'}}
-                                                onChange={handleImageUpload}
-                                            />
-                                        </Box>
-                                    </HStack>
-                                </Box>
-                                <Textarea
-                                    placeholder="Excerpt"
-                                    value={selectedBlog ? selectedBlog.excerpt : newBlog?.excerpt}
-                                    onChange={e => {
-                                        if(selectedBlog) {
-                                            setSelectedBlog({...selectedBlog, excerpt: e.target.value});
-                                        } else if(newBlog) {
-                                            setNewBlog({...newBlog, excerpt: e.target.value});
-                                        }
-                                    }}
-                                    bg="black"
-                                    rows={10}
-                                    style={{padding: 10, borderRadius: '12px'}}
-
-                                />
-                                <HStack w="full" gap={4} pt={4}>
-                                    <Button flex={1} variant="outline" colorPalette='red'
-                                        borderRadius='xl'
-                                        _hover={{opacity: .8}}
-                                        onClick={() => {
-                                            // if(selectedBlog) {
-                                            //     setSelectedBlog(null);
-                                            // } else if(newBlog) {
-                                            //     setNewBlog(null);
-                                            // }
-                                            setIsBlogModalOpen(false);
-                                        }
-                                        }>Cancel</Button>
-                                    <Button
-                                        flex={1}
-                                        colorPalette="brandGreen.500"
-                                        bgColor='brandGreen.500'
-                                        borderRadius='xl'
-                                        _hover={{opacity: .8}}
-                                        onClick={handleSaveBlog}
-                                    >{selectedBlog ? 'Update Post' : 'Create Post'}</Button>
-                                </HStack>
-                            </VStack>
-                        </Box>
-                    </Box>
-                )}
+                <BlogModal
+                    open={isBlogModalOpen}
+                    onClose={() => setIsBlogModalOpen(false)}
+                    blog={selectedBlog as any || newBlog as any}
+                    setBlog={(blog) => {
+                        if(selectedBlog) setSelectedBlog(blog as any);
+                        else setNewBlog(blog as any);
+                    }}
+                    onSave={handleSaveBlog}
+                    isEditing={!!selectedBlog}
+                />
 
                 {/* Course Modal */}
                 {isCourseModalOpen && (
@@ -1391,6 +1271,96 @@ export default function AdminDashboard () {
                                         />
                                     </VStack>
                                 </HStack>
+
+                                <Separator borderColor="whiteAlpha.100" my={4} />
+
+                                <VStack align="stretch" w="full" gap={4}>
+                                    <HStack justify="space-between">
+                                        <Heading size="md" color="white">Sections ({selectedCourse?.sections?.length || newCourse.sections?.length || 0})</Heading>
+                                        <Button size="sm" colorPalette="blue" onClick={() => {
+                                            const newSection: CourseSection = {
+                                                id: Date.now().toString(),
+                                                title: "",
+                                                description: "",
+                                                videoType: 'youtube'
+                                            };
+                                            if(selectedCourse) setSelectedCourse({...selectedCourse, sections: [...(selectedCourse.sections || []), newSection]});
+                                            else setNewCourse({...newCourse, sections: [...(newCourse.sections || []), newSection]});
+                                        }}>
+                                            <FaPlus /> Add Section
+                                        </Button>
+                                    </HStack>
+
+                                    {(selectedCourse?.sections || newCourse.sections || []).map((section, idx) => (
+                                        <Box key={section.id} p={4} bg="blackAlpha.400" borderRadius="lg" border="1px solid" borderColor="whiteAlpha.100">
+                                            <VStack gap={3}>
+                                                <HStack w="full" justify="space-between">
+                                                    <Text fontWeight="bold">Section {idx + 1}</Text>
+                                                    <IconButton
+                                                        aria-label="Remove Section"
+                                                        size="xs"
+                                                        colorPalette="red"
+                                                        onClick={() => {
+                                                            if(selectedCourse) setSelectedCourse({...selectedCourse, sections: selectedCourse.sections?.filter(s => s.id !== section.id)});
+                                                            else setNewCourse({...newCourse, sections: newCourse.sections?.filter(s => s.id !== section.id)});
+                                                        }}
+                                                    >
+                                                        <FaTrash />
+                                                    </IconButton>
+                                                </HStack>
+                                                <Input
+                                                    placeholder="Section Title"
+                                                    value={section.title}
+                                                    onChange={e => {
+                                                        const update = (s: CourseSection) => s.id === section.id ? {...s, title: e.target.value} : s;
+                                                        if(selectedCourse) setSelectedCourse({...selectedCourse, sections: selectedCourse.sections?.map(update)});
+                                                        else setNewCourse({...newCourse, sections: newCourse.sections?.map(update)});
+                                                    }}
+                                                    size="sm"
+                                                />
+                                                <Textarea
+                                                    placeholder="Section Description"
+                                                    value={section.description}
+                                                    onChange={e => {
+                                                        const update = (s: CourseSection) => s.id === section.id ? {...s, description: e.target.value} : s;
+                                                        if(selectedCourse) setSelectedCourse({...selectedCourse, sections: selectedCourse.sections?.map(update)});
+                                                        else setNewCourse({...newCourse, sections: newCourse.sections?.map(update)});
+                                                    }}
+                                                    size="sm"
+                                                    rows={2}
+                                                />
+                                                <HStack w="full">
+                                                    <Input
+                                                        placeholder="Video URL (YouTube/Link)"
+                                                        value={section.videoUrl || ""}
+                                                        onChange={e => {
+                                                            const update = (s: CourseSection) => s.id === section.id ? {...s, videoUrl: e.target.value} : s;
+                                                            if(selectedCourse) setSelectedCourse({...selectedCourse, sections: selectedCourse.sections?.map(update)});
+                                                            else setNewCourse({...newCourse, sections: newCourse.sections?.map(update)});
+                                                        }}
+                                                        size="sm"
+                                                    />
+
+                                                    <Switch.Root
+                                                        colorPalette="cyan"
+                                                        checked={section.videoType === 'youtube'}
+                                                        onCheckedChange={async ({checked}) => {
+                                                            const type = checked ? 'youtube' : 'upload';
+                                                            const update = (s: CourseSection) => s.id === section.id ? {...s, videoType: type as any} : s;
+                                                            if(selectedCourse) setSelectedCourse({...selectedCourse, sections: selectedCourse.sections?.map(update)});
+                                                            else setNewCourse({...newCourse, sections: newCourse.sections?.map(update)});
+                                                        }}
+                                                    >
+                                                        <Switch.Control>
+                                                            <Switch.Thumb />
+                                                        </Switch.Control>
+                                                    </Switch.Root>
+                                                    <Text fontSize="xs">{section.videoType === 'youtube' ? 'YouTube' : 'Upload'}</Text>
+                                                </HStack>
+                                            </VStack>
+                                        </Box>
+                                    ))}
+                                </VStack>
 
                                 <HStack w="full" gap={4} pt={4}>
                                     <Button flex={1} variant="outline" onClick={() => {

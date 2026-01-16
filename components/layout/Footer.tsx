@@ -116,6 +116,8 @@ export default function Footer () {
                   color="black"
                   onClick={() => window.location.href = `mailto:${SITE_CONFIG.email}`}
                   className="hover-lift neon-glow-accent"
+                  aria-label="Send Email"
+                  title="Send Email to PasCodez"
                 >
                   <FaPaperPlane size={12} />
                 </Box>

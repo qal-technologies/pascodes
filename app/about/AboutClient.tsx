@@ -10,6 +10,7 @@ import SocialButton from "@/components/buttons/SocialsButton";
 import Footer from "@/components/layout/Footer";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 import WhatsGoingOn from "@/components/sections/WhatsGoingOn";
+import StatsSection from "@/components/sections/StatsSection";
 
 export default function AboutPage () {
   return (
@@ -84,9 +85,9 @@ export default function AboutPage () {
               <VStack align="start" gap={8}>
                 <HStack gap={3}>
                   <Box p={2} bg="brandGreen.500/10" borderRadius="lg">
-                    <FaBriefcase color="var(--chakra-colors-brandGreen-500)" />
+                  <FaBriefcase color="var(--chakra-colors-brandGreen-500)" size={22} />
                   </Box>
-                  <Heading size="xl" fontFamily="PoppinsSemi" fontSize={22}>Professional Experience</Heading>
+                <Heading size="xl" fontFamily="PoppinsSemi" fontSize={{base: '2xl', md: '3xl'}}>Professional Experience</Heading>
                 </HStack>
 
                 <VStack align="start" gap={6} width="full">
@@ -136,9 +137,9 @@ export default function AboutPage () {
               <VStack align="start" gap={8}>
                 <HStack gap={3}>
                   <Box p={2} bg="blue.500/10" borderRadius="lg">
-                    <FaGraduationCap color="var(--chakra-colors-blue-500)" />
+                  <FaGraduationCap color="var(--chakra-colors-blue-500)" size={22} />
                   </Box>
-                  <Heading size="xl" fontFamily="PoppinsSemi" fontSize={22}>Academic Background</Heading>
+                <Heading size="xl" fontFamily="PoppinsSemi" fontSize={{base: '2xl', md: '3xl'}}>Academic Background</Heading>
                 </HStack>
 
                 <VStack align="start" gap={6} width="full">
@@ -180,6 +181,8 @@ export default function AboutPage () {
 
             <Separator borderColor="whiteAlpha.100" />
 
+          <StatsSection />
+
             {/* Vision Section */}
             <SimpleGrid columns={{base: 1, md: 2}} gap={10}>
               <Box p={8} bg="gray.900" borderRadius="2xl" border="1px solid" borderColor="whiteAlpha.100">
@@ -195,9 +198,7 @@ export default function AboutPage () {
                 </Text>
               </Box>
             </SimpleGrid>
-          </VStack>
-       
-        <WhatsGoingOn/>
+        </VStack>
 
       </Container>
 

@@ -87,6 +87,8 @@ export default function ProjectsSection () {
                         py={7}
                         variant={'outline'}
                         onClick={() => window.open("https://github.com/pascodez", "_blank")}
+                        aria-label="View more projects on GitHub"
+                        title="View PasCodez GitHub Profile"
                     >
                         <FaGithub style={{marginRight: '10px', fontSize: '1.2em'}} color="white"/> View More on GitHub
                     </Button>

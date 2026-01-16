@@ -14,6 +14,14 @@ import {
   Portal,
   Slider,
   Tag,
+  Tabs,
+  Separator,
+  Container,
+  VStack,
+  Heading,
+  HStack,
+  SimpleGrid,
+  Badge,
 } from "@chakra-ui/react";
 import {FaArrowLeft, FaDotCircle, FaEllipsisV} from "react-icons/fa";
 import {useRouter, useSearchParams} from "next/navigation";
@@ -21,12 +29,12 @@ import {useState, useEffect, Suspense} from "react";
 import {estimatePrice} from "@/lib/price-estimator";
 import {convertCurrency} from "@/lib/currency-converter";
 import {db} from "@/lib/firebase";
-import {collection, addDoc} from "firebase/firestore";
+import {collection, addDoc, query, where, getDocs} from "firebase/firestore";
 import IconBtn from "@/components/buttons/IconBtn";
 import {BiEnvelope} from "react-icons/bi";
 import {useScroll} from "@/hooks/useScroll";
 import {SITE_CONFIG} from "@/lib/site-config";
-import {FaTrash} from "react-icons/fa";
+import {FaTrash, FaSearch, FaProjectDiagram, FaCheckCircle, FaSpinner, FaTools} from "react-icons/fa";
 
 interface buildProps {
   title: string;
@@ -91,6 +99,10 @@ function BuildPageContent () {
   const [convertedEstimate, setConvertedEstimate] = useState<string | null>(
     null
   );
+
+  const [trackId, setTrackId] = useState("");
+  const [trackedBuild, setTrackedBuild] = useState<any>(null);
+  const [isTrackLoading, setIsTrackLoading] = useState(false);
 
   useEffect(() => {
     document.title = "Build with AI | PasCodez";
@@ -211,6 +223,26 @@ function BuildPageContent () {
     }
   };
 
+  const handleTrackBuild = async () => {
+    if(!trackId.trim()) return;
+    setIsTrackLoading(true);
+    try {
+      const q = query(collection(db, "builds"), where("buildId", "==", trackId.trim().toUpperCase()));
+      const snap = await getDocs(q);
+      if(!snap.empty) {
+        setTrackedBuild(snap.docs[0].data());
+      } else {
+        alert("Build ID not found.");
+        setTrackedBuild(null);
+      }
+    } catch(err) {
+      console.error(err);
+      alert("Error tracking build.");
+    } finally {
+      setIsTrackLoading(false);
+    }
+  };
+
   const routes = [
     {title: "Home", link: "/"},
     {title: "Services", link: "/services"},
@@ -322,299 +354,412 @@ function BuildPageContent () {
         </Flex>
       </Flex>
 
-      <Flex direction={{base: "column", lg: "row"}} gap={8}
-        p={4}
-      >
-        <Box
-          flex={1}
-          maxWidth={"700px"}
-          lg={{
-            paddingInlineStart: "20px",
-          }}
-        >
-          <Field.Root mb={8}>
-            <Field.Label
-              fontFamily={"PoppinsSemi"}
-              color="brandGreen.500"
-              fontWeight={"bold"}
-              fontSize={20}
-            >
-              Title{" "}
-              <span
-                style={{
-                  fontSize: "14px",
-                  color: "grey",
-                  opacity: 0.8,
-                  marginLeft: "5px",
-                }}
-              >
-                (max 50)
-              </span>
-            </Field.Label>
-            <Flex align="center" wrap="wrap" gap="10px">
-              <Input
-                name="title"
-                value={build.title}
-                onChange={handleChange}
-                padding={0}
-                width="max-content"
-                maxWidth="300px"
-                maxLength={50}
-                fontSize={25}
-                borderRadius="0"
-                placeholder="Enter project title "
-                _placeholder={{
-                  fontSize: "20px",
-                }}
-                _focus={{
-                  borderBottom: "1px solid ",
-                  borderColor: "brandGreen.500",
-                  paddingBottom: "5px",
-                }}
-              />
-              <Input
-                name="name"
-                value={build.name}
-                onChange={handleChange}
-                width="max-content"
-                maxWidth="200px"
-                variant="flushed"
-                placeholder="Your Name (Required)*"
-                required
-                _placeholder={{fontSize: "16px", color: "gray.400"}}
-                borderBottom="1px solid"
-                borderColor="brandGreen.500"
-              />
-              <Input
-                name="email"
-                type="email"
-                value={build.email}
-                onChange={handleChange}
-                width="max-content"
-                maxWidth="250px"
-                variant="flushed"
-                placeholder="Email (Optional)"
-                _placeholder={{fontSize: "16px", color: "gray.400"}}
-                borderBottom="1px solid"
-                borderColor="brandGreen.500"
-              />
-              {build.projectType && (
-                <Tag.Root
-                  ml={2}
-                  padding={1.5}
-                  paddingInline={3.5}
-                  borderRadius={16}
-                  color="brandGreen.500"
-                  variant={"subtle"}
-                  border="1px solid "
-                  borderColor={"brandGreen.500"}
-                >
-                  <Tag.Label fontSize={12}>
-                    {build.projectType[0].toUpperCase() +
-                      build.projectType.slice(1)}
-                  </Tag.Label>
-                </Tag.Root>
-              )}
-            </Flex>
-          </Field.Root>
-          <Field.Root mb={4}>
-            <Field.Label
-              fontFamily={"PoppinsSemi"}
-              color="brandGreen.500"
-              fontWeight={"bold"}
-              fontSize={20}
-            >
-              Project Type
-            </Field.Label>
-            <NativeSelect.Root opacity={build.projectType ? 0.6 : 1}>
-              <NativeSelect.Field
-                name="projectType"
-                value={build.projectType}
-                onChange={handleChange}
-                placeholder="Select project type"
-                colorPalette={"brandGreen"}
-                cursor="pointer"
-                title="Select Project Type"
-                aria-label="Select Project Type"
-              >
-                <option value="e-commerce">E-commerce Website</option>
-                <option value="portfolio">Portfolio Website</option>
-                <option value="business">Business Website</option>
-                <option value="webapp">Web App</option>
-                <option value="data-modeling">Data Modeling</option>
-                <option value="project-config">Project Configuration</option>
-                <option value="website-management">Website Management</option>
-                <option value="tools-integration">Tools Integration</option>
-              </NativeSelect.Field>
-            </NativeSelect.Root>
-          </Field.Root>
-          <Field.Root mb={4}>
-            <Field.Label
-              fontFamily={"PoppinsSemi"}
-              color="brandGreen.500"
-              fontWeight={"bold"}
-              fontSize={20}
-            >
-              Number of Pages:{" "}
-              {build.pages > 4 ? `4 - ${build.pages}pages` : "(4)"}
-            </Field.Label>
+      <Tabs.Root defaultValue="request" variant={'subtle'} colorPalette='brandGreen' p={4}>
+        <Tabs.List mb={8} borderBottom="1px solid" borderColor="whiteAlpha.100" gap={6}>
+          <Tabs.Trigger value="request" fontSize="lg" fontWeight="bold">
+            <FaTools style={{marginRight: '8px'}} /> Request Build
+          </Tabs.Trigger>
+          <Tabs.Trigger value="track" fontSize="lg" fontWeight="bold">
+            <FaSearch style={{marginRight: '8px'}} /> Track Build
+          </Tabs.Trigger>
+        </Tabs.List>
 
-            <Slider.Root
-              min={4}
-              max={100}
-              value={[build.pages]}
-              onValueChange={(details) => handleSliderChange(details.value[0])}
-            >
-              <Slider.Control>
-                <Slider.Track>
-                  <Slider.Range />
-                </Slider.Track>
-                <Slider.Thumb index={0} />
-              </Slider.Control>
-            </Slider.Root>
-          </Field.Root>
-          <Field.Root mb={4}>
-            <Field.Label
-              fontFamily={"PoppinsSemi"}
-              color="brandGreen.500"
-              fontWeight={"bold"}
-              fontSize={20}
-            >
-              Description
-            </Field.Label>
-            <Textarea
-              name="description"
-              value={build.description}
-              onChange={handleChange}
-              resize={"none"}
-              border={"1px solid green"}
-              borderRadius="15px"
-              borderColor="brandGreen.500/20"
-              width="100%"
-              minHeight={"80px"}
-              maxWidth="500px"
-              height="auto"
-              scrollbar={"hidden"}
-              maxHeight="300px"
-              padding="10px"
-              placeholder="Describe your project"
-              _focus={{
-                height: `${build.description.trim().length / 2}px`,
-                borderColor: "brandGreen.500",
-              }}
-            />
-          </Field.Root>
-          <Flex wrap="wrap" gap="10px">
-            <Button
-              onClick={handleCheckEstimate}
-              loading={isLoading}
-              loadingText="Estimating..."
-              borderRadius={18}
-              colorPalette={"brandGreen"}
-              padding={6}
-              paddingInline={8}
-              background={"brandGreen.500"}
-              color="brandGreen.900"
-              fontWeight={"bold"}
-              fontFamily="PoppinsMed"
-              disabled={!buttonCheck || estimate != null}
-              _disabled={{
-                background: "grey",
-              }}
-            >
-              Check Estimate
-            </Button>
-          </Flex>
-        </Box>
-        <Box
-          flex={1}
-          borderLeft={{base: "none", lg: "1px solid grey"}}
-          borderColor={"brandGreen.500"}
-          lg={{
-            paddingInlineStart: "20px",
-          }}
-        >
-          {estimate ?
+        <Tabs.Content value="request">
+          <Flex direction={{base: "column", lg: "row"}} gap={8}>
             <Box
-              base={{
-                borderTop: "1px solid grey",
-                borderTopColor: "brandGreen.500",
-                paddingTop: "20px",
+              flex={1}
+              maxWidth={"700px"}
+              lg={{
+                paddingInlineStart: "20px",
               }}
-              id="estimate"
             >
-              <Text fontSize="2xl" fontWeight="bold">
-                Your Estimate: {fmtUSDestimate} (
-                {convertedEstimate && convertedEstimate})
-              </Text>
-              <Text
-                mt={2}
-                maxLines={2}
-                textOverflow={"ellipsis"}
-                maxHeight={"50px"}
-                whiteSpace={"collapse"}
-                overflow={"hidden"}
-              >
-                {build.description}
-              </Text>
-              <Text mt={6}>
-                You&apos;re {verb} a {build.projectType} with these features:
-              </Text>
-              <Box mt={2}>
-                <Text
-                  fontWeight="bold"
-                  fontSize={21}
-                  marginBottom={1}
-                  fontFamily={"PoppinsMed"}
-                  letterSpacing={"0.6px"}
+              <Field.Root mb={8}>
+                <Field.Label
+                  fontFamily={"PoppinsSemi"}
+                  color="brandGreen.500"
+                  fontWeight={"bold"}
+                  fontSize={20}
                 >
-                  Price Breakdown:
-                </Text>
-                {priceBreakdown &&
-                  Object.entries(priceBreakdown).map(([key, value]) => (
-                    <Text key={key}>
-                      <span
-                        style={{letterSpacing: "0.5px", fontWeight: "bold"}}
-                      >
-                        {key.toUpperCase()}
-                      </span>
-                      :{" "}
-                      {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      }).format(value)}
-                    </Text>
-                  ))}
-              </Box>
+                  Title{" "}
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      color: "grey",
+                      opacity: 0.8,
+                      marginLeft: "5px",
+                    }}
+                  >
+                    (max 50)
+                  </span>
+                </Field.Label>
+                <Flex align="center" wrap="wrap" gap="10px">
+                  <Input
+                    name="title"
+                    value={build.title}
+                    onChange={handleChange}
+                    padding={0}
+                    width="max-content"
+                    maxWidth="300px"
+                    maxLength={50}
+                    fontSize={25}
+                    borderRadius="0"
+                    placeholder="Enter project title "
+                    _placeholder={{
+                      fontSize: "20px",
+                    }}
+                    _focus={{
+                      borderBottom: "1px solid ",
+                      borderColor: "brandGreen.500",
+                      paddingBottom: "5px",
+                    }}
+                  />
+                  <Input
+                    name="name"
+                    value={build.name}
+                    onChange={handleChange}
+                    width="max-content"
+                    maxWidth="200px"
+                    variant="flushed"
+                    placeholder="Your Name (Required)*"
+                    required
+                    _placeholder={{fontSize: "16px", color: "gray.400"}}
+                    borderBottom="1px solid"
+                    borderColor="brandGreen.500"
+                  />
+                  <Input
+                    name="email"
+                    type="email"
+                    value={build.email}
+                    onChange={handleChange}
+                    width="max-content"
+                    maxWidth="250px"
+                    variant="flushed"
+                    placeholder="Email (Optional)"
+                    _placeholder={{fontSize: "16px", color: "gray.400"}}
+                    borderBottom="1px solid"
+                    borderColor="brandGreen.500"
+                  />
+                  {build.projectType && (
+                    <Tag.Root
+                      ml={2}
+                      padding={1.5}
+                      paddingInline={3.5}
+                      borderRadius={16}
+                      color="brandGreen.500"
+                      variant={"subtle"}
+                      border="1px solid "
+                      borderColor={"brandGreen.500"}
+                    >
+                      <Tag.Label fontSize={12}>
+                        {build.projectType[0].toUpperCase() +
+                          build.projectType.slice(1)}
+                      </Tag.Label>
+                    </Tag.Root>
+                  )}
+                </Flex>
+              </Field.Root>
+              <Field.Root mb={4}>
+                <Field.Label
+                  fontFamily={"PoppinsSemi"}
+                  color="brandGreen.500"
+                  fontWeight={"bold"}
+                  fontSize={20}
+                >
+                  Project Type
+                </Field.Label>
+                <NativeSelect.Root opacity={build.projectType ? 0.6 : 1}>
+                  <NativeSelect.Field
+                    name="projectType"
+                    value={build.projectType}
+                    onChange={handleChange}
+                    placeholder="Select project type"
+                    colorPalette={"brandGreen"}
+                    cursor="pointer"
+                    title="Select Project Type"
+                    aria-label="Select Project Type"
+                  >
+                    <option value="e-commerce">E-commerce Website</option>
+                    <option value="portfolio">Portfolio Website</option>
+                    <option value="business">Business Website</option>
+                    <option value="webapp">Web App</option>
+                    <option value="data-modeling">Data Modeling</option>
+                    <option value="project-config">Project Configuration</option>
+                    <option value="website-management">Website Management</option>
+                    <option value="tools-integration">Tools Integration</option>
+                  </NativeSelect.Field>
+                </NativeSelect.Root>
+              </Field.Root>
+              <Field.Root mb={4}>
+                <Field.Label
+                  fontFamily={"PoppinsSemi"}
+                  color="brandGreen.500"
+                  fontWeight={"bold"}
+                  fontSize={20}
+                >
+                  Number of Pages:{" "}
+                  {build.pages > 4 ? `4 - ${build.pages}pages` : "(4)"}
+                </Field.Label>
 
-              <Button
-                mt={6}
-                borderRadius={20}
-                colorPalette={"green"}
-                fontFamily="PoppinsMed"
-                disabled={!buttonCheck}
-                placeSelf="center"
-                _disabled={{
-                  background: "grey",
-                }}
-                padding={6}
-                paddingInline={12}
-                onClick={handleFinishBuild}
-              >
-                Finish Build
-              </Button>
+                <Slider.Root
+                  min={4}
+                  max={100}
+                  value={[build.pages]}
+                  onValueChange={(details) => handleSliderChange(details.value[0])}
+                >
+                  <Slider.Control>
+                    <Slider.Track>
+                      <Slider.Range />
+                    </Slider.Track>
+                    <Slider.Thumb index={0} />
+                  </Slider.Control>
+                </Slider.Root>
+              </Field.Root>
+              <Field.Root mb={4}>
+                <Field.Label
+                  fontFamily={"PoppinsSemi"}
+                  color="brandGreen.500"
+                  fontWeight={"bold"}
+                  fontSize={20}
+                >
+                  Description
+                </Field.Label>
+                <Textarea
+                  name="description"
+                  value={build.description}
+                  onChange={handleChange}
+                  resize={"none"}
+                  border={"1px solid green"}
+                  borderRadius="15px"
+                  borderColor="brandGreen.500/20"
+                  width="100%"
+                  minHeight={"80px"}
+                  maxWidth="500px"
+                  height="auto"
+                  scrollbar={"hidden"}
+                  maxHeight="300px"
+                  padding="10px"
+                  placeholder="Describe your project"
+                  _focus={{
+                    height: `${build.description.trim().length / 2}px`,
+                    borderColor: "brandGreen.500",
+                  }}
+                />
+              </Field.Root>
+              <Flex wrap="wrap" gap="10px">
+                <Button
+                  onClick={handleCheckEstimate}
+                  loading={isLoading}
+                  loadingText="Estimating..."
+                  borderRadius={18}
+                  colorPalette={"brandGreen"}
+                  padding={6}
+                  paddingInline={8}
+                  background={"brandGreen.500"}
+                  color="brandGreen.900"
+                  fontWeight={"bold"}
+                  fontFamily="PoppinsMed"
+                  disabled={!buttonCheck || estimate != null}
+                  _disabled={{
+                    background: "grey",
+                  }}
+                >
+                  Check Estimate
+                </Button>
+              </Flex>
             </Box>
-            : <Image
-              display={{base: "none", lg: "block"}}
-              src="/images/logo.png"
-              alt="Passcode Image"
-              maxWidth="500px"
-              placeSelf="center"
-              maxHeight="500px"
-            />
-          }
-        </Box>
-      </Flex>
+            <Box
+              flex={1}
+              borderLeft={{base: "none", lg: "1px solid grey"}}
+              borderColor={"brandGreen.500"}
+              lg={{
+                paddingInlineStart: "20px",
+              }}
+            >
+              {estimate ?
+                <Box
+                  base={{
+                    borderTop: "1px solid grey",
+                    borderTopColor: "brandGreen.500",
+                    paddingTop: "20px",
+                  }}
+                  id="estimate"
+                >
+                  <Text fontSize="2xl" fontWeight="bold">
+                    Your Estimate: {fmtUSDestimate} (
+                    {convertedEstimate && convertedEstimate})
+                  </Text>
+                  <Text
+                    mt={2}
+                    maxLines={2}
+                    textOverflow={"ellipsis"}
+                    maxHeight={"50px"}
+                    whiteSpace={"collapse"}
+                    overflow={"hidden"}
+                  >
+                    {build.description}
+                  </Text>
+                  <Text mt={6}>
+                    You&apos;re {verb} a {build.projectType} with these features:
+                  </Text>
+                  <Box mt={2}>
+                    <Text
+                      fontWeight="bold"
+                      fontSize={21}
+                      marginBottom={1}
+                      fontFamily={"PoppinsMed"}
+                      letterSpacing={"0.6px"}
+                    >
+                      Price Breakdown:
+                    </Text>
+                    {priceBreakdown &&
+                      Object.entries(priceBreakdown).map(([key, value]) => (
+                        <Text key={key}>
+                          <span
+                            style={{letterSpacing: "0.5px", fontWeight: "bold"}}
+                          >
+                            {key.toUpperCase()}
+                          </span>
+                          :{" "}
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                          }).format(value)}
+                        </Text>
+                      ))}
+                  </Box>
+
+                  <Button
+                    mt={6}
+                    borderRadius={20}
+                    colorPalette={"green"}
+                    fontFamily="PoppinsMed"
+                    disabled={!buttonCheck}
+                    placeSelf="center"
+                    _disabled={{
+                      background: "grey",
+                    }}
+                    padding={6}
+                    paddingInline={12}
+                    onClick={handleFinishBuild}
+                  >
+                    Finish Build
+                  </Button>
+                </Box>
+                : <Image
+                  display={{base: "none", lg: "block"}}
+                  src="/images/logo.png"
+                  alt="Passcode Image"
+                  maxWidth="500px"
+                  placeSelf="center"
+                  maxHeight="500px"
+                />
+              }
+            </Box>
+          </Flex>
+        </Tabs.Content>
+
+        <Tabs.Content value="track">
+          <Container maxW="container.md" py={10}>
+            <VStack gap={8} align="stretch" bg="whiteAlpha.50" p={8} borderRadius="3xl" border="1px solid" borderColor="whiteAlpha.100">
+              <VStack align="start" gap={2}>
+                <Heading size="xl" color="white">Track Your Project</Heading>
+                <Text color="gray.400">Enter your Build ID to see the current progress and status of your project.</Text>
+              </VStack>
+
+              <HStack gap={4}>
+                <Input
+                  placeholder="Enter Build ID (e.g. 5X7A9...)"
+                  value={trackId}
+                  onChange={(e) => setTrackId(e.target.value)}
+                  bg="black"
+                  border="1px solid"
+                  borderColor="brandGreen.500/30"
+                  borderRadius="xl"
+                  size="lg"
+                  _focus={{borderColor: "brandGreen.500"}}
+                />
+                <Button
+                  colorPalette="brandGreen"
+                  bgColor='brandGreen.500'
+                  borderRadius='xl'
+                  onClick={handleTrackBuild}
+                  loading={isTrackLoading}
+                  size="lg"
+                  px={8}
+                >
+                  Track
+                </Button>
+              </HStack>
+
+              {trackedBuild && (
+                <VStack align="stretch" gap={6} mt={6} p={6} bg="blackAlpha.400" borderRadius="2xl" border="1px solid" borderColor="brandGreen.500/20">
+                  <HStack justify="space-between">
+                    <VStack align="start" gap={1}>
+                      <Text fontSize="xs" color="gray.500">Project Title</Text>
+                      <Text fontWeight="bold" fontSize="xl" color="white">{trackedBuild.title}</Text>
+                    </VStack>
+                    <Badge colorPalette={
+                      trackedBuild.status === 'complete' ? 'green' :
+                        trackedBuild.status === 'progress' ? 'blue' : 'yellow'
+                    } variant="solid" px={3} py={1} borderRadius="full">
+                      {trackedBuild.status}
+                    </Badge>
+                  </HStack>
+
+                  <Separator borderColor="whiteAlpha.100" />
+
+                  <SimpleGrid columns={2} gap={6}>
+                    <VStack align="start" gap={1}>
+                      <Text fontSize="xs" color="gray.500">Client Name</Text>
+                      <Text color="white">{trackedBuild.name}</Text>
+                    </VStack>
+                    <VStack align="start" gap={1}>
+                      <Text fontSize="xs" color="gray.500">Project Type</Text>
+                      <Text color="white" textTransform="capitalize">{trackedBuild.projectType}</Text>
+                    </VStack>
+                    <VStack align="start" gap={1}>
+                      <Text fontSize="xs" color="gray.500">Build ID</Text>
+                      <Text color="brandGreen.500" fontWeight="mono">{trackedBuild.buildId}</Text>
+                    </VStack>
+                    <VStack align="start" gap={1}>
+                      <Text fontSize="xs" color="gray.500">Estimated Price</Text>
+                      <Text color="white" fontWeight="bold">
+                        {new Intl.NumberFormat("en-US", {style: "currency", currency: "USD"}).format(trackedBuild.estimate)}
+                      </Text>
+                    </VStack>
+                  </SimpleGrid>
+
+                  <Box>
+                    <Text fontSize="xs" color="gray.500" mb={3}>Project Status</Text>
+                    <HStack gap={4} justify="space-between">
+                      <VStack align="center" flex={1}>
+                        <Box p={3} borderRadius="full" bg={trackedBuild.status ? "brandGreen.500" : "gray.700"}>
+                          <FaCheckCircle color="black" />
+                        </Box>
+                        <Text fontSize="xs">Request</Text>
+                      </VStack>
+                      <Separator flex={1} borderColor={trackedBuild.status === 'progress' || trackedBuild.status === 'complete' ? "brandGreen.500" : "gray.700"} />
+                      <VStack align="center" flex={1}>
+                        <Box p={3} borderRadius="full" bg={trackedBuild.status === 'progress' || trackedBuild.status === 'complete' ? "brandGreen.500" : "gray.700"}>
+                          {trackedBuild.status === 'progress' ? <FaSpinner className="spinner" /> : <FaTools color={trackedBuild.status === 'complete' ? 'black' : 'white'} />}
+                        </Box>
+                        <Text fontSize="xs">Building</Text>
+                      </VStack>
+                      <Separator flex={1} borderColor={trackedBuild.status === 'complete' ? "brandGreen.500" : "gray.700"} />
+                      <VStack align="center" flex={1}>
+                        <Box p={3} borderRadius="full" bg={trackedBuild.status === 'complete' ? "brandGreen.500" : "gray.700"}>
+                          <FaCheckCircle color={trackedBuild.status === 'complete' ? 'black' : 'white'} />
+                        </Box>
+                        <Text fontSize="xs">Delivered</Text>
+                      </VStack>
+                    </HStack>
+                  </Box>
+                </VStack>
+              )}
+            </VStack>
+          </Container>
+        </Tabs.Content>
+      </Tabs.Root>
     </Box>
   );
 }

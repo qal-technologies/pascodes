@@ -9,6 +9,7 @@ import Navbar from "@/components/layout/Navbar";
 import Scrollable from "@/components/layout/Scrollable";
 import {Reveal} from "@/components/utils/Reveal";
 import {Separator} from "@chakra-ui/react";
+import StatsSection from "@/components/sections/StatsSection";
 import PageBanner from "@/components/layout/PageBanner";
 import SpecializedServices from "@/components/sections/SpecializedServices";
 import React from "react";
@@ -37,6 +38,10 @@ export default function Services () {
 
             <Reveal width="100%">
                 <TestimonialSection page="service"/>
+            </Reveal>
+
+            <Reveal width="100%">
+                <StatsSection />
             </Reveal>
 
             <Separator borderColor="whiteAlpha.100" />
