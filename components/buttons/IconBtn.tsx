@@ -5,19 +5,16 @@ import {motion} from "framer-motion";
 
 const MotionBox = motion.create(Box);
 
-interface iconBtnProps {
+interface IconBtnProps extends BoxProps {
   withLink?: string;
   icon: React.ReactNode;
   animate?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
   ariaLabel: string;
-  props?: BoxProps;
   scheme?: SystemStyleObject["color"];
-  rounded?: boolean;
+  rounded?: boolean | any;
   bRadius?: number | string;
-  mb?: number | string;
-  mt?: number | string;
   size?: 'md' | 'sm' | 'lg';
 }
 
@@ -28,13 +25,11 @@ export default function IconBtn ({
   onClick,
   children,
   ariaLabel,
-  props,
   rounded = true,
   bRadius,
-  mb,
-  mt,
-  size = 'md'
-}: iconBtnProps) {
+  size = 'md',
+  ...rest
+}: IconBtnProps) {
   const router = useRouter();
   const link = withLink ? withLink : null;
 
@@ -69,9 +64,7 @@ export default function IconBtn ({
       initial={animate ? {opacity: 0, scale: 0, y: 50} : undefined}
       animate={animate ? {opacity: 1, scale: 1, y: 0} : undefined}
       exit={{opacity: 0, scale: 0.8, y: 50}}
-      mb={mb}
-      mt={mt}
-      {...props as any}
+      {...rest as any}
     >
       {icon}
       {children}

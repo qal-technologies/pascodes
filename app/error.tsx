@@ -1,11 +1,11 @@
 "use client";
 
-import { Flex, Text, Heading, Image, Box } from "@chakra-ui/react";
+import {Flex, Text, Heading, Image, Box} from "@chakra-ui/react";
 import Link from "next/link";
 
 import "@/styles/error.css";
 
-export default function Error() {
+export default function Error () {
   return (
     <Flex
       className="error-bg"
@@ -53,23 +53,22 @@ export default function Error() {
           </Link>
         </Text>
 
-        <Link passHref href={"/"} replace>
-          <Box
-            as={"button"}
-            padding={2.5}
-            paddingInline={10}
-            background={"red.500"}
-            marginTop={10}
-            color={"black"}
-            fontWeight={"bolder"}
-            textAlign={"center"}
-            borderRadius={20}
-            cursor={"pointer"}
-            _hover={{ paddingInline: 5, opacity: 0.8 }}
-          >
-            Go Back Home
-          </Box>
-        </Link>
+        <Box
+          as={"button"}
+          padding={2.5}
+          paddingInline={10}
+          background={"red.500"}
+          marginTop={10}
+          color={"black"}
+          fontWeight={"bolder"}
+          textAlign={"center"}
+          borderRadius={20}
+          cursor={"pointer"}
+          onClick={() => window.location.reload()}
+          _hover={{paddingInline: 5, opacity: 0.8}}
+        >
+          Try Again
+        </Box>
       </Box>
     </Flex>
   );

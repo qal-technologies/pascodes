@@ -1,13 +1,11 @@
 {
-  "name": "PasCodes",
-  "short_name": "PasCodes",
+  "name": "PasCodez - All About Tech",
+  "short_name": "PasCodez",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A192F",
-  "theme_color": "#00FFFF",
-
-  "description": "PasCodes - All About Coding ",
-
+  "theme_color": "#00E072",
+  "description": "PasCodez - High-performance web and mobile development, AI solutions, and coding courses by Paschal Ngaoka.",
   "icons": [
     {
       "src": "/images/logo.png",

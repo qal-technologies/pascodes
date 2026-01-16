@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user is the admin (By UID or generic check)
+    // Note: In a real production app, you might check a 'role' field in a user document
+    // For now, we assume authenticated users in the Firebase project are admins
+    function isAdmin() {
+      return isAuthenticated();
+    }
+
+    // Publicly readable content, but only Admin can write
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /news_ticker/{tickerId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Publicly writable sections (for user interactions), but only Admin can read/update
+    match /builds/{buildId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    match /contacts/{contactId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    match /waitlist/{waitlistId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Sample data collections (if any)
+    match /get_blogs/{blogId} {
+       allow read: if true;
+       allow write: if isAdmin();
+    }
+
+    // Default deny for everything else
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

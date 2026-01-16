@@ -5,10 +5,10 @@ import {
   Flex,
   IconButton,
   Text,
-  Image,
   For,
   Stack,
 } from "@chakra-ui/react";
+import NextImage from "next/image";
 // import { useColorMode } from "@chakra-ui/system";
 import {LuMenu, LuX} from "react-icons/lu";
 import { } from "react-icons/ai";
@@ -43,9 +43,9 @@ export default function Navbar () {
   const routes = [
     {title: "Home", link: "/"},
     {title: "Services", link: "/services"},
-    {title: "courses", link: "/courses"},
+    {title: "Courses", link: "/courses"},
     {title: "Blog", link: "/blog"},
-    {title: "contact", link: "/about"},
+    {title: "About", link: "/about"},
   ];
 
   const socials = [
@@ -87,11 +87,12 @@ export default function Navbar () {
               display={"flex"}
               justifyContent={"center"}
             >
-              <Image
-                alt="PasCodez Image"
+              <NextImage
+                alt="PasCodez Logo"
                 src={"/images/logo.png"}
-                w={"50px"}
-                h={"50px"}
+                width={40}
+                height={40}
+                priority
               />
             </Box>
             <Text

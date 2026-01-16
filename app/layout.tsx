@@ -7,10 +7,16 @@ import AnnouncementBar from '@/components/layout/AnnouncementBar';
 
 import "@/styles/globals.css";
 
-const origin = process.env.SITE_URL || "http://localhost:3000";
+const origin = process.env.SITE_URL || "https://pascodez.com";
 const imageUrl = `${origin}/images/logo.png`;
 const aboutUrl = `${origin}/about`;
 const homeUrl = `${origin}/`;
+
+export const viewport = {
+  themeColor: "#00E072",
+  width: "device-width",
+  initialScale: 1,
+};
 
 
 export const metadata: Metadata = {
@@ -21,40 +27,27 @@ export const metadata: Metadata = {
   description:
     "PasCodez by Paschal Ngaoka — Full-Stack Developer, UI/UX Designer & Software Engineer. I build fast, modern web and mobile apps using React, Next.js, and Firebase — with clean UI, optimized performance, and real-world scalability. Explore my portfolio, read insightful tech blogs, or learn through my free and premium coding courses. Ready to build your next idea? Let’s turn it into reality.",
   keywords: [
-    "coding courses",
+    "Coding Courses",
     "React",
     "Next.js",
-    "web development",
-    "blog",
-    "software",
-    "developer",
-    "pasqalng",
-    "PasQal Ng",
-    "PasQalNg",
-    "pascodes",
-    "pasCodes",
-    "pascodez",
+    "Web Development",
+    "Blog",
+    "Software",
+    "Developer",
+    "Pasqal Ng",
     "PasCodez",
-    "web developer",
-    "mobile app developer",
-    "web development",
-    "learn coding",
-    "API integration",
-    "Automation",
-    "Nigeria",
-    "all about coding",
-    "coding courses",
-    "React",
-    "Next.js",
-    "web development",
-    "mobile development",
-    "software engineering",
-    "UI/UX",
-    "PasCodes",
-    "Paschal Ngaoka",
-    "learn programming",
-    "online courses",
-    "developer consultancy",
+    "PasCodez Solutions",
+    "Mobile App Developer",
+    "UI/UX Design",
+    "Nigeria Tech Hub",
+    "Software Engineering Nigeria",
+    "Learn Programming",
+    "Online Coding Courses",
+    "Developer Consultancy",
+    "Custom Web Apps",
+    "AI Integration",
+    "API Development",
+    "Automation"
   ],
   authors: [{ name: "Paschal Ngaoka", url: `${aboutUrl}` }],
   creator: "Paschal Ngaoka",
@@ -116,20 +109,35 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Paschal Ngaoka",
-              jobTitle: "Software Engineer",
-              url: `${origin}`,
-              sameAs: [
-                "https://github.com/pasqal-dev",
-                "https://www.linkedin.com/in/paschal-ngaoka-693859280",
-                "https://twitter.com/PasQal_Ng",
-                "https://instagram.com/pasqal.dev",
-                "https://wa.me/2349016561308",
-              ],
-            }),
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Paschal Ngaoka",
+                "jobTitle": "Full-Stack Developer & UI/UX Designer",
+                "url": `${origin}`,
+                "sameAs": [
+                  "https://github.com/pasqal-dev",
+                  "https://www.linkedin.com/in/paschal-ngaoka-693859280",
+                  "https://twitter.com/PasQal_Ng",
+                  "https://instagram.com/pasqal.dev",
+                  "https://wa.me/2349016561308"
+                ]
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "PasCodez",
+                "url": `${origin}`,
+                "logo": `${imageUrl}`,
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "+2349016561308",
+                  "contactType": "Customer Service",
+                  "email": "pasqal.dev@gmail.com"
+                }
+              }
+            ]),
           }}
         />
       </head>

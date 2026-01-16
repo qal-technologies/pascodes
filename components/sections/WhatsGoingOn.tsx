@@ -107,7 +107,7 @@ export default function WhatsGoingOn () {
 
                 <Tabs.Root defaultValue="All" onValueChange={(e) => setCategory(e.value)}>
                     <Tabs.List mb={10} borderBottom="1px solid" borderColor="whiteAlpha.100" gap={10}
-                        position='sticky' top={0} backdropFilter='blur(10px) brightness(80%)' justifyContent='space-between' p={1} overflowX={'auto'} width='full' scrollbarColor={'transparent'}
+                        justifyContent='space-between' p={1} overflowX={'auto'} width='full' scrollbarColor={'transparent'}
                     >
                         {categories.map(cat => (
                             <Tabs.Trigger
@@ -115,7 +115,7 @@ export default function WhatsGoingOn () {
                                 value={cat}
                                 color="gray.500"
                                 _selected={{color: "brandGreen.500", borderBottom: "2px solid"}}
-                                fontWeight="bold"
+                                fontWeight="bolder"
                                 fontSize="sm"
                                 pb={4}
                                 m={0} p={0} minWidth='max-content' flexShrink={1}

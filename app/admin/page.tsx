@@ -56,6 +56,7 @@ interface BlogPost {
 interface CourseData {
     id: string;
     title: string;
+    slug: string;
     description: string;
     status: string;
     progress: number;
@@ -109,6 +110,7 @@ export default function AdminDashboard () {
     const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
     const [newCourse, setNewCourse] = useState<Partial<CourseData>>({
         title: "",
+        slug: "",
         description: "",
         status: "Recording",
         progress: 0,
@@ -334,6 +336,7 @@ export default function AdminDashboard () {
             setSelectedCourse(null);
             setNewCourse({
                 title: "",
+                slug: "",
                 description: "",
                 status: "Recording",
                 progress: 0,
@@ -1297,6 +1300,16 @@ export default function AdminDashboard () {
                                     onChange={e => {
                                         if(selectedCourse) setSelectedCourse({...selectedCourse, title: e.target.value});
                                         else setNewCourse({...newCourse, title: e.target.value});
+                                    }}
+                                    bg="black"
+                                    style={{padding: 10, borderRadius: '12px'}}
+                                />
+                                <Input
+                                    placeholder="Course Slug (e.g. react-mastery)"
+                                    value={selectedCourse ? selectedCourse.slug : newCourse.slug}
+                                    onChange={e => {
+                                        if(selectedCourse) setSelectedCourse({...selectedCourse, slug: e.target.value});
+                                        else setNewCourse({...newCourse, slug: e.target.value});
                                     }}
                                     bg="black"
                                     style={{padding: 10, borderRadius: '12px'}}

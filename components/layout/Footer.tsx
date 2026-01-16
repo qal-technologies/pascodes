@@ -1,6 +1,7 @@
 "use client";
 
-import {Box, Container, SimpleGrid, HStack, Text, Heading, Link, Separator, Image, VStack, Icon} from "@chakra-ui/react";
+import {Box, Container, SimpleGrid, HStack, Text, Heading, Link, Separator, VStack, Icon} from "@chakra-ui/react";
+import NextImage from "next/image";
 import {SITE_CONFIG} from "@/lib/site-config";
 import SocialButton from "@/components/buttons/SocialsButton";
 import {FaMapMarkerAlt, FaPaperPlane} from "react-icons/fa";
@@ -29,7 +30,14 @@ export default function Footer () {
           <VStack align="start" gap={8} mb={4}>
             <HStack gap={3}>
               <Box position="relative">
-                <Image src="/images/logo.png" alt="PasCodez" w="40px" borderRadius="12px" className="neon-glow-accent" />
+                <NextImage
+                  src="/images/logo.png"
+                  alt="PasCodez"
+                  width={40}
+                  height={40}
+                  style={{borderRadius: '12px'}}
+                  className="neon-glow-accent"
+                />
               </Box>
               <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodez_</Heading>
             </HStack>

@@ -45,7 +45,7 @@ export default function ProjectsSection () {
                     </Text>
                 </VStack>
 
-                <SimpleGrid columns={{base: 1, md: 3}} gap={10} mb={16} justifyContent={'space-evenly'}>
+                <SimpleGrid columns={{base: 1, md: 3}} gap={10} mb={16} justifyContent={'space-evenly'} px={8}>
                     <Reveal delay={0.1}>
                         <Box>
                             <Text color="white" mb={4} textAlign="center" fontWeight="bold">Neon Calculator</Text>
