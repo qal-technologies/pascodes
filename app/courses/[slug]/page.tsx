@@ -122,7 +122,13 @@ export default async function CoursePage ({params}: {params: Promise<{slug: stri
                       {course.sections[0].videoType === 'youtube' ? (
                         <YouTubeEmbed url={course.sections[0].videoUrl} />
                       ) : (
-                        <Box as="video" src={course.sections[0].videoUrl} controls w="full" borderRadius="2xl" className="neon-glow-primary" />
+                          <Box border="1px solid" borderColor="whiteAlpha.100" borderRadius="2xl" overflow="hidden" className="neon-glow-primary">
+                            <video
+                              src={course.sections[0].videoUrl}
+                              controls
+                              style={{width: '100%', display: 'block'}}
+                            />
+                          </Box>
                       )}
                     </Box>
                   ) : (
