@@ -1277,7 +1277,7 @@ export default function AdminDashboard () {
                                 <VStack align="stretch" w="full" gap={4}>
                                     <HStack justify="space-between">
                                         <Heading size="md" color="white">Sections ({selectedCourse?.sections?.length || newCourse.sections?.length || 0})</Heading>
-                                        <Button size="sm" colorPalette="blue" onClick={() => {
+                                        <Button size="sm" colorPalette="cyan" backgroundColor='brandGreen.500' borderRadius='50%' color='black' title='Add New Course Section' onClick={() => {
                                             const newSection: CourseSection = {
                                                 id: Date.now().toString(),
                                                 title: "",
@@ -1287,7 +1287,7 @@ export default function AdminDashboard () {
                                             if(selectedCourse) setSelectedCourse({...selectedCourse, sections: [...(selectedCourse.sections || []), newSection]});
                                             else setNewCourse({...newCourse, sections: [...(newCourse.sections || []), newSection]});
                                         }}>
-                                            <FaPlus /> Add Section
+                                            <FaPlus />
                                         </Button>
                                     </HStack>
 
