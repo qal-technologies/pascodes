@@ -29,10 +29,10 @@ const Counter = ({value, duration = 2}: {value: number, duration?: number}) => {
         }
     }, [isInView, value, duration]);
 
-    return <span ref={ref}>{count}</span>;
+    return <span ref={ref} style={{fontSize: '1.8rem'}}>{count}</span>;
 };
 
-const StatItem = ({icon, label, value, suffix = "+"}: {icon: any, label: string, value: number, suffix?: string}) => (
+const StatItem = ({icon, label, value, suffix = " +"}: {icon: any, label: string, value: number, suffix?: string}) => (
     <VStack 
         p={8} 
         bg="whiteAlpha.50" 
@@ -44,13 +44,16 @@ const StatItem = ({icon, label, value, suffix = "+"}: {icon: any, label: string,
         className="hover-lift"
         align="center"
         gap={4}
-        
+        gradientFrom ='whiteAlpha.50/10'
+        gradientTo='blue.200/5'
+        bgGradient='to-br'
+        backdropFilter="blur(10px)"
     >
         <Box p={4} bg="brandGreen.500/10" borderRadius="2xl" color="brandGreen.500">
-            <Icon as={icon} size="xl" />
+            <Icon as={icon} size={{base: "xl", md: "2xl"}} className="neon-text" />
         </Box>
         <VStack gap={0}>
-            <Heading size="3xl" color="white" fontFamily="PoppinsBold">
+            <Heading size={{base: "2xl", md: "3xl"}} color="white" fontFamily="PoppinsBold">
                 <Counter value={value} />{suffix}
             </Heading>
             <Text color="gray.500" fontWeight="bold" textTransform="uppercase" letterSpacing="widest" fontSize="xs">
@@ -77,14 +80,14 @@ export default function StatsSection () {
                 pointerEvents="none"
             />
 
-            <Container maxW="container.xl" position="relative" zIndex={1}>
+            <Container maxW="container.xl" position="relative" zIndex={1} alignSelf='center' placeItems='center' justifySelf={'center'}>
                 <VStack gap={16}>
-                    <VStack gap={4} textAlign="center">
+                    <VStack gap={4} textAlign="center" px={10}>
                         <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase">
                             Our Track Record
                         </Text>
-                        <Heading size="3xl" color="white" fontFamily="PoppinsBold" maxW="2xl">
-                            Delivering Excellence Through <Text as="span" color="brandGreen.500">Innovation</Text>
+                        <Heading size="3xl" color="white" fontFamily="PoppinsSemi" maxW="2xl" fontSize={{base: "2xl", md: "3xl"}}>
+                            Delivering Excellence Through <Text as="span" color="brandGreen.500" fontSize={{base: "2xl", md: "3xl"}} className='neon-text' fontFamily="PoppinsBold">Innovation</Text>
                         </Heading>
                         <Text color="gray.400" maxW="xl" fontSize="lg">
                             We pride ourselves on building robust digital solutions that drive real business results and empower the tech community.
