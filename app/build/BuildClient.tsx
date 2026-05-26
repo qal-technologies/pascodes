@@ -42,6 +42,7 @@ import {
   FaSpinner,
   FaTools,
 } from 'react-icons/fa';
+import {BsSearch} from 'react-icons/bs';
 
 interface buildProps {
   title: string;
@@ -296,8 +297,7 @@ function BuildPageContent() {
         zIndex='99'
         paddingTop={5}
         px={4}
-        height='90px'
-      >
+        height='90px'>
         <IconBtn
           icon={<FaArrowLeft />}
           onClick={() => router.back()}
@@ -387,9 +387,10 @@ function BuildPageContent() {
         defaultValue='request'
         variant={'subtle'}
         colorPalette='brandGreen'
-        px={5}
+        px={4}
         maxHeight='90vh'
-        overflow='auto'>
+        overflow='auto'
+        pb={10}>
         <Tabs.List
           width='100%'
           alignItems='center'
@@ -402,29 +403,34 @@ function BuildPageContent() {
           mb={'10px'}
           backdropFilter={'blur(20px) brightness(40%)'}
           background='rgba(0, 0, 0, 0.5)'
-          zIndex={99999}
-        >
+          zIndex={999}>
           <Tabs.Trigger
             value='request'
             fontSize='lg'
             height='45px'
+            width='50%'
+            justifyContent='center'
             paddingInline='30px'
             borderRadius={'30px'}
             fontWeight='bold'>
-            <FaTools style={{ marginRight: '8px' }} /> Request Build
+            <FaTools style={{ marginRight: '8px' }} /> Request
           </Tabs.Trigger>
           <Tabs.Trigger
             value='track'
             fontSize='lg'
+            justifyContent='center'
             height='45px'
+            width='50%'
             paddingInline='30px'
             borderRadius={'30px'}
             fontWeight='bold'>
-            <FaSearch style={{ marginRight: '8px' }} /> Track Build
+            <FaSearch style={{ marginRight: '8px' }} /> Track
           </Tabs.Trigger>
         </Tabs.List>
 
-        <Tabs.Content value='request'>
+        <Tabs.Content
+          value='request'
+          p={2}>
           <Flex
             direction={{ base: 'column', lg: 'row' }}
             gap={8}>
@@ -721,13 +727,15 @@ function BuildPageContent() {
           </Flex>
         </Tabs.Content>
 
-        <Tabs.Content value='track'>
+        <Tabs.Content
+          value='track'
+          p={2}>
           <Container maxW='container.md'>
             <VStack
               gap={8}
               align='stretch'
               bg='whiteAlpha.50'
-              p={5}
+              p={4}
               pt={7}
               borderRadius='3xl'
               border='1px solid'
@@ -762,12 +770,14 @@ function BuildPageContent() {
                 <Button
                   colorPalette='brandGreen'
                   bgColor='brandGreen.500'
-                  borderRadius='xl'
+                  borderRadius='2xl'
                   onClick={handleTrackBuild}
                   loading={isTrackLoading}
                   height='43px'
-                  px={10}>
-                  Track
+                  fontSize={'14px'}
+                  width='50px'
+                  px={6}>
+                  <BsSearch/>
                 </Button>
               </HStack>
 
