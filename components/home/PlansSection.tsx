@@ -92,7 +92,7 @@ export default function PlansSection () {
 
     return (
         <Box py={40} pt={55} px={{base: 6, md: 12}} bg="brandNavy.900" key="plans"
-            id="pricing" width={'100%'}
+            id="pricing-section" width={'100%'}
         >
             <Box
                 width={'50vw'}

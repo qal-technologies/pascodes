@@ -19,8 +19,8 @@ export const SITE_CONFIG = {
 
     // Pricing Constants
     pricing: {
-        basePrice: 500,
-        pricePerPage: 100,
+        basePrice: 100,
+        pricePerPage: 50,
         currency: "USD",
     },
 
@@ -34,15 +34,15 @@ export const SITE_CONFIG = {
 export const KEYWORD_PRICES: {[key: string]: number;} = {
     // Core Functional
     "database": 300,
-    "auth": 200,
-    "authentication": 200,
-    "login": 200,
-    "payment": 500,
-    "stripe": 500,
-    "paypal": 500,
-    "api": 400,
-    "dashboard": 600,
-    "admin": 500,
+    "auth": 90,
+    "authentication": 110,
+    "login": 90,
+    "payment": 100,
+    "stripe": 60,
+    "paypal": 60,
+    "api": 20,
+    "dashboard": 200,
+    "admin": 200,
 
     // Advanced Tech
     "ai": 800,
@@ -56,9 +56,9 @@ export const KEYWORD_PRICES: {[key: string]: number;} = {
 
     // E-commerce
     "product": 100,
-    "cart": 200,
-    "checkout": 300,
-    "inventory": 400,
+    "cart": 80,
+    "checkout": 120,
+    "inventory": 120,
 
     // CMS / Blog
     "blog": 300,

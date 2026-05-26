@@ -28,7 +28,7 @@ export default function PartnershipSection () {
     };
 
     return (
-        <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" >
+        <Box py={{base: 20, md: 40}} px={{base: 6, md: 12}} bg="background" id='partnership-section'>
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Box
                     width={'60vw'}

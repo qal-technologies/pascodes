@@ -40,7 +40,7 @@ const testimonials = [
 
 export default function TestimonialSection ({page}: {page?: string;}) {
     return (
-        <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden">
+        <Box py={{base: 20, md: 32}} bg="black" position="relative" overflow="hidden" id='testimonial-section'>
             <Box
                 width={'600px'}
                 height={'600px'}

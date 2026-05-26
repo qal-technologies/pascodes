@@ -50,7 +50,7 @@ export default function BlogModal ({open, onClose, blog, setBlog, onSave, isEdit
     };
 
     return (
-        <Box position="fixed" top={0} left={0} right={0} bottom={0} bg="blackAlpha.500" zIndex={9999} display={open ? 'flex' : 'none'}>
+        <Box position="fixed" top={0} left={0} right={0} bottom={0} bg="blackAlpha.500" zIndex={9999} display={open ? 'flex' : 'none'} pointerEvents={'none'}>
             <DialogRoot open={open} onOpenChange={(e) => !e.open && onClose()} size="full">
                 <DialogContent bg="gray.900" border="1px solid" borderColor="whiteAlpha.200" >
                     <DialogHeader borderBottom="1px solid" borderColor="whiteAlpha.100" p={4} pt={35}>

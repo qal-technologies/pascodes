@@ -63,7 +63,7 @@ export default function ContactSection () {
 
     return (
         <Box py={{base: 20, md: 32}} px={10}
-             bg="background" id="contact">
+             bg="background" id='contact-section'>
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <SimpleGrid columns={{base: 1, md: 2}} gap={16}>
                     <Box>

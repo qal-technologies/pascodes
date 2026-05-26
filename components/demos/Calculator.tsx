@@ -1,22 +1,30 @@
 "use client";
 
-import { Box, Button, Grid, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import {Box, Button, Grid, Text, VStack} from "@chakra-ui/react";
+import {useState} from "react";
 
-export default function Calculator() {
+export default function Calculator () {
   const [display, setDisplay] = useState("0");
   const [expression, setExpression] = useState("");
 
   const handleClick = (value: string) => {
-    if (value === "C") {
+    if(value === "C") {
       setDisplay("0");
       setExpression("");
-    } else if (value === "=") {
+    } else if(value === "=") {
       try {
-         
-        const result = eval(expression);
-        setDisplay(result.toString());
-        setExpression(result.toString());
+
+        const workedExpression = () => {
+          const usage = expression as string;
+          if(usage.startsWith('0') && !usage.includes('.')) usage.slice(1);
+
+          return usage as typeof expression;
+        };
+
+        const result = eval(workedExpression());
+        const show = result.toString();
+        setDisplay(workedExpression());
+        setExpression(show);
       } catch {
         setDisplay("Error");
         setExpression("");
@@ -36,23 +44,23 @@ export default function Calculator() {
   ];
 
   return (
-    <VStack 
-      p={6} 
-      bg="gray.900" 
-      borderRadius="xl" 
-      boxShadow="0 0 20px rgba(0, 255, 128, 0.2)" 
-      border="1px solid" 
+    <VStack
+      p={6}
+      bg="gray.900"
+      borderRadius="xl"
+      boxShadow="0 0 20px rgba(0, 255, 128, 0.2)"
+      border="1px solid"
       borderColor="brandGreen.500"
       w="full"
       maxW="300px"
       mx="auto"
     >
-      <Box 
-        w="full" 
-        bg="blackAlpha.600" 
-        p={4} 
-        borderRadius="md" 
-        mb={4} 
+      <Box
+        w="full"
+        bg="blackAlpha.600"
+        p={4}
+        borderRadius="md"
+        mb={4}
         textAlign="right"
       >
         <Text fontSize="2xl" fontFamily="monospace" color="brandGreen.400">
@@ -69,9 +77,10 @@ export default function Calculator() {
             bg={["=", "C"].includes(btn) ? undefined : "gray.800"}
             color={["=", "C"].includes(btn) ? "white" : "green.200"}
             _hover={{
-                bg: btn === "=" ? "green.600" : btn === "C" ? "red.600" : "gray.700",
-                transform: "scale(1.05)"
+              bg: btn === "=" ? "green.600" : btn === "C" ? "red.600" : "gray.700",
+              transform: "scale(1.05)"
             }}
+            borderRadius={'18px'}
           >
             {btn}
           </Button>

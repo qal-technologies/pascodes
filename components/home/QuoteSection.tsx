@@ -24,7 +24,7 @@ export default function QuoteSection () {
     const currentQuote = TECH_QUOTES[currentIndex];
 
     return (
-        <Section padding={15} pt={'100px'} pb={'100px'} bgColor="brandGreen.900/20" key="quote">
+        <Section padding={15} pt={'100px'} pb={'100px'} bgColor="brandGreen.900/20" key="quote" id='quote-section'>
             <Container ref={containerRef} alignSelf='center' maxW="container.md" placeItems='center' placeContent='center' justifySelf={'center'} textAlign='center'>
                 <Reveal key={currentIndex}>
                     <Text

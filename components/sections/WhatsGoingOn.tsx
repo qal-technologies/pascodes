@@ -12,7 +12,7 @@ interface Post {
     id: string;
     title: string;
     excerpt: string;
-    image: string;
+    image?: string;
     category: string;
     date: {toDate: () => Date;} | null;
     slug: string;
@@ -106,8 +106,8 @@ export default function WhatsGoingOn () {
                 </Box>
 
                 <Tabs.Root defaultValue="All" onValueChange={(e) => setCategory(e.value)}>
-                    <Tabs.List mb={10} borderBottom="1px solid" borderColor="whiteAlpha.100" gap={10}
-                        justifyContent='space-between' p={1} overflowX={'auto'} width='full' scrollbarColor={'transparent'}
+                    <Tabs.List mb={10} gap={10}
+                        justifyContent='space-between' p={1} overflowX={'auto'} width='full' scrollbarColor={'transparent'} px={3}
                     >
                         {categories.map(cat => (
                             <Tabs.Trigger
@@ -143,7 +143,7 @@ export default function WhatsGoingOn () {
                                     >
                                         <Box position="relative" height="200px">
                                             <Image
-                                                src={post.image || "/images/placeholder.jpg"}
+                                                src={post.image ? post.image : "/images/logo.png"}
                                                 alt={post.title}
                                                 w="100%"
                                                 h="100%"

@@ -25,7 +25,7 @@ const serviceDetails = [
         icon: FaSearch,
         description: "Technical SEO audits, keyword optimization, and high-performance page builds. We ensure your project doesn't just look good, but also ranks high.",
         features: ["Speed Optimization", "Content Strategy", "Advanced Analytics"],
-        color: "brandGreen.400"
+        color: "brandGreen.600"
     }
 ];
 
@@ -38,9 +38,9 @@ export default function SpecializedServices () {
                     height={'10vh'}
                     background={'orange'}
                     position='absolute'
-                    top={-12}
-                    right={-12}
-                    opacity={.45}
+                    top={-32}
+                    right={-11}
+                    opacity={.55}
                     filter={'blur(100px) brightness(110%)'}
                     rotate={'40deg'}
                     borderRadius={'50%'}
@@ -52,8 +52,8 @@ export default function SpecializedServices () {
                     background={'blue'}
                     position='absolute'
                     top={-22}
-                    left={-12}
-                    opacity={.45}
+                    left={-22}
+                    opacity={.65}
                     filter={'blur(100px) brightness(110%)'}
                     rotate={'40deg'}
                     borderRadius={'50%'}

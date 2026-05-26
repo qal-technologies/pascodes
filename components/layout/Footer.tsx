@@ -137,9 +137,9 @@ export default function Footer () {
 
         <Separator borderColor="border" mb={8} />
 
-        <HStack justify="space-between" wrap="wrap" gap={4}>
+        <HStack justify="space-between" wrap="wrap" gap={4} paddingBottom='25px'>
           <Text fontSize="sm">
-            &copy; {currentYear} PasCodez.
+            &copy; 2025 - {currentYear} PasCodez.
           </Text>
           <HStack gap={6}>
             <FooterLink href="/privacy" fontSize="xs">Privacy Policy</FooterLink>

@@ -85,7 +85,7 @@
   user-select: none;
   border: none;
   font-family: PoppinsLight, PoppinsMed, PoppinsSemi, PoppinsBold, sans-serif;
-  transition: all ease-in 600ms;
+  transition: all ease-in 400ms;
   scroll-behavior: smooth;
   scroll-padding-top: 60px;
   -webkit-tap-highlight-color: transparent;

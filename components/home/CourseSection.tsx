@@ -30,7 +30,7 @@ export default function CourseSection () {
     const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
 
     return (
-        <Box py={40} bg="black" position="relative" overflow="hidden">
+        <Box py={40} bg="black" position="relative" overflow="hidden" id='course-section'>
             <WaitlistModal
                 isOpen={isWaitlistOpen}
                 onClose={() => setIsWaitlistOpen(false)}

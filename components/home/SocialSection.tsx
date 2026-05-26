@@ -21,6 +21,7 @@ export default function SocialSection () {
             px={{base: 5, md: 12}}
             style={{backdropFilter: 'blur(10px) brightness(50%)'}}
             textAlign="center"
+            id='social-section'
         >
             <Container alignSelf='center' maxW="container.lg" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <Reveal>

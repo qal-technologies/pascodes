@@ -18,7 +18,7 @@ const skills = [
 
 export default function SkillsSection () {
     return (
-        <Section padding={12} pt={'110px'} pb={'100px'} bgColor="background">
+        <Section padding={12} pt={'110px'} pb={'100px'} bgColor="background" id='skills-section'>
             <Box width={300} bg={'brandGreen.600'} height={300} borderRadius={'50%'} position='absolute' top={-20} left={-20} opacity={.2} filter={'blur(100px) brightness(120%)'} />
 
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>

@@ -60,6 +60,7 @@ interface CourseSection {
     description: string;
     videoUrl?: string;
     videoType: 'upload' | 'youtube';
+    thumbnailUrl?: string;
     resources?: {title: string; url: string;}[];
     quizzes?: {question: string; options: string[]; answer: string;}[];
     assignments?: {title: string; description: string;}[];
@@ -76,6 +77,7 @@ interface CourseData {
     duration: string;
     audience: string;
     languages: string[];
+    category: string;
     sections?: CourseSection[];
 }
 
@@ -131,8 +133,10 @@ export default function AdminDashboard () {
         duration: "",
         audience: "Beginner",
         languages: [],
+        category: "Web Development",
         sections: []
     });
+    const [langInput, setLangInput] = useState("");
     const [selectedCourse, setSelectedCourse] = useState<CourseData | null>(null);
 
     const [uploadingImage, setUploadingImage] = useState(false);
@@ -439,7 +443,6 @@ export default function AdminDashboard () {
                         <Heading color="brandGreen.500" size="2xl" fontSize={{base: 25, md: 30}} fontFamily={'PoppinsSemi'}>
                             Admin <Text as="span" color="foreground" fontSize={{base: 25, md: 30}} fontFamily={'PoppinsSemi'} >Dashboard</Text>
                         </Heading>
-                        <Text color="gray.500" fontSize={{base: 18, md: 20}}>Welcome back, Admin</Text>
                     </VStack>
 
                     <HStack gap={2}>

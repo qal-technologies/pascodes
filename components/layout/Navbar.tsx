@@ -9,9 +9,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import NextImage from "next/image";
-// import { useColorMode } from "@chakra-ui/system";
 import {LuMenu, LuX} from "react-icons/lu";
-import { } from "react-icons/ai";
 import {useEffect, useState} from "react";
 import {useScroll} from "@/hooks/useScroll";
 import HeaderButton from "../buttons/HeaderButton";
@@ -72,7 +70,7 @@ export default function Navbar () {
       left={"0"}
       overflow={"hidden"}
       placeSelf={"center"}
-      zIndex={"999999"}
+      zIndex={"9999999999"}
       className={`transition-all duration-500 ${isScrolled || open ? "navbar-open" : "bg-transparent"} ${isScrolled ? "py-4" : "py-10"} `}
     >
       <Flex align="center" justify="space-between" className="upper">
