@@ -84,13 +84,13 @@ export default function ProjectsSection () {
                         transition="all 0.3s"
                         className="hover-lift"
                         px={10}
-                        py={7}
+                        py={6}
                         variant={'outline'}
                         onClick={() => window.open("https://github.com/pascodez", "_blank")}
                         aria-label="View more projects on GitHub"
                         title="View PasCodez GitHub Profile"
                     >
-                        <FaGithub style={{marginRight: '10px', fontSize: '1.2em'}} color="white"/> View More on GitHub
+                        <FaGithub style={{marginRight: '10px', fontSize: '1em'}} color="white"/> View More on GitHub
                     </Button>
                 </Box>
             </Container>

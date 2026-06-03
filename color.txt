@@ -1,0 +1,11 @@
+bg: #0d0e0d;
+bg2: #081635;
+bg3: #241436;
+accent1: #e567c3;
+accent2: #e82bc2;
+accent3: #ae39d8;
+accent3-2: #be6ee0;
+accent3-3: #510470;
+accent4: #1396f1;
+accent5: #2a76f7;
+accent6: #20175a;

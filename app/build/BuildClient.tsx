@@ -42,7 +42,7 @@ import {
   FaSpinner,
   FaTools,
 } from 'react-icons/fa';
-import {BsSearch} from 'react-icons/bs';
+import { BsSearch } from 'react-icons/bs';
 
 interface buildProps {
   title: string;
@@ -286,7 +286,7 @@ function BuildPageContent() {
 
   const isScrolled = useScroll();
   return (
-    <Box minH='100vh'>
+    <Box h='100vh'>
       <Flex
         justify='space-between'
         align='center'
@@ -297,7 +297,7 @@ function BuildPageContent() {
         zIndex='99'
         paddingTop={5}
         px={4}
-        height='90px'>
+        height='12vh'>
         <IconBtn
           icon={<FaArrowLeft />}
           onClick={() => router.back()}
@@ -332,13 +332,13 @@ function BuildPageContent() {
             <Portal>
               <Menu.Positioner>
                 <Menu.Content
-                  padding={6}
+                  padding={4}
                   borderRadius={15}
                   overflow={'hidden'}
                   border='1px solid'
                   color='brandGreen.500'
                   zIndex='modal'>
-                  <Menu.ItemGroup marginBottom={2}>
+                  <Menu.ItemGroup marginBottom={1.5}>
                     <Menu.ItemGroupLabel
                       mb={1}
                       fontSize={18}>
@@ -349,7 +349,7 @@ function BuildPageContent() {
                         key={route.link}
                         value={route.link}
                         onClick={() => router.push(route.link)}
-                        padding='4px'
+                        padding='2px'
                         cursor='pointer'
                         borderRadius={12}
                         _hover={{
@@ -368,7 +368,7 @@ function BuildPageContent() {
                     onClick={() =>
                       (window.location.href = 'mailto:pasqal.dev@gmail.com')
                     }
-                    padding='4px'
+                    padding='3px'
                     cursor='pointer'
                     borderRadius={12}
                     _hover={{
@@ -387,8 +387,12 @@ function BuildPageContent() {
         defaultValue='request'
         variant={'subtle'}
         colorPalette='brandGreen'
-        px={4}
-        maxHeight='90vh'
+        mx={3}
+        h={'88vh'}
+        justifySelf='center'
+        position='sticky'
+        top={'90px'}
+        borderTopRadius={30}
         overflow='auto'
         pb={10}>
         <Tabs.List
@@ -575,11 +579,21 @@ function BuildPageContent() {
                   onValueChange={(details) =>
                     handleSliderChange(details.value[0])
                   }>
-                  <Slider.Control>
-                    <Slider.Track>
-                      <Slider.Range />
+                  <Slider.Control
+                    width={'100%'}
+                    colorPalette={'red'}>
+                    <Slider.Track
+                      color={'red'}
+                      colorPalette={'green'}>
+                      <Slider.Range
+                        color='green'
+                        colorPalette={'red'}
+                      />
                     </Slider.Track>
-                    <Slider.Thumb index={0} />
+                    <Slider.Thumb
+                      index={0}
+                      colorPalette='yellow'
+                    />
                   </Slider.Control>
                 </Slider.Root>
               </Field.Root>
@@ -735,8 +749,8 @@ function BuildPageContent() {
               gap={8}
               align='stretch'
               bg='whiteAlpha.50'
-              p={4}
-              pt={7}
+              p={'10px'}
+              pt={'20px'}
               borderRadius='3xl'
               border='1px solid'
               borderColor='whiteAlpha.100'>
@@ -756,7 +770,7 @@ function BuildPageContent() {
 
               <HStack gap={4}>
                 <Input
-                  placeholder='Enter Build ID (e.g. 5X7A9...)'
+                  placeholder='Enter Build ID'
                   value={trackId}
                   onChange={(e) => setTrackId(e.target.value)}
                   bg='black'
@@ -773,11 +787,11 @@ function BuildPageContent() {
                   borderRadius='2xl'
                   onClick={handleTrackBuild}
                   loading={isTrackLoading}
-                  height='43px'
-                  fontSize={'14px'}
-                  width='50px'
+                  height='40px'
+                  fontSize={'10px'}
+                  width='40px'
                   px={6}>
-                  <BsSearch/>
+                  <BsSearch size='12px' />
                 </Button>
               </HStack>
 

@@ -1,19 +1,21 @@
 import {Box, SimpleGrid, Text, VStack, Container, Icon} from "@chakra-ui/react";
 import {FaReact, FaNodeJs, FaPython, FaDatabase, FaAws, FaMobile} from "react-icons/fa";
-import {SiTypescript, SiTailwindcss, SiFirebase} from "react-icons/si";
+import {SiTypescript, SiTailwindcss, SiFirebase, SiExpo, SiSupabase} from "react-icons/si";
 import {Reveal} from "../utils/Reveal";
 import Section from "../utils/Section";
 
 const skills = [
-    {name: "React / Next.js", icon: FaReact, color: "#61DAFB"},
-    {name: "React Native", icon: FaMobile, color: "#61DAFB"},
-    {name: "TypeScript", icon: SiTypescript, color: "#3178C6"},
-    {name: "Node.js", icon: FaNodeJs, color: "#339933"},
-    {name: "Python", icon: FaPython, color: "#3776AB"},
-    {name: "Database Design", icon: FaDatabase, color: "#fff"},
-    {name: "Cloud (AWS)", icon: FaAws, color: "#FF9900"},
-    {name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4"},
-    {name: "Firebase", icon: SiFirebase, color: "#FFCA28"},
+  { name: 'React / Next.js', icon: FaReact, color: '#61DAFB' },
+  { name: 'React Native', icon: FaMobile, color: '#61DAFB' },
+  { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
+  { name: 'Node.js', icon: FaNodeJs, color: '#339933' },
+  { name: 'Python', icon: FaPython, color: '#3776AB' },
+  { name: 'Database Design', icon: FaDatabase, color: '#fff' },
+  { name: 'Cloud (AWS)', icon: FaAws, color: '#FF9900' },
+  { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
+  { name: 'Firebase', icon: SiFirebase, color: '#FFCA28' },
+  { name: 'Supabase', icon: SiSupabase, color: '#27c468ff' },
+  { name: 'Expo', icon: SiExpo, color: '#fffbf1ff' },
 ];
 
 export default function SkillsSection () {

@@ -47,7 +47,7 @@ export default function Calculator () {
     <VStack
       p={6}
       bg="gray.900"
-      borderRadius="xl"
+      borderRadius="2xl"
       boxShadow="0 0 20px rgba(0, 255, 128, 0.2)"
       border="1px solid"
       borderColor="brandGreen.500"
