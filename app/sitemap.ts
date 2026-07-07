@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const origin = process.env.SITE_URL || 'https://pascodez.com';
+const origin = process.env.SITE_URL || 'https://pascodez.website';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -9,7 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
-      
+      alternates:{
+        languages:{
+          'en': origin,
+        }
+      }
     },
     {
       url: `${origin}/about`,

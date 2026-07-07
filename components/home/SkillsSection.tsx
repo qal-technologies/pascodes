@@ -32,7 +32,7 @@ export default function SkillsSection () {
                         fontFamily="PoppinsSemi"
                         className="neon-text"
                     >
-                        My Tech Stack
+                       Tech Stack
                     </Text>
                     <Text fontSize={{base: "md", md: "lg"}} color="gray.200" maxW="2xl">
                         Crafting high-performance, scalable solutions across web, mobile, and cloud platforms using cutting-edge technologies.

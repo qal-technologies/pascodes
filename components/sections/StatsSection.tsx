@@ -65,7 +65,7 @@ const StatItem = ({icon, label, value, suffix = " +"}: {icon: any, label: string
 
 export default function StatsSection () {
     return (
-        <Box py={24} bg="background" position="relative" overflow="hidden" minW={'100vw'} placeSelf={'center'}>
+        <Box py={24} bg="background" position="relative" overflow="hidden" minW={'100vw'} placeSelf={'center'} id='stats-section'>
             {/* Background Glow */}
             <Box
                 position="absolute"

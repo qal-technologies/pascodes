@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const origin = process.env.SITE_URL || 'https://pascodes.com';
+const origin = process.env.SITE_URL || 'https://pascodes.website';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,5 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: '/admin/',
     },
     sitemap: `${origin}/sitemap.xml`,
+    host: origin,
+    
   };
 }

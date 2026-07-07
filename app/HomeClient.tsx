@@ -25,11 +25,11 @@ export default function HomePage () {
       <Banner />
 
       <Reveal width="100%">
-        <QuoteSection />
+        <SkillsSection />
       </Reveal>
 
       <Reveal width="100%">
-        <SkillsSection />
+        <QuoteSection />
       </Reveal>
 
       <Reveal width="100%">

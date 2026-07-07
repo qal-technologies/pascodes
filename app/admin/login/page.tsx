@@ -3,11 +3,12 @@
 import {Box, Button, Container, Heading, Input, VStack, Text, Field} from "@chakra-ui/react";
 import {useState} from "react";
 import {signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
-import {auth} from "@/lib/firebase";
+import {auth, db} from "@/lib/firebase";
 import {useRouter} from "next/navigation";
 import {toaster} from "@/components/ui/toaster";
 import {Reveal} from "@/components/utils/Reveal";
 import {FaGoogle, FaLock} from "react-icons/fa";
+import {doc, getDoc} from "firebase/firestore";
 
 export default function AdminLoginPage () {
     const [email, setEmail] = useState("");
@@ -45,6 +46,24 @@ export default function AdminLoginPage () {
         try {
             const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
+            //check if user is admin
+            const user = auth.currentUser;
+            if (user) {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const userData : {role: string} = docSnap.data() as {role: string};
+                    if (userData.role !== "admin") {
+                        await auth.signOut();
+                        toaster.create({
+                            title: "Access Denied",
+                            description: "You are not authorized to access the admin dashboard.",
+                            type: "error"
+                        });
+                        return;
+                    }
+                }
+            }
             toaster.create({
                 title: "Welcome back!",
                 description: "Successfully logged into Admin Dashboard via Google.",

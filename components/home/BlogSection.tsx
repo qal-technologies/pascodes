@@ -36,7 +36,7 @@ export default function BlogSection () {
         <Box p={{base: 10, md: 20}}
             py={{base: 20, md: 40}}
             id='blog-section'
-            bg="brandGreen.900/40">
+            bg="brandGreen.900/40" id='blog-section'>
             <Container alignSelf='center' maxW="container.xl" placeItems='center' justifySelf={'center'} zIndex={99}>
                 <VStack align="start" gap={8} mb={12}>
                     <Reveal>

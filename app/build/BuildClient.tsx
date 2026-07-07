@@ -113,7 +113,7 @@ function BuildPageContent() {
   const [isTrackLoading, setIsTrackLoading] = useState(false);
 
   useEffect(() => {
-    document.title = 'Build with AI | PasCodez';
+    document.title = build.title? build.title + ' | PasCodez' : 'Build with AI | PasCodez';
 
     // Check search params for plan data
     const planType = searchParams.get('type');
@@ -197,16 +197,20 @@ function BuildPageContent() {
 
             return [`${key.toUpperCase()}  - ${innerValue}`];
           });
+        }else{
+          return 'Not provided';
         }
       };
 
       const message = `
         *New Build Request!*
+        *Title:* ${build.title}.* 
+        \n
+        ${build.name? 'Hi, I am ' + build.name + '. ' : ''}
+        I'm interested in a ${build.projectType} website.
+        \n
         *ID:* ${buildId}
-        *Client:* ${build.name}
         *Email:* ${build.email || 'Not provided'}
-        *Title:* ${build.title}
-        *Type:* ${build.projectType}
         *Price:* ${fmtUSDestimate}
         *Pages:* ${build.pages}
         *Breakdown:* ${Breakdown()}

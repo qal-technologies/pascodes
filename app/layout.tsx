@@ -8,12 +8,12 @@ import AnnouncementBar from '@/components/layout/AnnouncementBar';
 import "@/styles/globals.css";
 
 const origin = process.env.SITE_URL || "https://pascodez.com";
-const imageUrl = `${origin}/images/logo.png`;
+const imageUrl = `/images/logo.png`;
 const aboutUrl = `${origin}/about`;
 const homeUrl = `${origin}/`;
 
 export const viewport = {
-  themeColor: "#00E072",
+  themeColor: "#00cae0ff",
   width: "device-width",
   initialScale: 1,
 };
@@ -114,8 +114,14 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Person",
                 "name": "Paschal Ngaoka",
-                "jobTitle": "Full-Stack Developer & UI/UX Designer",
+                "jobTitle": "Software Engineer & Med. Lab Scientist",
                 "url": `${origin}`,
+                "alumniOf": {
+                  "@type": "EducationalOrganization",
+                  "name": "University of Calabar",
+                  "sameAs": "https://unical.edu.ng"
+                },
+
                 "sameAs": [
                   "https://github.com/pasqal-dev",
                   "https://www.linkedin.com/in/paschal-ngaoka-693859280",
