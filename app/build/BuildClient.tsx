@@ -401,6 +401,9 @@ function BuildPageContent() {
         pb={10}>
         <Tabs.List
           width='100%'
+          maxW={'500px'}
+          placeSelf={'center'}
+          alignSelf={'center'}
           alignItems='center'
           justifyContent='space-between'
           padding={1}

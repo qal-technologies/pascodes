@@ -23,15 +23,26 @@ export default function PlansSection() {
   };
 
   const convertCurrency = async (amount: any) => {
+    // let currency;
+    // const Currencyres = await fetch('http://ip-api.com/json/').then((res) =>
+    //   res.json(),
+    // );
+    // currency = Currencyres.currency;
+
+
     const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
     const data = await res.json();
 
     const parsedAmount = parseFloat(amount);
     const convertedAmount = data.rates.NGN * parsedAmount;
+
+    // console.log(currency);
+
     return Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: 'NGN',
-    }).format(convertedAmount);
+    }).format(convertedAmount) as string;
+
   };
 
   const getColor = (
