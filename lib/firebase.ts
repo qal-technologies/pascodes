@@ -5,9 +5,9 @@ import {getStorage} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlJtVWcEZZP3VtGss57lVilh9ohDZZ3Gc",
-  authDomain: "poshcodes-web.firebaseapp.com",
-  projectId: "poshcodes-web",
-  storageBucket: "poshcodes-web.firebasestorage.app",
+  authDomain: "pascodes-web.firebaseapp.com",
+  projectId: "pascodes-web",
+  storageBucket: "pascodes-web.firebasestorage.app",
   messagingSenderId: "5630854707",
   appId: "1:5630854707:web:45a848df90e88e94634546",
   measurementId: "G-7HLWTH0S59"
