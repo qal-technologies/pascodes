@@ -1,6 +1,6 @@
 "use client";
 
-import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton, Switch, Table, Separator} from "@chakra-ui/react";
+import {Box, Container, Heading, SimpleGrid, Tabs, Text, Button, Input, VStack, HStack, Badge, Flex, Textarea, IconButton, Switch, Table, Separator, NativeSelect} from "@chakra-ui/react";
 import {useState, useEffect} from "react";
 import {db} from "@/lib/firebase";
 import {collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot, serverTimestamp, setDoc} from "firebase/firestore";
@@ -1211,15 +1211,21 @@ export default function AdminDashboard () {
                                 <HStack w="full">
                                     <VStack align="start" flex={1}>
                                         <Text fontSize="xs" color="gray.500">Status</Text>
-                                        <Input
-                                            value={selectedCourse ? selectedCourse.status : newCourse.status}
-                                            onChange={e => {
-                                                if(selectedCourse) setSelectedCourse({...selectedCourse, status: e.target.value});
-                                                else setNewCourse({...newCourse, status: e.target.value});
-                                            }}
-                                            bg="black"
-                                            style={{padding: 10, borderRadius: '12px'}}
-                                        />
+                                        <NativeSelect.Root>
+                                            <NativeSelect.Field
+                                                value={selectedCourse ? selectedCourse.status : newCourse.status}
+                                                onChange={e => {
+                                                    if(selectedCourse) setSelectedCourse({...selectedCourse, status: e.target.value});
+                                                    else setNewCourse({...newCourse, status: e.target.value});
+                                                }}
+                                                bg="black"
+                                                style={{padding: 10, borderRadius: '12px'}}
+                                            >
+                                                <option value="Draft">Draft</option>
+                                                <option value="Recording">Recording</option>
+                                                <option value="Live">Live</option>
+                                            </NativeSelect.Field>
+                                        </NativeSelect.Root>
                                     </VStack>
                                     <VStack align="start" flex={1}>
                                         <Text fontSize="xs" color="gray.500">Progress (%)</Text>
@@ -1250,15 +1256,22 @@ export default function AdminDashboard () {
                                     </VStack>
                                     <VStack align="start" flex={1}>
                                         <Text fontSize="xs" color="gray.500">Audience</Text>
-                                        <Input
-                                            value={selectedCourse ? selectedCourse.audience : newCourse.audience}
-                                            onChange={e => {
-                                                if(selectedCourse) setSelectedCourse({...selectedCourse, audience: e.target.value});
-                                                else setNewCourse({...newCourse, audience: e.target.value});
-                                            }}
-                                            bg="black"
-                                            style={{padding: 10, borderRadius: '12px'}}
-                                        />
+                                        <NativeSelect.Root>
+                                            <NativeSelect.Field
+                                                value={selectedCourse ? selectedCourse.audience : newCourse.audience}
+                                                onChange={e => {
+                                                    if(selectedCourse) setSelectedCourse({...selectedCourse, audience: e.target.value});
+                                                    else setNewCourse({...newCourse, audience: e.target.value});
+                                                }}
+                                                bg="black"
+                                                style={{padding: 10, borderRadius: '12px'}}
+                                            >
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                <option value="All Levels">All Levels</option>
+                                            </NativeSelect.Field>
+                                        </NativeSelect.Root>
                                     </VStack>
 
                                     <VStack align="start" flex={1}>
