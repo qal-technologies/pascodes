@@ -6,7 +6,7 @@ import {FooterLink, UnderLine} from "@/components/layout/Footer";
 
 export const metadata = {
     title: "Privacy Policy",
-    description: "Privacy Policy for PasCodez platform."
+    description: "Privacy Policy for PoshCodes platform."
 };
 
 export default function PrivacyPage () {
@@ -29,7 +29,7 @@ export default function PrivacyPage () {
                                 </Heading>
 
                                 <Text color="gray.300">
-                                    Welcome to PasCodez. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights.
+                                    Welcome to PoshCodes. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights.
                                 </Text>
                             </VStack>
 
@@ -129,7 +129,7 @@ export function MiniFooter ({focus}: {focus: string;}) {
             </HStack>
 
             <Text fontSize="sm" textAlign={'center'} mt={2} alignSelf='center' width='full'>
-                &copy; {currentYear} PasCodez.
+                &copy; {currentYear} PoshCodes.
             </Text>
         </Flex>
     );

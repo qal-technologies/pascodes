@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const origin = process.env.SITE_URL || 'https://pascodez.website';
+const origin = process.env.SITE_URL || 'https://poshcodes.website';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

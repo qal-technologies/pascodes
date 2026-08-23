@@ -16,8 +16,8 @@ export default function PartnershipSection () {
     const handleContact = (method: "email" | "whatsapp") => {
         const subject = contactType === "partnership" ? "Partnership Inquiry" : "Collaboration Request";
         const body = contactType === "partnership"
-            ? "Hi PasCodez, I represent [Company/Agency] and we are interested in a partnership..."
-            : "Hi PasCodez, I am a developer/creator and I would like to collaborate on...";
+            ? "Hi PoshCodes, I represent [Company/Agency] and we are interested in a partnership..."
+            : "Hi PoshCodes, I am a developer/creator and I would like to collaborate on...";
 
         if(method === "email") {
             window.open(`mailto:${SITE_CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);

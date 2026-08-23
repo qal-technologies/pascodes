@@ -1,20 +1,20 @@
 export const SITE_CONFIG = {
   // Personal & Contact Info
-  name: 'PasCodez',
+  name: 'PoshCodes',
   whatsappNumber: '2349016561308',
-  email: 'pasqal.dev@gmail.com',
-  location: 'Calabar, Nigeria. Can work remotely.',
+  email: 'poshcodes.dev@gmail.com',
+  location: 'Calabar, Nigeria. Remote Worldwide.',
   socials: {
-    github: 'https://github.com/pasqal-dev',
+    github: 'https://github.com/poshcodes',
     linkedin: 'https://www.linkedin.com/in/paschal-ngaoka-693859280',
-    youtube: 'https://youtube.com/@pascodes',
-    twitter: 'https://twitter.com/PasQal_Ng',
+    youtube: 'https://youtube.com/@poshcodes',
+    twitter: 'https://twitter.com/PoshCodes',
     whatsapp: 'https://wa.me/2349016561308',
-    instagram: 'https://instagram.com/pasqal.dev',
-    email: 'mailto:pascodes.dev@gmail.com',
-    facebook: 'https://facebook.com/pasqal.dev',
-    stackoverflow: 'https://stackoverflow.com/users/pasqal-dev',
-    reddit: 'https://reddit.com/user/pasqal-dev',
+    instagram: 'https://instagram.com/poshcodes.dev',
+    email: 'mailto:poshcodes.dev@gmail.com',
+    facebook: 'https://facebook.com/poshcodes.dev',
+    stackoverflow: 'https://stackoverflow.com/users/poshcodes',
+    reddit: 'https://reddit.com/user/poshcodes',
   },
 
   // Pricing Constants

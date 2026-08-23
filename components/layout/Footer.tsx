@@ -32,14 +32,14 @@ export default function Footer () {
               <Box position="relative">
                 <NextImage
                   src="/images/logo.png"
-                  alt="PasCodez"
+                  alt="PoshCodes"
                   width={40}
                   height={40}
                   style={{borderRadius: '12px'}}
                   className="neon-glow-accent"
                 />
               </Box>
-              <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">pascodez_</Heading>
+              <Heading size="md" color="brandGreen.500" letterSpacing="1px" className="neon-text">poshcodes_</Heading>
             </HStack>
             <Text fontSize="md" lineHeight="tall">
               Building next-generation digital experiences. Specializing in high-performance web applications, specialized developer tools, and comprehensive coding education.
@@ -117,7 +117,7 @@ export default function Footer () {
                   onClick={() => window.location.href = `mailto:${SITE_CONFIG.email}`}
                   className="hover-lift neon-glow-accent"
                   aria-label="Send Email"
-                  title="Send Email to PasCodez"
+                  title="Send Email to PoshCodes"
                 >
                   <FaPaperPlane size={12} />
                 </Box>
@@ -139,7 +139,7 @@ export default function Footer () {
 
         <HStack justify="space-between" wrap="wrap" gap={4} paddingBottom='25px'>
           <Text fontSize="sm">
-            &copy; 2025 - {currentYear} PasCodez.
+            &copy; 2025 - {currentYear} PoshCodes.
           </Text>
           <HStack gap={6}>
             <FooterLink href="/privacy" fontSize="xs">Privacy Policy</FooterLink>

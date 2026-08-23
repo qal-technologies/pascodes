@@ -55,7 +55,7 @@ export async function generateMetadata ({params}: {params: Promise<{slug: string
     title: course.title,
     description: course.description,
     openGraph: {
-      title: `${course.title} | PasCodez Courses`,
+      title: `${course.title} | PoshCodes Courses`,
       description: course.description,
     }
   };

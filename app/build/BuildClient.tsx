@@ -113,7 +113,7 @@ function BuildPageContent() {
   const [isTrackLoading, setIsTrackLoading] = useState(false);
 
   useEffect(() => {
-    document.title = build.title? build.title + ' | PasCodez' : 'Build with AI | PasCodez';
+    document.title = build.title? build.title + ' | PoshCodes' : 'Build with AI | PoshCodes';
 
     // Check search params for plan data
     const planType = searchParams.get('type');
@@ -142,35 +142,52 @@ function BuildPageContent() {
     setBuild((prev: buildProps) => ({ ...prev, pages: value }));
   };
 
+  const [aiExplanation, setAiExplanation] = useState<string | null>(null);
+
   const handleCheckEstimate = async () => {
     setIsLoading(true);
-    const { price, priceBreakdown, verb } = estimatePrice(build);
-    setPriceBreakdown(priceBreakdown);
-    setVerb(verb);
+    try {
+      const response = await fetch('/api/ai-estimate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(build),
+      });
+      const data = await response.json();
 
-    //format usdd
-    const usdFormatter = new Intl.NumberFormat('en-US', {
-      currency: 'USD',
-      style: 'currency',
-    });
-    setUSDestimate(usdFormatter.format(price));
+      const calculatedPrice = data.estimate || estimatePrice(build).price;
+      const breakdown = data.priceBreakdown || estimatePrice(build).priceBreakdown;
+      setPriceBreakdown(breakdown);
+      setVerb(data.verb || 'building');
+      setAiExplanation(data.explanation || null);
 
-    const { convertedPrice, currency } = await convertCurrency(price);
-    setConvertedPrice(convertedPrice);
-    setCurrency(currency);
-    //for user:
-    const convertedFormatter = new Intl.NumberFormat('en-US', {
-      currency: currency,
-      style: 'currency',
-    });
-    setConvertedEstimate(convertedFormatter.format(convertedPrice));
+      const usdFormatter = new Intl.NumberFormat('en-US', {
+        currency: 'USD',
+        style: 'currency',
+      });
+      setUSDestimate(usdFormatter.format(calculatedPrice));
 
-    setIsLoading(false);
-    if (price) setEstimate(price);
+      const { convertedPrice, currency } = await convertCurrency(calculatedPrice);
+      setConvertedPrice(convertedPrice);
+      setCurrency(currency);
 
-    window.document
-      .querySelector('#estimate')
-      ?.scrollIntoView({ behavior: 'smooth' });
+      const convertedFormatter = new Intl.NumberFormat('en-US', {
+        currency: currency,
+        style: 'currency',
+      });
+      setConvertedEstimate(convertedFormatter.format(convertedPrice));
+      setEstimate(calculatedPrice);
+    } catch (err) {
+      console.error('Error fetching AI estimate:', err);
+      const { price, priceBreakdown, verb } = estimatePrice(build);
+      setPriceBreakdown(priceBreakdown);
+      setVerb(verb);
+      setEstimate(price);
+    } finally {
+      setIsLoading(false);
+      window.document
+        .querySelector('#estimate')
+        ?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleFinishBuild = async () => {

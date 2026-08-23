@@ -7,7 +7,7 @@ import {UnderLine} from "@/components/layout/Footer";
 
 export const metadata = {
     title: "Terms of Service",
-    description: "Terms of Service for PasCodez platform."
+    description: "Terms of Service for PoshCodes platform."
 };
 
 export default function TermsPage () {
@@ -39,7 +39,7 @@ export default function TermsPage () {
                                 </Heading>
 
                                 <Text color="gray.300">
-                                    Permission is granted to temporarily view the materials on PasCodez&apos;s website for personal, non-commercial transitory viewing. This includes brochures, service descriptions (Portfolio, Business, E-Commerce, Custom Web Apps), and pricing estimates which are subject to review based on individual project requirements.
+                                    Permission is granted to temporarily view the materials on PoshCodes&apos;s website for personal, non-commercial transitory viewing. This includes brochures, service descriptions (Portfolio, Business, E-Commerce, Custom Web Apps), and pricing estimates which are subject to review based on individual project requirements.
                                 </Text>
                             </VStack>
 
@@ -49,7 +49,7 @@ export default function TermsPage () {
                                 </Heading>
 
                                 <Text color="gray.300">
-                                    The materials on PasCodez&apos;s website are provided &quot;as is&quot;. PasCodez makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+                                    The materials on PoshCodes&apos;s website are provided &quot;as is&quot;. PoshCodes makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
                                 </Text>
                             </VStack>
 
@@ -59,7 +59,7 @@ export default function TermsPage () {
                                 </Heading>
 
                                 <Text color="gray.300">
-                                    In no event shall PasCodez or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PasCodez&apos;s Internet site.
+                                    In no event shall PoshCodes or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on PoshCodes&apos;s Internet site.
                                 </Text>
                             </VStack>
 
@@ -70,7 +70,7 @@ export default function TermsPage () {
 
 
                                 <Text color="gray.300">
-                                    Any claim relating to PasCodez&apos;s website shall be governed by the laws of Nigeria without regard to its conflict of law provisions.
+                                    Any claim relating to PoshCodes&apos;s website shall be governed by the laws of Nigeria without regard to its conflict of law provisions.
                                 </Text>
                             </VStack>
 

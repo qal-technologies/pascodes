@@ -15,7 +15,7 @@ export default function NotFound() {
     >
       <Image
         src={"/images/logo-trans.png"}
-        alt="Pascode Logo"
+        alt="PoshCode Logo"
         width={200}
         height={200}
         className={"zoom-in error-image spin"}

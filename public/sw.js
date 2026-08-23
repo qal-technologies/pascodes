@@ -1,8 +1,8 @@
 // public/sw.js
 
-const PRECACHE = "pascodes-precache-v1";
-const RUNTIME = "pascodes-runtime-v1";
-const COURSES_CACHE = "pascodes-courses-v1";
+const PRECACHE = "poshcodes-precache-v1";
+const RUNTIME = "poshcodes-runtime-v1";
+const COURSES_CACHE = "poshcodes-courses-v1";
 
 const PRECACHE_URLS = [
     "/",

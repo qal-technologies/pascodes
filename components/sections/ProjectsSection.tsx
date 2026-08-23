@@ -141,9 +141,9 @@ export default function ProjectsSection() {
             px={10}
             py={6}
             variant={'outline'}
-            onClick={() => window.open('https://github.com/pascodez', '_blank')}
+            onClick={() => window.open('https://github.com/poshcodes', '_blank')}
             aria-label='View more projects on GitHub'
-            title='View PasCodez GitHub Profile'>
+            title='View PoshCodes GitHub Profile'>
             <FaGithub
               style={{ marginRight: '10px', fontSize: '1em' }}
               color='white'

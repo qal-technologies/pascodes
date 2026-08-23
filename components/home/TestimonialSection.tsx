@@ -6,7 +6,7 @@ const testimonials = [
     {
         name: "Alex Johnson",
         role: "CEO, TechWave",
-        content: "PasCodez delivered our platform ahead of schedule. The code quality and attention to detail were exceptional.",
+        content: "PoshCodes delivered our platform ahead of schedule. The code quality and attention to detail were exceptional.",
         link: "https://example.com",
     },
     {
@@ -17,13 +17,13 @@ const testimonials = [
     {
         name: "Michael Chen",
         role: "CTO, DataFlow Systems",
-        content: "Working with PasCodez on our data analytics dashboard was seamless. Expert-level React and cloud integration.",
+        content: "Working with PoshCodes on our data analytics dashboard was seamless. Expert-level React and cloud integration.",
         link: "https://example.com",
     },
     {
         name: "Emily Rodriguez",
         role: "Product Manager, StartupHub",
-        content: "From web to mobile, PasCodez handled our cross-platform needs perfectly. Great communication throughout.",
+        content: "From web to mobile, PoshCodes handled our cross-platform needs perfectly. Great communication throughout.",
     },
     {
         name: "David Park",
@@ -34,7 +34,7 @@ const testimonials = [
     {
         name: "Lisa Thompson",
         role: "Director, SecureOps",
-        content: "Security-first approach impressed us. PasCodez helped us build a compliant, robust cybersecurity platform.",
+        content: "Security-first approach impressed us. PoshCodes helped us build a compliant, robust cybersecurity platform.",
     },
 ];
 

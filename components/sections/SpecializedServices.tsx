@@ -7,25 +7,25 @@ import {SITE_CONFIG} from "@/lib/site-config";
 
 const serviceDetails = [
     {
-        title: "Web3 & Blockchain",
-        icon: FaEthereum,
-        description: "Decentralized applications (dApps), smart contract development, and NFT marketplace integration. We build secure, transparent, and scalable blockchain solutions.",
-        features: ["Smart Contract Audits", "DeFi Protocols", "Tokenomics Design"],
-        color: "purple.400"
+        title: "Mobile App Development",
+        icon: FaRobot,
+        description: "Native-quality mobile applications for iOS and Android built with React Native and Expo. Fast, smooth, and designed to provide seamless user experiences with full offline capabilities and instant push notifications.",
+        features: ["Cross-Platform (iOS & Android)", "Offline Data Sync", "Push Notifications & App Store Publishing"],
+        color: "brandGreen.500"
     },
     {
-        title: "AI & Machine Learning",
-        icon: FaRobot,
-        description: "Integrating intelligent algorithms into your workflow. From chatbot automation to predictive analytics, we make your apps smarter and more efficient.",
-        features: ["NLP Integration", "Custom AI Models", "Data Insights"],
+        title: "Web Application & Website Development",
+        icon: FaEthereum,
+        description: "High-performance websites and rich web applications built using Next.js, React, and robust cloud backends. Optimized for speed, security, and lightning-fast search engine rankings.",
+        features: ["Responsive & Modern UI", "Full-Stack API & Database", "Stripe & Payment Gateways Integration"],
         color: "blue.400"
     },
     {
-        title: "SEO & Growth",
+        title: "AI Integration & Dynamic Cloud Backend",
         icon: FaSearch,
-        description: "Technical SEO audits, keyword optimization, and high-performance page builds. We ensure your project doesn't just look good, but also ranks high.",
-        features: ["Speed Optimization", "Content Strategy", "Advanced Analytics"],
-        color: "brandGreen.600"
+        description: "Enhance your software with Gemini AI intelligent assistants, real-time database synchronization, automated workflows, and enterprise-grade cloud architecture.",
+        features: ["Gemini 2.5 AI Integration", "Real-Time Firebase / Supabase Sync", "Automated Workflow & Analytics"],
+        color: "purple.400"
     }
 ];
 

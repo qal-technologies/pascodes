@@ -64,7 +64,7 @@ export default function CourseSection () {
                     >
                         Learn with <Text as="span" color="brandGreen.500" className="neon-text"
                             fontSize={{base: "3xl", md: "5xl"}}
-                            fontFamily='PoppinsSemi'>PasCodez</Text>
+                            fontFamily='PoppinsSemi'>PoshCodes</Text>
                     </Heading>
                     <Text color="gray.400" fontSize="lg">
                         Elevate your skills with premium, industry-standard courses.
