@@ -48,7 +48,7 @@ const SAMPLE_POSTS: Post[] = [
     },
     {
         id: "sample-4",
-        title: "PasCodez Milestone: 5,000 Visitors",
+        title: "PoshCodes Milestone: 5,000 Visitors",
         excerpt: "We've reached a huge milestone in our journey to empower developers worldwide.",
         image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
         slug: "milestone-5k-visitors",

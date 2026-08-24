@@ -86,7 +86,7 @@ export default function Navbar () {
               justifyContent={"center"}
             >
               <NextImage
-                alt="PasCodez Logo"
+                alt="PoshCodes Logo"
                 src={"/images/logo.png"}
                 width={40}
                 height={40}
@@ -98,7 +98,7 @@ export default function Navbar () {
               fontFamily={"PoppinsLight"}
               color={"brandGreen.500"}
             >
-              pascodez_
+              poshcodes_
             </Text>
           </Flex>
         </Link>

@@ -26,8 +26,27 @@ const iconMap: Record<string, React.ComponentType<{size: number;}>> = {
     "CSS": FaCss3,
 };
 
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
 export default function CourseSection () {
     const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+    const { user } = useAuth();
+    const [purchasedCourses, setPurchasedCourses] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (user) {
+            getDoc(doc(db, "users", user.uid)).then((snap) => {
+                if (snap.exists()) {
+                    setPurchasedCourses(snap.data().purchasedCourses || []);
+                }
+            });
+        }
+    }, [user]);
+
+    const isPurchased = purchasedCourses.includes("master-modern-web-development") || purchasedCourses.includes("js-mastery");
 
     return (
         <Box py={40} bg="black" position="relative" overflow="hidden" id='course-section'>
@@ -64,7 +83,7 @@ export default function CourseSection () {
                     >
                         Learn with <Text as="span" color="brandGreen.500" className="neon-text"
                             fontSize={{base: "3xl", md: "5xl"}}
-                            fontFamily='PoppinsSemi'>PasCodez</Text>
+                            fontFamily='PoppinsSemi'>PoshCodes</Text>
                     </Heading>
                     <Text color="gray.400" fontSize="lg">
                         Elevate your skills with premium, industry-standard courses.
@@ -210,20 +229,36 @@ export default function CourseSection () {
                                 </HStack>
                             </Box>
 
-                            <Button
-                                size="xl"
-                                colorPalette="green"
-                                bg="brandGreen.500"
-                                color="black"
-                                _hover={{bg: "brandGreen.400", transform: "translateY(-2px)", boxShadow: "0 0 20px rgba(0, 255, 128, 0.4)"}}
-                                onClick={() => setIsWaitlistOpen(true)}
-                                borderRadius="xl"
-                                fontWeight="bold"
-                                fontSize="lg"
-                                width="full"
-                            >
-                                Get Early Access &rarr;
-                            </Button>
+                            {isPurchased ? (
+                                <Button
+                                    size="xl"
+                                    colorPalette="blue"
+                                    bg="blue.500"
+                                    color="white"
+                                    onClick={() => window.location.href = "/courses/master-modern-web-development/learn"}
+                                    borderRadius="xl"
+                                    fontWeight="bold"
+                                    fontSize="lg"
+                                    width="full"
+                                >
+                                    Go to Classroom (Purchased) &rarr;
+                                </Button>
+                            ) : (
+                                <Button
+                                    size="xl"
+                                    colorPalette="green"
+                                    bg="brandGreen.500"
+                                    color="black"
+                                    _hover={{bg: "brandGreen.400", transform: "translateY(-2px)", boxShadow: "0 0 20px rgba(0, 255, 128, 0.4)"}}
+                                    onClick={() => setIsWaitlistOpen(true)}
+                                    borderRadius="xl"
+                                    fontWeight="bold"
+                                    fontSize="lg"
+                                    width="full"
+                                >
+                                    Get Early Access &rarr;
+                                </Button>
+                            )}
                         </Box>
                     </SimpleGrid>
                 </Box>

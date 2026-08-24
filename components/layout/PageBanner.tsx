@@ -51,7 +51,7 @@ export default function PageBanner ({title, subtitle, showTicker = true}: PageBa
                         <Reveal>
                             <VStack align="start" gap={2}>
                                 <Text color="brandGreen.500" fontWeight="bold" letterSpacing="widest" textTransform="uppercase" fontSize="xs">
-                                    {subtitle || "PasCodez / Resources"}
+                                    {subtitle || "PoshCodes / Resources"}
                                 </Text>
                                 <Heading size="3xl" fontFamily="PoppinsBold" color="white">
                                     {title}

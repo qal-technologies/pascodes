@@ -7,7 +7,7 @@ import AnnouncementBar from '@/components/layout/AnnouncementBar';
 
 import "@/styles/globals.css";
 
-const origin = process.env.SITE_URL || "https://pascodez.com";
+const origin = process.env.SITE_URL || "https://poshcodes.com";
 const imageUrl = `/images/logo.png`;
 const aboutUrl = `${origin}/about`;
 const homeUrl = `${origin}/`;
@@ -21,26 +21,23 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "PasCodez - All About Tech",
-    template: "%s | PasCodez",
+    default: "PoshCodes - High-Performance Software & Coding Platform",
+    template: "%s | PoshCodes",
   },
   description:
-    "PasCodez by Paschal Ngaoka — Full-Stack Developer, UI/UX Designer & Software Engineer. I build fast, modern web and mobile apps using React, Next.js, and Firebase — with clean UI, optimized performance, and real-world scalability. Explore my portfolio, read insightful tech blogs, or learn through my free and premium coding courses. Ready to build your next idea? Let’s turn it into reality.",
+    "PoshCodes by Paschal Ngaoka — Senior Full-Stack Developer, UI/UX Architect & Software Engineer. Building high-performance web and mobile solutions with React, Next.js, and Firebase.",
   keywords: [
     "Coding Courses",
     "React",
     "Next.js",
     "Web Development",
-    "Blog",
-    "Software",
+    "Software Platform",
     "Developer",
-    "Pasqal Ng",
-    "PasCodez",
-    "PasCodez Solutions",
-    "Mobile App Developer",
+    "PoshCodes",
+    "PoshCodes Solutions",
+    "Mobile App Development",
     "UI/UX Design",
-    "Nigeria Tech Hub",
-    "Software Engineering Nigeria",
+    "Software Engineering",
     "Learn Programming",
     "Online Coding Courses",
     "Developer Consultancy",
@@ -70,27 +67,27 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "PasCodez - All About Tech",
+    title: "PoshCodes - High-Performance Software & Coding Platform",
     description:
-      "PasCodez - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
+      "PoshCodes - Senior Full-Stack Developer, UI/UX Architect & Software Engineer. Building modern web & mobile apps and offering premium courses.",
     url: `${homeUrl}`,
-    siteName: "PasCodez",
+    siteName: "PoshCodes",
     images: [
       {
         url: `${imageUrl}`,
         width: 1200,
         height: 630,
-        alt: "PasCodez Image Preview",
+        alt: "PoshCodes Platform Preview",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PasCodez - All About Tech",
+    title: "PoshCodes - High-Performance Software & Coding Platform",
     description:
-      "PasCodez - Full-Stack Developer, UI/UX Designer & Software Engineer. Building modern apps, sharing coding courses & tutorials by Paschal Ngaoka.",
-    creator: "@pasqal.dev",
+      "PoshCodes - Senior Full-Stack Developer, UI/UX Architect & Software Engineer. Building modern web & mobile apps and offering premium courses.",
+    creator: "@poshcodes",
     images: [`${imageUrl}`],
   },
   alternates: {
@@ -133,14 +130,14 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                "name": "PasCodez",
+                "name": "PoshCodes",
                 "url": `${origin}`,
                 "logo": `${imageUrl}`,
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "telephone": "+2349016561308",
                   "contactType": "Customer Service",
-                  "email": "pasqal.dev@gmail.com"
+                  "email": "poshcodes.dev@gmail.com"
                 }
               }
             ]),

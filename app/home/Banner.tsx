@@ -260,7 +260,7 @@ export default function Banner() {
             transform: 'translateY(-20px) translateX(-20px)',
           }}
           src='/images/logo.png'
-          alt='Pascode Image'
+          alt='PoshCode Image'
           maxW={400}
           maxH={400}
           className='zoom-in'

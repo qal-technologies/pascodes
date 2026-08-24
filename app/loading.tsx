@@ -13,7 +13,7 @@ export default function Loading() {
     >
       <Image
         src={"/images/logo-trans.png"}
-        alt="Pascode Logo"
+        alt="PoshCode Logo"
         width={200}
         height={200}
         className={"company-image zoom-in"}

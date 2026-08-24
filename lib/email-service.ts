@@ -38,19 +38,19 @@ export const sendBuildStatusEmail = async (email: string, status: "progress" | "
 
     switch(status) {
         case "progress":
-            subject = "Your Build has Started! | PasCodez";
+            subject = "Your Build has Started! | PoshCodes";
             body = `Good news! We've started working on your project "${data?.title}". We will keep you updated. \n\nContact us: ${whatsappLink}`;
             break;
         case "complete":
-            subject = "Project Completed! | PasCodez";
+            subject = "Project Completed! | PoshCodes";
             body = `Success! Your project "${data?.title}" is complete. Please check your dashboard or contact us for handover. \n\nContact us: ${whatsappLink}`;
             break;
         case "cancelled":
-            subject = "Project Update | PasCodez";
+            subject = "Project Update | PoshCodes";
             body = `Regarding your project "${data?.title}". \n\nReason: ${data?.reason} \n\nPlease contact us to resolve this: ${whatsappLink}`;
             break;
         case "issue":
-            subject = "Important Update | PasCodez";
+            subject = "Important Update | PoshCodes";
             body = `We have an update regarding "${data?.title}": \n\n${data?.message} \n\nContact us: ${whatsappLink}`;
             break;
     }
