@@ -78,6 +78,7 @@ interface CourseData {
     audience: string;
     languages: string[];
     category: string;
+    isFree?: boolean;
     sections?: CourseSection[];
 }
 
@@ -1208,6 +1209,22 @@ export default function AdminDashboard () {
                                     rows={3}
                                     style={{padding: 10, borderRadius: '12px'}}
                                 />
+                                <HStack w="full" justify="space-between">
+                                    <Text fontSize="sm" color="white" fontWeight="bold">Free Course?</Text>
+                                    <Switch.Root
+                                        colorPalette="green"
+                                        checked={selectedCourse ? (selectedCourse.isFree || false) : (newCourse.isFree || false)}
+                                        onCheckedChange={({checked}) => {
+                                            if(selectedCourse) setSelectedCourse({...selectedCourse, isFree: checked});
+                                            else setNewCourse({...newCourse, isFree: checked});
+                                        }}
+                                    >
+                                        <Switch.Control>
+                                            <Switch.Thumb />
+                                        </Switch.Control>
+                                    </Switch.Root>
+                                </HStack>
+
                                 <HStack w="full">
                                     <VStack align="start" flex={1}>
                                         <Text fontSize="xs" color="gray.500">Status</Text>

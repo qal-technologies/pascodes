@@ -143,8 +143,8 @@ export default function LearnClient({ course }: LearnClientProps) {
                 {activeSection?.description || "No description provided for this lesson."}
               </Text>
 
-              {/* Resources & PDF Section */}
-              {activeSection?.resources && activeSection.resources.length > 0 && (
+              {/* Resources & PDF Section - Only rendered if resources exist */}
+              {Array.isArray(activeSection?.resources) && activeSection.resources.length > 0 && (
                 <Box mt={4} p={6} bg="whiteAlpha.50" borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
                   <Heading size="sm" color="white" mb={4}>
                     Lesson Documents & PDFs
@@ -165,8 +165,8 @@ export default function LearnClient({ course }: LearnClientProps) {
                 </Box>
               )}
 
-              {/* Quizzes Section */}
-              {activeSection?.quizzes && activeSection.quizzes.length > 0 && (
+              {/* Quizzes Section - Only rendered if quizzes exist */}
+              {Array.isArray(activeSection?.quizzes) && activeSection.quizzes.length > 0 && (
                 <Box mt={4} p={6} bg="brandGreen.900/10" borderRadius="xl" border="1px solid" borderColor="brandGreen.500/20">
                   <Heading size="sm" color="brandGreen.400" mb={4}>
                     Lesson Assessment & Quiz

@@ -70,6 +70,7 @@ export default function Footer () {
             <FooterLink href="/">Home</FooterLink>
             <FooterLink href="/about">About Me</FooterLink>
             <FooterLink href="/services">Our Services</FooterLink>
+            <FooterLink href="/pricing">Pricing & Plans</FooterLink>
             <FooterLink href="/courses">Courses</FooterLink>
             <FooterLink href="/blog">Tech Blog</FooterLink>
           </VStack>
